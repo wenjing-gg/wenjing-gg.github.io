@@ -36,10 +36,10 @@ redirect_from:
       </article>
 
       <article class="paper-item">
-        <span class="paper-note">大规模基准论文</span>
+        <span class="paper-note">Under Review</span>
         <h3>A Large Scale Benchmark for Test Time Adaptation Methods in Medical Image Segmentation</h3>
         <p class="paper-authors"><strong>作者：</strong><span class="author-self">Wenjing Yu</span>, Shuo Jiang, Yifei Chen, Shuo Chang, Yuanhan Wang, Beining Wu, Jie Dong, Mingxuan Liu, Shenghao Zhu, Feiwei Qin, Changmiao Wang, Qiyuan Tian</p>
-        <p class="paper-meta">arXiv 预印本</p>
+        <p class="paper-meta">Under Review</p>
         <a href="https://arxiv.org/abs/2512.02497">arXiv: 2512.02497</a>
       </article>
 
@@ -56,7 +56,7 @@ redirect_from:
   <section>
     <h2>专利</h2>
     <ul class="profile-list">
-      <li>一种基于 DR-TTA 神经网络的神经胶质瘤分割测试时域适应方法</li>
+      <li>一种基于 DR-TTA 神经网络的神经胶质瘤分割测试时域适应方法（第一发明人）</li>
     </ul>
   </section>
 
