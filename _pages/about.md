@@ -67,6 +67,8 @@ redirect_from:
     <h2>爱好</h2>
     <ul class="profile-list">
       <li>羽毛球（HDU 校队成员）</li>
+      <li>投资分析初学</li>
+      <li>紫微斗数初学</li>
     </ul>
     <div class="photo-grid">
       <img src="/images/yuwenjing-hobby-1.jpeg" alt="羽毛球训练照片 1">

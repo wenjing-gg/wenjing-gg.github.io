@@ -41,6 +41,20 @@ a:hover {
   letter-spacing: 0.02em;
 }
 
+.author__bio--signature {
+  margin-top: 0.35rem;
+  margin-bottom: 1rem;
+  padding: 0.5rem 0.15rem 0.25rem 0.15rem;
+  border-bottom: 1px solid var(--journal-rule);
+  color: var(--journal-accent);
+  font-family: "STKaiti", "KaiTi", "Kaiti SC", "Noto Serif SC", serif;
+  font-size: 0.96rem;
+  line-height: 1.75;
+  letter-spacing: 0.08em;
+  white-space: pre-line;
+  text-align: center;
+}
+
 .journal-profile {
   max-width: 860px;
   margin: 0 auto;
