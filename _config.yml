@@ -7,37 +7,37 @@
 # server process.
 
 # Basic Site Settings
-locale                   : "en-US"
+locale                   : "zh-CN"
 site_theme               : "default" # Currently available options are "default", "air"
-title                    : "Anna Maria Wundram"
+title                    : "余文敬"
 title_separator          : "-"
-name                     : &name "Anna Maria Wundram"
-description              : &description "Personal website and academic portfolio of Anna Wundram"
-url                      : https://annawundram.github.io # the base hostname & protocol for your site e.g. "https://[your GitHub username].github.io" or if you already have some other page hosted on Github then use "https://[your GitHub username].github.io/[Your Repo Name]"
+name                     : &name "余文敬"
+description              : &description "余文敬的个人学术主页"
+url                      : https://wenjing-gg.github.io # the base hostname & protocol for your site e.g. "https://[your GitHub username].github.io" or if you already have some other page hosted on Github then use "https://[your GitHub username].github.io/[Your Repo Name]"
 baseurl                  : "" # the subpath of your site, e.g. "/blog"
-repository               : "annawundram/annawundram.github.io"
+repository               : "wenjing-gg/wenjing-gg.github.io"
 
 # Site Author - The following control what appear as part of the author content on the side bar.
 #               If a field is blank the icon and link will not appear, otherwise it will be shown.
 #               Additional customization can be done by editing /_includes/author-profile.html
 author:
   # Biographic information
-  avatar           : "profile_photo.jpeg"
-  name             : "Anna M. Wundram"
+  avatar           : "yuwenjing-profile.jpeg"
+  name             : "余文敬"
   pronouns         : # example: "she/her"  
-  bio              : "First-year PhD candidate focusing on safe AI application in clinical practice"
-  location         : "Switzerland"
-  employer         : "University of Lucerne"
+  bio              : "杭电 3DV Lab / 清华 BIRTH Lab / 港中深 SRIBD Lab 联合培养博士研究生"
+  location         : "Hangzhou, China"
+  employer         : "HDU · Tsinghua · CUHKSZ"
   uri              : # URL
-  email            : "anna.wundram@unilu.ch" 
+  email            : "2506558723@qq.com" 
 
   # Academic websites
   academia         : # URL
   arxiv            : # URL - Update with the correct link to your profile
-  googlescholar    : "https://scholar.google.com/citations?user=9U4Ic9IAAAAJ&hl=de"
+  googlescholar    : # URL
   inspire-hep      : # URL
   impactstory      : # URL
-  orcid            : "https://orcid.org/0009-0000-5526-7624"
+  orcid            : # URL
   semantic         : # URL
   pubmed           : # URL
   researchgate     : # URL
@@ -47,7 +47,7 @@ author:
   bitbucket        : # Username - Update with your username on the site
   codepen          : # Username
   dribbble         : # Username
-  github           : "annawundram"
+  github           : "wenjing-gg"
   kaggle           : # Username  
   stackoverflow    : # User number or user number and name (i.e., use "1" or "1/jeff-atwood")    
 
@@ -62,7 +62,7 @@ author:
   keybase          : # Username
   instagram        : # Username
   lastfm           : # Username
-  linkedin         : anna-maria-wundram
+  linkedin         : # Username
   mastodon         : # URL
   medium           : # URL
   pinterest        : # Username
