@@ -61,6 +61,14 @@ redirect_from:
         <p class="paper-authors"><strong>作者：</strong>Zhu Zhu, <span class="author-self">Wenjing Yu</span>, Wenxu Qi, Yuxin Du, Xiaohui Ma, Shuai Liu, Jie Dong, Changmiao Wang, Feiwei Qin and Gang Yu</p>
         <p class="paper-meta">Under Review</p>
       </article>
+
+      <article class="paper-item">
+        <span class="paper-note">Under Review</span>
+        <h3>SmaRT: Style-Modulated Robust Test-Time Adaptation for Cross-Domain Brain Tumor Segmentation in MRI</h3>
+        <p class="paper-authors"><strong>作者：</strong>Yuanhan Wang, Yifei Chen, Shuo Jiang, <span class="author-self">Wenjing Yu</span>, Mingxuan Liu, Beining Wu, Jinying Zong, Feiwei Qin, Changmiao Wang, Qiyuan Tian</p>
+        <p class="paper-meta">Under Review</p>
+        <a href="https://arxiv.org/abs/2509.17925">arXiv: 2509.17925</a>
+      </article>
     </div>
   </section>
 
