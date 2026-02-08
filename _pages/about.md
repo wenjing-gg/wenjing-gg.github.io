@@ -17,7 +17,7 @@ redirect_from:
   <span>计算机视觉</span>
   <span>医学影像分析</span>
   <span>多模态大模型</span>
-  <span>医学图像分割</span>
+  <span>医学多任务学习</span>
   <span>测试时域适应（TTA）</span>
 </div>
 
