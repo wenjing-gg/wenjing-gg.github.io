@@ -142,10 +142,38 @@ a:hover {
   overflow-wrap: anywhere;
 }
 
+.paper-note {
+  float: right;
+  margin: 0 0 0.5rem 0.8rem;
+  padding: 0.1rem 0.6rem;
+  border: 1px solid var(--journal-rule);
+  border-radius: 999px;
+  background: var(--journal-muted);
+  color: var(--journal-accent);
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
 .paper-item p {
   margin: 0 0 0.25rem 0;
   font-size: 0.92rem;
   color: var(--journal-subtle);
+}
+
+.paper-authors {
+  clear: both;
+  line-height: 1.75;
+}
+
+.paper-authors strong {
+  color: var(--journal-title);
+  font-weight: 700;
+}
+
+.paper-meta {
+  font-size: 0.88rem;
 }
 
 .paper-item a {
@@ -188,6 +216,13 @@ a:hover {
 
   .paper-item {
     padding-left: 2.7rem;
+  }
+
+  .paper-note {
+    float: none;
+    display: inline-block;
+    margin: 0 0 0.45rem 0;
+    white-space: normal;
   }
 
   .photo-grid {
