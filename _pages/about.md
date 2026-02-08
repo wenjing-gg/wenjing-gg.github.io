@@ -9,7 +9,7 @@ redirect_from:
 
 <div class="profile-hero">
   <p class="profile-hero__lead">余文敬，男，汉族，中共党员，现为杭州电子科技大学 3DV Lab、清华大学 BIRTH Lab 及香港中文大学（深圳）SRIBD Lab 三方联合实验室联合培养博士研究生。</p>
-  <p>研究方向聚焦计算机视觉、医学影像分析与多模态大模型，兼具理论研究与工程实践经验。</p>
+  <p>师从 <a href="https://faculty.hdu.edu.cn/jsjxy/qfw/main.htm" target="_blank" rel="noopener noreferrer">秦飞巍教授</a>，研究方向聚焦计算机视觉、医学影像分析与多模态大模型，兼具理论研究与工程实践经验。</p>
 </div>
 
 ## 研究方向
