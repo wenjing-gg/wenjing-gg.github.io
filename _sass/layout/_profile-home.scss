@@ -172,6 +172,13 @@ a:hover {
   font-weight: 700;
 }
 
+.paper-authors .author-self {
+  font-weight: 700;
+  color: var(--journal-title);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
 .paper-meta {
   font-size: 0.88rem;
 }

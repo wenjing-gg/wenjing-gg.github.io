@@ -30,7 +30,7 @@ redirect_from:
       <article class="paper-item">
         <span class="paper-note">学生一作 · MICCAI 2025 Early Accept</span>
         <h3>MT-WilmsNet: A Multi-level Transformer Fusion Network for Wilms’ Tumor Segmentation and Metastasis Prediction</h3>
-        <p class="paper-authors"><strong>作者：</strong>Zhu Zhu, Wenjing Yu, Xiaohui Ma, Shuai Liu, Jie Dong, Yuxin Du, Changmiao Wang, Gang Yu</p>
+        <p class="paper-authors"><strong>作者：</strong>Zhu Zhu, <span class="author-self">Wenjing Yu</span>, Xiaohui Ma, Shuai Liu, Jie Dong, Yuxin Du, Changmiao Wang, Gang Yu</p>
         <p class="paper-meta">MICCAI 2025（CCF-B）</p>
         <a href="https://doi.org/10.1007/978-3-032-04965-0_31">DOI: 10.1007/978-3-032-04965-0_31</a>
       </article>
@@ -38,7 +38,7 @@ redirect_from:
       <article class="paper-item">
         <span class="paper-note">大规模基准论文</span>
         <h3>A Large Scale Benchmark for Test Time Adaptation Methods in Medical Image Segmentation</h3>
-        <p class="paper-authors"><strong>作者：</strong>Wenjing Yu, Shuo Jiang, Yifei Chen, Shuo Chang, Yuanhan Wang, Beining Wu, Jie Dong, Mingxuan Liu, Shenghao Zhu, Feiwei Qin, Changmiao Wang, Qiyuan Tian</p>
+        <p class="paper-authors"><strong>作者：</strong><span class="author-self">Wenjing Yu</span>, Shuo Jiang, Yifei Chen, Shuo Chang, Yuanhan Wang, Beining Wu, Jie Dong, Mingxuan Liu, Shenghao Zhu, Feiwei Qin, Changmiao Wang, Qiyuan Tian</p>
         <p class="paper-meta">arXiv 预印本</p>
         <a href="https://arxiv.org/abs/2512.02497">arXiv: 2512.02497</a>
       </article>
@@ -46,7 +46,7 @@ redirect_from:
       <article class="paper-item">
         <span class="paper-note">BIBM 2025（CCF-B）</span>
         <h3>DR-TTA: Dynamic and Robust Test-Time Adaptation Under Low-Quality MRI Conditions for Brain Tumor Segmentation</h3>
-        <p class="paper-authors"><strong>作者：</strong>Yuanhan Wang, Yifei Chen, Shuo Jiang, Wenjing Yu, Mingxuan Liu, Beining Wu, Shenghao Zhu, Feiwei Qin, Jin Fan, Changmiao Wang</p>
+        <p class="paper-authors"><strong>作者：</strong>Yuanhan Wang, Yifei Chen, Shuo Jiang, <span class="author-self">Wenjing Yu</span>, Mingxuan Liu, Beining Wu, Shenghao Zhu, Feiwei Qin, Jin Fan, Changmiao Wang</p>
         <p class="paper-meta">IEEE BIBM 2025（CCF-B）</p>
         <a href="https://doi.org/10.1109/BIBM66473.2025.11356381">DOI: 10.1109/BIBM66473.2025.11356381</a>
       </article>
