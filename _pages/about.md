@@ -26,6 +26,7 @@ redirect_from:
 
   <section>
     <h2>学术成果</h2>
+    <h3 class="paper-group-title">已发表</h3>
     <div class="paper-list">
       <article class="paper-item">
         <span class="paper-note">学生一作 · MICCAI 2025 Early Accept</span>
@@ -36,6 +37,17 @@ redirect_from:
       </article>
 
       <article class="paper-item">
+        <span class="paper-note">BIBM 2025（CCF-B）</span>
+        <h3>DR-TTA: Dynamic and Robust Test-Time Adaptation Under Low-Quality MRI Conditions for Brain Tumor Segmentation</h3>
+        <p class="paper-authors"><strong>作者：</strong>Yuanhan Wang, Yifei Chen, Shuo Jiang, <span class="author-self">Wenjing Yu</span>, Mingxuan Liu, Beining Wu, Shenghao Zhu, Feiwei Qin, Jin Fan, Changmiao Wang</p>
+        <p class="paper-meta">IEEE BIBM 2025（CCF-B）</p>
+        <a href="https://doi.org/10.1109/BIBM66473.2025.11356381">DOI: 10.1109/BIBM66473.2025.11356381</a>
+      </article>
+    </div>
+
+    <h3 class="paper-group-title">Under Review</h3>
+    <div class="paper-list">
+      <article class="paper-item">
         <span class="paper-note">Under Review</span>
         <h3>A Large Scale Benchmark for Test Time Adaptation Methods in Medical Image Segmentation</h3>
         <p class="paper-authors"><strong>作者：</strong><span class="author-self">Wenjing Yu</span>, Shuo Jiang, Yifei Chen, Shuo Chang, Yuanhan Wang, Beining Wu, Jie Dong, Mingxuan Liu, Shenghao Zhu, Feiwei Qin, Changmiao Wang, Qiyuan Tian</p>
@@ -44,11 +56,10 @@ redirect_from:
       </article>
 
       <article class="paper-item">
-        <span class="paper-note">BIBM 2025（CCF-B）</span>
-        <h3>DR-TTA: Dynamic and Robust Test-Time Adaptation Under Low-Quality MRI Conditions for Brain Tumor Segmentation</h3>
-        <p class="paper-authors"><strong>作者：</strong>Yuanhan Wang, Yifei Chen, Shuo Jiang, <span class="author-self">Wenjing Yu</span>, Mingxuan Liu, Beining Wu, Shenghao Zhu, Feiwei Qin, Jin Fan, Changmiao Wang</p>
-        <p class="paper-meta">IEEE BIBM 2025（CCF-B）</p>
-        <a href="https://doi.org/10.1109/BIBM66473.2025.11356381">DOI: 10.1109/BIBM66473.2025.11356381</a>
+        <span class="paper-note">Under Review</span>
+        <h3>MTC-WTNet: A Multitask Collaboration Framework for Wilms’ Tumor Segmentation and Preoperative Metastasis Prediction</h3>
+        <p class="paper-authors"><strong>作者：</strong>Zhu Zhu, <span class="author-self">Wenjing Yu</span>, Wenxu Qi, Yuxin Du, Xiaohui Ma, Shuai Liu, Jie Dong, Changmiao Wang, Feiwei Qin and Gang Yu</p>
+        <p class="paper-meta">Under Review</p>
       </article>
     </div>
   </section>
