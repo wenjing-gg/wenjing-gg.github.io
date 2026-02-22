@@ -1,19 +1,20 @@
 ---
 permalink: /
-title: "个人主页"
+title: "个人介绍"
 author_profile: true
 redirect_from: 
   - /about/
   - /about.html
 ---
 
-<div class="profile-hero">
+<div class="profile-hero" id="intro">
   <p class="profile-hero__lead">余文敬，男，汉族，中共党员，现为杭州电子科技大学 3DV Lab、清华大学 BIRTH Lab 及香港中文大学（深圳）SRIBD Lab 三方联合实验室联合培养博士研究生。</p>
   <p>师从 <a href="https://faculty.hdu.edu.cn/jsjxy/qfw/main.htm" target="_blank" rel="noopener noreferrer">秦飞巍教授</a>，研究方向聚焦医学影像分析、医学多任务学习与垂域多智能体，兼具理论研究与工程实践经验。</p>
+  <p class="profile-hero__contact"><strong>联系方式：</strong>电话：18268000432 ｜ 邮箱：<a href="mailto:2506558723@qq.com">2506558723@qq.com</a></p>
 </div>
 
 <article class="journal-profile">
-  <section>
+  <section id="research">
     <h2>研究方向</h2>
     <div class="topic-grid">
       <span>医学影像分析</span>
@@ -23,7 +24,7 @@ redirect_from:
     </div>
   </section>
 
-  <section>
+  <section id="publications">
     <h2>学术成果</h2>
     <h3 class="paper-group-title">已发表</h3>
     <div class="paper-list">
@@ -82,7 +83,7 @@ redirect_from:
     </ul>
   </section>
 
-  <section>
+  <section id="hobbies">
     <h2>爱好</h2>
     <ul class="profile-list">
       <li>羽毛球（HDU 校队成员）</li>
@@ -97,13 +98,6 @@ redirect_from:
     </div>
   </section>
 
-  <section id="contact">
-    <h2>联系方式</h2>
-    <ul class="profile-list">
-      <li>电话：18268000432</li>
-      <li>邮箱：<a href="mailto:2506558723@qq.com">2506558723@qq.com</a></li>
-    </ul>
-  </section>
 </article>
 <section class="love-window" aria-labelledby="love-window-title">
   <h2 id="love-window-title">恋爱小窗</h2>
@@ -127,4 +121,3 @@ redirect_from:
   <p class="love-empty">`love/` 目录暂无图片。</p>
   {% endif %}
 </section>
-

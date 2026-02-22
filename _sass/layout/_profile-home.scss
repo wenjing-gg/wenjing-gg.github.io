@@ -103,6 +103,16 @@ a:hover {
   font-family: "Noto Serif SC", "Songti SC", "Source Han Serif SC", Georgia, serif;
 }
 
+.profile-hero__contact {
+  margin: 0.35rem 0 0 0;
+  color: var(--journal-subtle);
+  font-size: 0.93rem;
+}
+
+.profile-hero__contact strong {
+  color: var(--journal-title);
+}
+
 .topic-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
