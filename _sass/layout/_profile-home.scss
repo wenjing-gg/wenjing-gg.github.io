@@ -233,9 +233,10 @@ a:hover {
   border-top: 1px solid var(--journal-rule);
 }
 .love-window {
-  max-width: 980px;
+  width: min(640px, calc(100vw - 1rem));
+  max-width: 640px;
   margin: 1.2rem auto 0 auto;
-  padding: 0.95rem 1rem;
+  padding: 0.78rem 0.82rem;
   border: 1px solid var(--journal-rule);
   border-top: 2px solid var(--journal-accent);
   border-radius: 0.2rem;
@@ -251,7 +252,12 @@ a:hover {
 }
 
 .love-marquee {
+  --love-card-width: 172px;
+  --love-gap: 0.5rem;
+  --love-pad: 0.48rem;
+  width: min(calc((var(--love-card-width) * 3) + (var(--love-gap) * 2) + (var(--love-pad) * 2)), 100%);
   overflow: hidden;
+  margin: 0 auto;
   border: 1px solid var(--journal-rule);
   border-radius: 0.2rem;
   background: rgba(var(--journal-muted-rgb), 0.28);
@@ -259,10 +265,10 @@ a:hover {
 
 .love-track {
   display: flex;
-  gap: 0.65rem;
+  gap: var(--love-gap);
   width: max-content;
-  padding: 0.55rem;
-  animation: love-scroll 42s linear infinite;
+  padding: var(--love-pad);
+  animation: love-scroll 34s linear infinite;
 }
 
 .love-marquee:hover .love-track {
@@ -271,13 +277,13 @@ a:hover {
 
 .love-card {
   margin: 0;
-  flex: 0 0 auto;
-  width: 174px;
+  flex: 0 0 var(--love-card-width);
+  width: var(--love-card-width);
 }
 
 .love-card img {
   width: 100%;
-  height: 220px;
+  height: 160px;
   object-fit: cover;
   display: block;
   border: 1px solid var(--journal-rule);
@@ -449,15 +455,18 @@ a:hover {
 }
 @media (max-width: 760px) {
   .love-window {
-    padding: 0.75rem 0.72rem;
+    width: min(640px, calc(100vw - 0.7rem));
+    padding: 0.65rem 0.6rem;
   }
 
-  .love-card {
-    width: 138px;
+  .love-marquee {
+    --love-card-width: clamp(88px, 27vw, 112px);
+    --love-gap: 0.34rem;
+    --love-pad: 0.34rem;
   }
 
   .love-card img {
-    height: 176px;
+    height: 122px;
   }
 
   .topic-grid {
