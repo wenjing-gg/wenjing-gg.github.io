@@ -24,7 +24,6 @@
   var musicPanel = null;
   var musicButton = null;
   var musicNextButton = null;
-  var musicStatus = null;
   var musicEnabled = false;
   var activeTrackIndex = 0;
   var audioEl = null;
@@ -224,16 +223,6 @@
     }
   }
 
-  function formatTrackTitle(rawTitle, index) {
-    if (!rawTitle) {
-      return "Track " + String(index + 1).padStart(2, "0");
-    }
-
-    return String(rawTitle)
-      .replace(/\.[^/.]+$/, "")
-      .replace(/[\-_]+/g, " ")
-      .trim() || "Track " + String(index + 1).padStart(2, "0");
-  }
 
   function ensureAudio() {
     if (audioEl) {
@@ -251,21 +240,22 @@
   }
 
   function updateMusicControls() {
-    if (!musicButton || !musicStatus) {
+    if (!musicButton) {
       return;
     }
 
     if (musicTracks.length === 0) {
-      musicButton.textContent = "无音乐";
+      musicButton.textContent = "播放";
       musicButton.disabled = true;
       if (musicNextButton) {
         musicNextButton.disabled = true;
       }
-      musicStatus.textContent = "`/music` 目录没有可播放文件";
+      if (musicPanel) {
+        musicPanel.classList.add("music-panel--disabled");
+      }
       return;
     }
 
-    var current = musicTracks[activeTrackIndex];
     musicButton.disabled = false;
     musicButton.textContent = musicEnabled ? "暂停" : "播放";
     musicButton.classList.toggle("music-toggle--on", musicEnabled);
@@ -275,10 +265,10 @@
       musicNextButton.disabled = false;
     }
 
-    var label = formatTrackTitle(current.title, activeTrackIndex);
-    musicStatus.textContent = (musicEnabled ? "正在播放：" : "已选择：") + label;
+    if (musicPanel) {
+      musicPanel.classList.remove("music-panel--disabled");
+    }
   }
-
   function setTrack(index, autoPlay) {
     if (musicTracks.length === 0) {
       return;
@@ -366,36 +356,29 @@
     musicPanel.className = "music-panel";
     musicPanel.id = "music-player";
 
-    var heading = document.createElement("h3");
-    heading.className = "music-panel__title";
-    heading.textContent = "背景音乐";
-
-    var controls = document.createElement("div");
-    controls.className = "music-panel__controls";
-
     musicButton = document.createElement("button");
     musicButton.type = "button";
     musicButton.className = "music-toggle";
-    musicButton.setAttribute("aria-label", "Toggle background music");
+    musicButton.textContent = "播放";
+    musicButton.setAttribute("aria-label", "播放或暂停背景音乐");
     musicButton.addEventListener("click", toggleMusic);
 
     musicNextButton = document.createElement("button");
     musicNextButton.type = "button";
     musicNextButton.className = "music-next";
     musicNextButton.textContent = "切换";
-    musicNextButton.setAttribute("aria-label", "Play next track");
+    musicNextButton.setAttribute("aria-label", "切换下一首背景音乐");
     musicNextButton.addEventListener("click", playNextTrack);
 
-    controls.appendChild(musicButton);
-    controls.appendChild(musicNextButton);
+    musicPanel.appendChild(musicButton);
+    musicPanel.appendChild(musicNextButton);
 
-    musicStatus = document.createElement("p");
-    musicStatus.className = "music-status";
-
-    musicPanel.appendChild(heading);
-    musicPanel.appendChild(controls);
-    musicPanel.appendChild(musicStatus);
-    body.appendChild(musicPanel);
+    var masthead = document.querySelector(".masthead");
+    if (masthead) {
+      masthead.appendChild(musicPanel);
+    } else {
+      body.appendChild(musicPanel);
+    }
 
     var storedIndex = Number(getStoredValue(storageKeyTrack));
     if (!Number.isNaN(storedIndex) && storedIndex >= 0 && storedIndex < musicTracks.length) {
