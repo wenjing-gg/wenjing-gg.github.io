@@ -303,15 +303,17 @@ a:hover {
 }
 
 .music-panel {
-  position: relative;
-  margin: 0 0 1.1rem 0;
-  padding: 0.78rem 0.82rem;
-  border: 1px solid rgba(61, 130, 192, 0.4);
-  border-left: 3px solid var(--journal-accent);
-  border-radius: 0.38rem;
-  background: rgba(var(--journal-surface-rgb), 0.84);
-  box-shadow: 0 8px 22px rgba(21, 60, 98, 0.14);
-  backdrop-filter: blur(5px);
+  position: fixed;
+  top: 0.9rem;
+  right: 1rem;
+  width: min(280px, calc(100vw - 1.2rem));
+  padding: 0.72rem 0.76rem;
+  z-index: 1400;
+  border: 1px solid rgba(61, 130, 192, 0.45);
+  border-radius: 0.62rem;
+  background: rgba(var(--journal-surface-rgb), 0.92);
+  box-shadow: 0 12px 28px rgba(21, 60, 98, 0.24);
+  backdrop-filter: blur(6px);
 }
 .music-panel__title {
   margin: 0;
@@ -354,10 +356,13 @@ a:hover {
 }
 
 .music-status {
-  margin: 0.55rem 0 0.45rem 0;
+  margin: 0.55rem 0 0.12rem 0;
   color: #224468;
   font-size: 0.72rem;
   line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .music-track-list {
@@ -365,7 +370,7 @@ a:hover {
   padding: 0;
   list-style: none;
   overflow: auto;
-  max-height: 15rem;
+  display: none;
 }
 
 .music-track-item + .music-track-item {
@@ -437,8 +442,10 @@ a:hover {
   }
 
   .music-panel {
-    margin-bottom: 0.9rem;
-    padding: 0.68rem 0.7rem;
+    top: 0.65rem;
+    right: 0.65rem;
+    width: min(238px, calc(100vw - 1.3rem));
+    padding: 0.64rem 0.66rem;
   }
 }
 

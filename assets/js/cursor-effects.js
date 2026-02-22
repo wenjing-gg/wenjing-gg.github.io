@@ -25,7 +25,6 @@
   var musicButton = null;
   var musicNextButton = null;
   var musicStatus = null;
-  var musicList = null;
   var musicEnabled = false;
   var activeTrackIndex = 0;
   var audioEl = null;
@@ -280,19 +279,6 @@
     musicStatus.textContent = (musicEnabled ? "正在播放：" : "已选择：") + label;
   }
 
-  function updateTrackList() {
-    if (!musicList) {
-      return;
-    }
-
-    var buttons = musicList.querySelectorAll(".music-track-btn");
-    var idx = 0;
-    while (idx < buttons.length) {
-      buttons[idx].classList.toggle("music-track-btn--active", idx === activeTrackIndex);
-      idx += 1;
-    }
-  }
-
   function setTrack(index, autoPlay) {
     if (musicTracks.length === 0) {
       return;
@@ -307,8 +293,6 @@
     if (audioEl.src !== expected) {
       audioEl.src = track.src;
     }
-
-    updateTrackList();
 
     if (autoPlay) {
       startMusic();
@@ -384,7 +368,7 @@
 
     var heading = document.createElement("h3");
     heading.className = "music-panel__title";
-    heading.textContent = "背景音乐（播放 / 切换）";
+    heading.textContent = "背景音乐";
 
     var controls = document.createElement("div");
     controls.className = "music-panel__controls";
@@ -408,55 +392,27 @@
     musicStatus = document.createElement("p");
     musicStatus.className = "music-status";
 
-    musicList = document.createElement("ul");
-    musicList.className = "music-track-list";
-
-    var idx = 0;
-    while (idx < musicTracks.length) {
-      var trackItem = document.createElement("li");
-      trackItem.className = "music-track-item";
-
-      var trackButton = document.createElement("button");
-      trackButton.type = "button";
-      trackButton.className = "music-track-btn";
-      trackButton.textContent = formatTrackTitle(musicTracks[idx].title, idx);
-      trackButton.setAttribute("data-index", String(idx));
-      trackButton.addEventListener("click", function (event) {
-        var value = Number(event.currentTarget.getAttribute("data-index"));
-        if (!Number.isNaN(value)) {
-          setTrack(value, true);
-        }
-      });
-
-      trackItem.appendChild(trackButton);
-      musicList.appendChild(trackItem);
-      idx += 1;
-    }
-
     musicPanel.appendChild(heading);
     musicPanel.appendChild(controls);
     musicPanel.appendChild(musicStatus);
-    musicPanel.appendChild(musicList);
-    var mountRoot = document.querySelector(".journal-profile") || document.querySelector(".page__content");
-    if (mountRoot) {
-      mountRoot.insertBefore(musicPanel, mountRoot.firstChild);
-    } else {
-      body.appendChild(musicPanel);
-    }
+    body.appendChild(musicPanel);
 
     var storedIndex = Number(getStoredValue(storageKeyTrack));
     if (!Number.isNaN(storedIndex) && storedIndex >= 0 && storedIndex < musicTracks.length) {
       activeTrackIndex = storedIndex;
     }
 
-    updateTrackList();
     updateMusicControls();
 
-    if (getStoredValue(storageKeyEnabled) === "1" && musicTracks.length > 0) {
+    if (musicTracks.length > 0) {
+      startMusic();
+
       document.addEventListener(
         "pointerdown",
         function () {
-          startMusic();
+          if (!musicEnabled) {
+            startMusic();
+          }
         },
         {
           once: true,
@@ -465,7 +421,6 @@
       );
     }
   }
-
   document.addEventListener("visibilitychange", function () {
     if (document.hidden) {
       if (rafId) {
