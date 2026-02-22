@@ -255,7 +255,7 @@ a:hover {
   --love-card-width: 208px;
   --love-gap: 0.5rem;
   --love-pad: 0.48rem;
-  width: min(calc((var(--love-card-width) * 3) + (var(--love-gap) * 2) + (var(--love-pad) * 2)), 100%);
+  width: 100%;
   overflow: hidden;
   margin: 0 auto;
   border: 1px solid var(--journal-rule);
