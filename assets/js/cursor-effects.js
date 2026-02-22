@@ -21,17 +21,23 @@
   var particles = [];
   var deviceRatio = 1;
 
+  var musicPanel = null;
   var musicButton = null;
+  var musicNextButton = null;
+  var musicStatus = null;
+  var musicList = null;
   var musicEnabled = false;
-  var audioCtx = null;
-  var masterGain = null;
-  var filterNode = null;
-  var modulationOsc = null;
-  var modulationGain = null;
-  var chordVoices = [];
-  var chordStep = 0;
-  var chordTimer = 0;
-  var storageKey = "ambientMusicEnabled";
+  var activeTrackIndex = 0;
+  var audioEl = null;
+
+  var storageKeyEnabled = "ambientMusicEnabled";
+  var storageKeyTrack = "ambientMusicTrackIndex";
+
+  var musicTracks = Array.isArray(window.__musicTracks)
+    ? window.__musicTracks.filter(function (item) {
+        return item && typeof item.src === "string" && item.src.length > 0;
+      })
+    : [];
 
   function initCursorFx() {
     if (!hasFinePointerFx) {
@@ -203,153 +209,159 @@
     rafId = window.requestAnimationFrame(render);
   }
 
-  function createAudioGraph() {
-    if (audioCtx) {
-      return;
-    }
-
-    var AudioContextClass = window.AudioContext || window.webkitAudioContext;
-    if (!AudioContextClass) {
-      return;
-    }
-
-    audioCtx = new AudioContextClass();
-
-    masterGain = audioCtx.createGain();
-    masterGain.gain.value = 0.0001;
-
-    filterNode = audioCtx.createBiquadFilter();
-    filterNode.type = "lowpass";
-    filterNode.frequency.value = 1200;
-
-    masterGain.connect(filterNode);
-    filterNode.connect(audioCtx.destination);
-
-    var baseFrequencies = [196.0, 246.94, 293.66];
-    var idx = 0;
-
-    while (idx < baseFrequencies.length) {
-      var osc = audioCtx.createOscillator();
-      osc.type = idx === 1 ? "triangle" : "sine";
-      osc.frequency.value = baseFrequencies[idx];
-
-      var gain = audioCtx.createGain();
-      gain.gain.value = idx === 1 ? 0.012 : 0.008;
-
-      osc.connect(gain);
-      gain.connect(masterGain);
-      osc.start();
-
-      chordVoices.push({ osc: osc, gain: gain });
-      idx += 1;
-    }
-
-    modulationOsc = audioCtx.createOscillator();
-    modulationOsc.type = "sine";
-    modulationOsc.frequency.value = 0.09;
-
-    modulationGain = audioCtx.createGain();
-    modulationGain.gain.value = 14;
-
-    modulationOsc.connect(modulationGain);
-    modulationGain.connect(chordVoices[0].osc.detune);
-    modulationGain.connect(chordVoices[1].osc.detune);
-    modulationOsc.start();
-
-    chordTimer = window.setInterval(stepChord, 7000);
-    stepChord();
-  }
-
-  function stepChord() {
-    if (!audioCtx || chordVoices.length === 0) {
-      return;
-    }
-
-    var chords = [
-      [196.0, 246.94, 293.66],
-      [220.0, 261.63, 329.63],
-      [174.61, 220.0, 261.63],
-      [196.0, 233.08, 293.66]
-    ];
-
-    var now = audioCtx.currentTime;
-    chordStep = (chordStep + 1) % chords.length;
-    var target = chords[chordStep];
-
-    var idx = 0;
-    while (idx < chordVoices.length) {
-      chordVoices[idx].osc.frequency.setTargetAtTime(target[idx], now, 2.6);
-      idx += 1;
-    }
-  }
-
-  function setStoredMusicPreference(value) {
+  function setStoredValue(key, value) {
     try {
-      window.localStorage.setItem(storageKey, value ? "1" : "0");
+      window.localStorage.setItem(key, value);
     } catch (error) {
       // Ignore storage failures.
     }
   }
 
-  function getStoredMusicPreference() {
+  function getStoredValue(key) {
     try {
-      return window.localStorage.getItem(storageKey) === "1";
+      return window.localStorage.getItem(key);
     } catch (error) {
-      return false;
+      return null;
     }
   }
 
-  function updateMusicButton() {
-    if (!musicButton) {
+  function formatTrackTitle(rawTitle, index) {
+    if (!rawTitle) {
+      return "Track " + String(index + 1).padStart(2, "0");
+    }
+
+    return String(rawTitle)
+      .replace(/\.[^/.]+$/, "")
+      .replace(/[\-_]+/g, " ")
+      .trim() || "Track " + String(index + 1).padStart(2, "0");
+  }
+
+  function ensureAudio() {
+    if (audioEl) {
+      return true;
+    }
+
+    audioEl = new Audio();
+    audioEl.preload = "metadata";
+    audioEl.volume = 0.24;
+    audioEl.addEventListener("ended", function () {
+      playNextTrack();
+    });
+
+    return true;
+  }
+
+  function updateMusicControls() {
+    if (!musicButton || !musicStatus) {
       return;
     }
 
-    musicButton.textContent = musicEnabled ? "Music On" : "Music Off";
+    if (musicTracks.length === 0) {
+      musicButton.textContent = "No Music";
+      musicButton.disabled = true;
+      if (musicNextButton) {
+        musicNextButton.disabled = true;
+      }
+      musicStatus.textContent = "`/music` 目录没有可播放文件";
+      return;
+    }
+
+    var current = musicTracks[activeTrackIndex];
+    musicButton.disabled = false;
+    musicButton.textContent = musicEnabled ? "Pause" : "Play";
     musicButton.classList.toggle("music-toggle--on", musicEnabled);
     musicButton.setAttribute("aria-pressed", musicEnabled ? "true" : "false");
+
+    if (musicNextButton) {
+      musicNextButton.disabled = false;
+    }
+
+    var label = formatTrackTitle(current.title, activeTrackIndex);
+    musicStatus.textContent = (musicEnabled ? "Now Playing: " : "Selected: ") + label;
+  }
+
+  function updateTrackList() {
+    if (!musicList) {
+      return;
+    }
+
+    var buttons = musicList.querySelectorAll(".music-track-btn");
+    var idx = 0;
+    while (idx < buttons.length) {
+      buttons[idx].classList.toggle("music-track-btn--active", idx === activeTrackIndex);
+      idx += 1;
+    }
+  }
+
+  function setTrack(index, autoPlay) {
+    if (musicTracks.length === 0) {
+      return;
+    }
+
+    activeTrackIndex = ((index % musicTracks.length) + musicTracks.length) % musicTracks.length;
+    setStoredValue(storageKeyTrack, String(activeTrackIndex));
+
+    ensureAudio();
+    var track = musicTracks[activeTrackIndex];
+    var expected = new URL(track.src, window.location.href).href;
+    if (audioEl.src !== expected) {
+      audioEl.src = track.src;
+    }
+
+    updateTrackList();
+
+    if (autoPlay) {
+      startMusic();
+    } else {
+      updateMusicControls();
+    }
   }
 
   function startMusic() {
-    createAudioGraph();
-
-    if (!audioCtx || !masterGain) {
+    if (musicTracks.length === 0) {
+      updateMusicControls();
       return;
     }
 
-    var resumePromise = audioCtx.state === "suspended" ? audioCtx.resume() : Promise.resolve();
-    resumePromise
-      .then(function () {
-        var now = audioCtx.currentTime;
-        masterGain.gain.cancelScheduledValues(now);
-        masterGain.gain.setTargetAtTime(0.042, now, 1.8);
-        musicEnabled = true;
-        setStoredMusicPreference(true);
-        updateMusicButton();
-      })
-      .catch(function () {
-        musicEnabled = false;
-        updateMusicButton();
-      });
+    ensureAudio();
+
+    var current = musicTracks[activeTrackIndex];
+    var expected = new URL(current.src, window.location.href).href;
+    if (audioEl.src !== expected) {
+      audioEl.src = current.src;
+    }
+
+    var playPromise = audioEl.play();
+    if (playPromise && typeof playPromise.then === "function") {
+      playPromise
+        .then(function () {
+          musicEnabled = true;
+          setStoredValue(storageKeyEnabled, "1");
+          updateMusicControls();
+        })
+        .catch(function () {
+          musicEnabled = false;
+          setStoredValue(storageKeyEnabled, "0");
+          updateMusicControls();
+        });
+    }
   }
 
   function stopMusic() {
-    if (!audioCtx || !masterGain) {
-      musicEnabled = false;
-      setStoredMusicPreference(false);
-      updateMusicButton();
-      return;
+    if (audioEl) {
+      audioEl.pause();
     }
 
-    var now = audioCtx.currentTime;
-    masterGain.gain.cancelScheduledValues(now);
-    masterGain.gain.setTargetAtTime(0.0001, now, 0.7);
-
     musicEnabled = false;
-    setStoredMusicPreference(false);
-    updateMusicButton();
+    setStoredValue(storageKeyEnabled, "0");
+    updateMusicControls();
   }
 
   function toggleMusic() {
+    if (musicTracks.length === 0) {
+      return;
+    }
+
     if (musicEnabled) {
       stopMusic();
     } else {
@@ -357,26 +369,94 @@
     }
   }
 
-  function initMusicToggle() {
+  function playNextTrack() {
+    if (musicTracks.length === 0) {
+      return;
+    }
+
+    setTrack(activeTrackIndex + 1, true);
+  }
+
+  function initMusicPanel() {
+    musicPanel = document.createElement("section");
+    musicPanel.className = "music-panel";
+
+    var heading = document.createElement("h3");
+    heading.className = "music-panel__title";
+    heading.textContent = "Music";
+
+    var controls = document.createElement("div");
+    controls.className = "music-panel__controls";
+
     musicButton = document.createElement("button");
     musicButton.type = "button";
     musicButton.className = "music-toggle";
     musicButton.setAttribute("aria-label", "Toggle background music");
     musicButton.addEventListener("click", toggleMusic);
-    body.appendChild(musicButton);
 
-    musicEnabled = false;
-    updateMusicButton();
+    musicNextButton = document.createElement("button");
+    musicNextButton.type = "button";
+    musicNextButton.className = "music-next";
+    musicNextButton.textContent = "Next";
+    musicNextButton.setAttribute("aria-label", "Play next track");
+    musicNextButton.addEventListener("click", playNextTrack);
 
-    if (getStoredMusicPreference()) {
-      var startOnFirstAction = function () {
-        startMusic();
-      };
+    controls.appendChild(musicButton);
+    controls.appendChild(musicNextButton);
 
-      document.addEventListener("pointerdown", startOnFirstAction, {
-        once: true,
-        passive: true
+    musicStatus = document.createElement("p");
+    musicStatus.className = "music-status";
+
+    musicList = document.createElement("ul");
+    musicList.className = "music-track-list";
+
+    var idx = 0;
+    while (idx < musicTracks.length) {
+      var trackItem = document.createElement("li");
+      trackItem.className = "music-track-item";
+
+      var trackButton = document.createElement("button");
+      trackButton.type = "button";
+      trackButton.className = "music-track-btn";
+      trackButton.textContent = formatTrackTitle(musicTracks[idx].title, idx);
+      trackButton.setAttribute("data-index", String(idx));
+      trackButton.addEventListener("click", function (event) {
+        var value = Number(event.currentTarget.getAttribute("data-index"));
+        if (!Number.isNaN(value)) {
+          setTrack(value, true);
+        }
       });
+
+      trackItem.appendChild(trackButton);
+      musicList.appendChild(trackItem);
+      idx += 1;
+    }
+
+    musicPanel.appendChild(heading);
+    musicPanel.appendChild(controls);
+    musicPanel.appendChild(musicStatus);
+    musicPanel.appendChild(musicList);
+    body.appendChild(musicPanel);
+
+    var storedIndex = Number(getStoredValue(storageKeyTrack));
+    if (!Number.isNaN(storedIndex) && storedIndex >= 0 && storedIndex < musicTracks.length) {
+      activeTrackIndex = storedIndex;
+    }
+
+    updateTrackList();
+    updateMusicControls();
+
+    if (getStoredValue(storageKeyEnabled) === "1" && musicTracks.length > 0) {
+      document.addEventListener(
+        "pointerdown",
+        function () {
+          startMusic();
+        },
+        {
+          once: true,
+          passive: true
+        }
+      );
     }
   }
 
@@ -392,6 +472,6 @@
   });
 
   initCursorFx();
-  initMusicToggle();
+  initMusicPanel();
 })();
 
