@@ -233,8 +233,8 @@ a:hover {
   border-top: 1px solid var(--journal-rule);
 }
 .love-window {
-  width: min(640px, calc(100vw - 1rem));
-  max-width: 640px;
+  width: 100%;
+  max-width: none;
   margin: 1.2rem auto 0 auto;
   padding: 0.78rem 0.82rem;
   border: 1px solid var(--journal-rule);
@@ -252,7 +252,7 @@ a:hover {
 }
 
 .love-marquee {
-  --love-card-width: 172px;
+  --love-card-width: 208px;
   --love-gap: 0.5rem;
   --love-pad: 0.48rem;
   width: min(calc((var(--love-card-width) * 3) + (var(--love-gap) * 2) + (var(--love-pad) * 2)), 100%);
@@ -455,7 +455,6 @@ a:hover {
 }
 @media (max-width: 760px) {
   .love-window {
-    width: min(640px, calc(100vw - 0.7rem));
     padding: 0.65rem 0.6rem;
   }
 
