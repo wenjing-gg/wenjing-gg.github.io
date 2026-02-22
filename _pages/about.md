@@ -105,4 +105,26 @@ redirect_from:
     </ul>
   </section>
 </article>
+<section class="love-window" aria-labelledby="love-window-title">
+  <h2 id="love-window-title">恋爱小窗</h2>
+  {% assign love_images = site.static_files | where_exp: "item", "item.path contains '/love/'" | sort: "path" %}
+  {% if love_images.size > 0 %}
+  <div class="love-marquee" role="region" aria-label="恋爱图片滚动展示">
+    <div class="love-track">
+      {% for item in love_images %}
+      <figure class="love-card">
+        <img src="{{ item.path | relative_url }}" alt="恋爱小窗照片 {{ forloop.index }}" loading="lazy">
+      </figure>
+      {% endfor %}
+      {% for item in love_images %}
+      <figure class="love-card" aria-hidden="true">
+        <img src="{{ item.path | relative_url }}" alt="" loading="lazy">
+      </figure>
+      {% endfor %}
+    </div>
+  </div>
+  {% else %}
+  <p class="love-empty">`love/` 目录暂无图片。</p>
+  {% endif %}
+</section>
 

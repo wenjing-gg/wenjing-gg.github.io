@@ -232,6 +232,79 @@ a:hover {
   padding-top: 0.1rem;
   border-top: 1px solid var(--journal-rule);
 }
+.love-window {
+  max-width: 980px;
+  margin: 1.2rem auto 0 auto;
+  padding: 0.95rem 1rem;
+  border: 1px solid var(--journal-rule);
+  border-top: 2px solid var(--journal-accent);
+  border-radius: 0.2rem;
+  background: rgba(var(--journal-surface-rgb), var(--journal-surface-alpha));
+  backdrop-filter: blur(5px);
+}
+
+.love-window h2 {
+  margin: 0 0 0.75rem 0;
+  font-size: 1.02rem;
+  letter-spacing: 0.08em;
+  color: var(--journal-title);
+}
+
+.love-marquee {
+  overflow: hidden;
+  border: 1px solid var(--journal-rule);
+  border-radius: 0.2rem;
+  background: rgba(var(--journal-muted-rgb), 0.28);
+}
+
+.love-track {
+  display: flex;
+  gap: 0.65rem;
+  width: max-content;
+  padding: 0.55rem;
+  animation: love-scroll 42s linear infinite;
+}
+
+.love-marquee:hover .love-track {
+  animation-play-state: paused;
+}
+
+.love-card {
+  margin: 0;
+  flex: 0 0 auto;
+  width: 174px;
+}
+
+.love-card img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  display: block;
+  border: 1px solid var(--journal-rule);
+  border-radius: 0.2rem;
+}
+
+.love-empty {
+  margin: 0;
+  color: var(--journal-subtle);
+  font-size: 0.9rem;
+}
+
+@keyframes love-scroll {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .love-track {
+    animation: none;
+  }
+}
 
 .cursor-fx {
   position: fixed;
@@ -384,6 +457,18 @@ a:hover {
   }
 }
 @media (max-width: 760px) {
+  .love-window {
+    padding: 0.75rem 0.72rem;
+  }
+
+  .love-card {
+    width: 138px;
+  }
+
+  .love-card img {
+    height: 176px;
+  }
+
   .topic-grid {
     grid-template-columns: 1fr;
   }
