@@ -257,7 +257,7 @@
     }
 
     if (musicTracks.length === 0) {
-      musicButton.textContent = "No Music";
+      musicButton.textContent = "无音乐";
       musicButton.disabled = true;
       if (musicNextButton) {
         musicNextButton.disabled = true;
@@ -268,7 +268,7 @@
 
     var current = musicTracks[activeTrackIndex];
     musicButton.disabled = false;
-    musicButton.textContent = musicEnabled ? "Pause" : "Play";
+    musicButton.textContent = musicEnabled ? "暂停" : "播放";
     musicButton.classList.toggle("music-toggle--on", musicEnabled);
     musicButton.setAttribute("aria-pressed", musicEnabled ? "true" : "false");
 
@@ -277,7 +277,7 @@
     }
 
     var label = formatTrackTitle(current.title, activeTrackIndex);
-    musicStatus.textContent = (musicEnabled ? "Now Playing: " : "Selected: ") + label;
+    musicStatus.textContent = (musicEnabled ? "正在播放：" : "已选择：") + label;
   }
 
   function updateTrackList() {
@@ -380,10 +380,11 @@
   function initMusicPanel() {
     musicPanel = document.createElement("section");
     musicPanel.className = "music-panel";
+    musicPanel.id = "music-player";
 
     var heading = document.createElement("h3");
     heading.className = "music-panel__title";
-    heading.textContent = "Music";
+    heading.textContent = "背景音乐（播放 / 切换）";
 
     var controls = document.createElement("div");
     controls.className = "music-panel__controls";
@@ -397,7 +398,7 @@
     musicNextButton = document.createElement("button");
     musicNextButton.type = "button";
     musicNextButton.className = "music-next";
-    musicNextButton.textContent = "Next";
+    musicNextButton.textContent = "切换";
     musicNextButton.setAttribute("aria-label", "Play next track");
     musicNextButton.addEventListener("click", playNextTrack);
 
@@ -436,7 +437,12 @@
     musicPanel.appendChild(controls);
     musicPanel.appendChild(musicStatus);
     musicPanel.appendChild(musicList);
-    body.appendChild(musicPanel);
+    var mountRoot = document.querySelector(".journal-profile") || document.querySelector(".page__content");
+    if (mountRoot) {
+      mountRoot.insertBefore(musicPanel, mountRoot.firstChild);
+    } else {
+      body.appendChild(musicPanel);
+    }
 
     var storedIndex = Number(getStoredValue(storageKeyTrack));
     if (!Number.isNaN(storedIndex) && storedIndex >= 0 && storedIndex < musicTracks.length) {
