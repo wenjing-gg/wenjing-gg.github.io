@@ -233,7 +233,6 @@ a:hover {
   border-top: 1px solid var(--journal-rule);
 }
 
-
 .cursor-fx {
   position: fixed;
   top: 0;
@@ -303,12 +302,14 @@ a:hover {
 }
 
 .music-panel {
-  position: fixed;
-  top: 0.9rem;
-  right: 1rem;
+  position: fixed !important;
+  top: calc(env(safe-area-inset-top, 0px) + 0.85rem) !important;
+  right: 0.95rem !important;
+  left: auto !important;
+  bottom: auto !important;
   width: min(280px, calc(100vw - 1.2rem));
   padding: 0.72rem 0.76rem;
-  z-index: 1400;
+  z-index: 9999;
   border: 1px solid rgba(61, 130, 192, 0.45);
   border-radius: 0.62rem;
   background: rgba(var(--journal-surface-rgb), 0.92);
@@ -365,45 +366,6 @@ a:hover {
   text-overflow: ellipsis;
 }
 
-.music-track-list {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  overflow: auto;
-  display: none;
-}
-
-.music-track-item + .music-track-item {
-  margin-top: 0.28rem;
-}
-
-.music-track-btn {
-  width: 100%;
-  text-align: left;
-  border: 1px solid rgba(102, 156, 202, 0.34);
-  border-radius: 0.56rem;
-  padding: 0.36rem 0.55rem;
-  background: rgba(255, 255, 255, 0.44);
-  color: #23476c;
-  font-size: 0.72rem;
-  line-height: 1.3;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  transition: border-color 0.2s ease, background-color 0.2s ease;
-}
-
-.music-track-btn:hover {
-  border-color: rgba(61, 140, 210, 0.62);
-  background: rgba(255, 255, 255, 0.68);
-}
-
-.music-track-btn--active {
-  border-color: rgba(55, 141, 209, 0.78);
-  background: rgba(164, 217, 255, 0.5);
-  color: #0f3153;
-}
-
 @keyframes cursor-fx-spin {
   from {
     transform: rotate(0deg);
@@ -440,13 +402,16 @@ a:hover {
   .photo-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-
   .music-panel {
-    top: 0.65rem;
-    right: 0.65rem;
-    width: min(238px, calc(100vw - 1.3rem));
+    position: fixed !important;
+    top: calc(env(safe-area-inset-top, 0px) + 0.6rem) !important;
+    right: 0.6rem !important;
+    left: auto !important;
+    bottom: auto !important;
+    width: min(238px, calc(100vw - 1.2rem));
     padding: 0.64rem 0.66rem;
   }
+
 }
 
 @media (max-width: 1023px) {
