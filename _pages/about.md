@@ -10,7 +10,7 @@ redirect_from:
 <div class="profile-hero" id="intro">
   <p class="profile-hero__lead">余文敬，男，汉族，中共党员，现为杭州电子科技大学 3DV Lab、清华大学 BIRTH Lab 及香港中文大学（深圳）SRIBD Lab 三方联合实验室联合培养博士研究生。</p>
   <p>师从 <a href="https://faculty.hdu.edu.cn/jsjxy/qfw/main.htm" target="_blank" rel="noopener noreferrer">秦飞巍教授</a>，研究方向聚焦医学影像分析、医学多任务学习与垂域多智能体，兼具理论研究与工程实践经验。</p>
-  <p class="profile-hero__contact"><strong>联系方式：</strong>电话：18268000432 ｜ 邮箱：<a href="mailto:2506558723@qq.com">2506558723@qq.com</a></p>
+  <p class="profile-hero__contact"><strong>联系方式：</strong>电话：18268000432 ｜ 邮箱：<a href="mailto:yuwenjing@hdu.edu.cn">yuwenjing@hdu.edu.cn</a> / <a href="mailto:yuwenjing259@gmail.com">yuwenjing259@gmail.com</a></p>
 </div>
 
 <article class="journal-profile">
@@ -19,7 +19,7 @@ redirect_from:
     <div class="topic-grid">
       <span>医学影像分析</span>
       <span>医学多任务学习</span>
-      <span>测试时域适应（TTA）</span>
+      <span>测试时域适应</span>
       <span>垂域多智能体</span>
     </div>
   </section>
@@ -121,3 +121,4 @@ redirect_from:
   <p class="love-empty">`love/` 目录暂无图片。</p>
   {% endif %}
 </section>
+
