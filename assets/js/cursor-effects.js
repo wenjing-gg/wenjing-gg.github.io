@@ -24,6 +24,8 @@
   var musicPanel = null;
   var musicButton = null;
   var musicNextButton = null;
+  var musicHubButton = null;
+  var musicActions = null;
   var musicEnabled = false;
   var activeTrackIndex = 0;
   var audioEl = null;
@@ -240,16 +242,17 @@
   }
 
   function updateMusicControls() {
-    if (!musicButton) {
+    if (!musicButton || !musicNextButton) {
       return;
     }
 
+    musicNextButton.textContent = "⏭";
+
     if (musicTracks.length === 0) {
-      musicButton.textContent = "播放";
+      musicButton.textContent = "⏵";
       musicButton.disabled = true;
-      if (musicNextButton) {
-        musicNextButton.disabled = true;
-      }
+      musicButton.setAttribute("aria-label", "暂无可播放音乐");
+      musicNextButton.disabled = true;
       if (musicPanel) {
         musicPanel.classList.add("music-panel--disabled");
       }
@@ -257,13 +260,13 @@
     }
 
     musicButton.disabled = false;
-    musicButton.textContent = musicEnabled ? "暂停" : "播放";
+    musicButton.textContent = musicEnabled ? "⏸" : "⏵";
     musicButton.classList.toggle("music-toggle--on", musicEnabled);
+    musicButton.setAttribute("aria-label", musicEnabled ? "暂停背景音乐" : "播放背景音乐");
     musicButton.setAttribute("aria-pressed", musicEnabled ? "true" : "false");
 
-    if (musicNextButton) {
-      musicNextButton.disabled = false;
-    }
+    musicNextButton.disabled = false;
+    musicNextButton.setAttribute("aria-label", "切换下一首背景音乐");
 
     if (musicPanel) {
       musicPanel.classList.remove("music-panel--disabled");
@@ -356,22 +359,40 @@
     musicPanel.className = "music-panel";
     musicPanel.id = "music-player";
 
+    musicHubButton = document.createElement("button");
+    musicHubButton.type = "button";
+    musicHubButton.className = "music-hub";
+    musicHubButton.textContent = "♫";
+    musicHubButton.setAttribute("aria-label", "展开背景音乐控制");
+    musicHubButton.addEventListener("click", function () {
+      if (!musicPanel) {
+        return;
+      }
+      musicPanel.classList.toggle("music-panel--open");
+    });
+
+    musicActions = document.createElement("div");
+    musicActions.className = "music-actions";
+
     musicButton = document.createElement("button");
     musicButton.type = "button";
     musicButton.className = "music-toggle";
-    musicButton.textContent = "播放";
-    musicButton.setAttribute("aria-label", "播放或暂停背景音乐");
+    musicButton.textContent = "⏵";
+    musicButton.setAttribute("aria-label", "播放背景音乐");
     musicButton.addEventListener("click", toggleMusic);
 
     musicNextButton = document.createElement("button");
     musicNextButton.type = "button";
     musicNextButton.className = "music-next";
-    musicNextButton.textContent = "切换";
+    musicNextButton.textContent = "⏭";
     musicNextButton.setAttribute("aria-label", "切换下一首背景音乐");
     musicNextButton.addEventListener("click", playNextTrack);
 
-    musicPanel.appendChild(musicButton);
-    musicPanel.appendChild(musicNextButton);
+    musicActions.appendChild(musicButton);
+    musicActions.appendChild(musicNextButton);
+
+    musicPanel.appendChild(musicHubButton);
+    musicPanel.appendChild(musicActions);
 
     var masthead = document.querySelector(".masthead");
     if (masthead) {
@@ -379,6 +400,16 @@
     } else {
       body.appendChild(musicPanel);
     }
+
+    document.addEventListener(
+      "pointerdown",
+      function (event) {
+        if (musicPanel && !musicPanel.contains(event.target)) {
+          musicPanel.classList.remove("music-panel--open");
+        }
+      },
+      { passive: true }
+    );
 
     var storedIndex = Number(getStoredValue(storageKeyTrack));
     if (!Number.isNaN(storedIndex) && storedIndex >= 0 && storedIndex < musicTracks.length) {
@@ -418,4 +449,3 @@
   initCursorFx();
   initMusicPanel();
 })();
-

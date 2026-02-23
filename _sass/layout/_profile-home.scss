@@ -398,15 +398,14 @@ a:hover {
 
 .music-panel {
   position: fixed !important;
-  top: calc(env(safe-area-inset-top, 0px) + 0.55rem) !important;
-  right: 0.9rem !important;
+  top: calc(env(safe-area-inset-top, 0px) + 0.52rem) !important;
+  right: 0.75rem !important;
   left: auto !important;
   bottom: auto !important;
   z-index: 10020;
   display: flex;
   align-items: center;
-  gap: 0.46rem;
-  width: auto;
+  gap: 0.4rem;
   padding: 0;
   border: 0;
   background: transparent;
@@ -414,11 +413,13 @@ a:hover {
   backdrop-filter: none;
 }
 
+.music-hub,
 .music-toggle,
 .music-next {
-  min-width: 2.2rem;
-  height: 2.2rem;
-  padding: 0 0.68rem;
+  width: 2.18rem;
+  height: 2.18rem;
+  min-width: 2.18rem;
+  padding: 0;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -426,13 +427,38 @@ a:hover {
   border-radius: 999px;
   background: linear-gradient(130deg, rgba(244, 250, 255, 0.98), rgba(204, 229, 248, 0.92));
   color: #15385b;
-  font-size: 0.72rem;
+  font-size: 0.95rem;
   font-weight: 700;
-  letter-spacing: 0.03em;
+  line-height: 1;
   box-shadow: 0 8px 20px rgba(22, 67, 109, 0.2);
-  transition: transform 0.16s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  transition: transform 0.16s ease, box-shadow 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
 }
 
+.music-hub {
+  font-size: 1rem;
+}
+
+.music-actions {
+  display: flex;
+  gap: 0.36rem;
+  max-width: 0;
+  opacity: 0;
+  overflow: hidden;
+  pointer-events: none;
+  transform: translateX(6px);
+  transition: max-width 0.22s ease, opacity 0.18s ease, transform 0.22s ease;
+}
+
+.music-panel:hover .music-actions,
+.music-panel:focus-within .music-actions,
+.music-panel.music-panel--open .music-actions {
+  max-width: 6.2rem;
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(0);
+}
+
+.music-hub:hover,
 .music-toggle:hover,
 .music-next:hover {
   transform: translateY(-1px);
@@ -446,10 +472,17 @@ a:hover {
   color: #032341;
 }
 
+.music-panel--disabled .music-hub,
 .music-panel--disabled .music-toggle,
 .music-panel--disabled .music-next {
-  opacity: 0.5;
+  opacity: 0.45;
   box-shadow: none;
+}
+
+.music-panel--disabled .music-actions {
+  max-width: 0 !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
 }
 
 @keyframes cursor-fx-spin {
@@ -500,17 +533,22 @@ a:hover {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .music-panel {
-    top: calc(env(safe-area-inset-top, 0px) + 0.5rem) !important;
-    right: 3.15rem !important;
-    gap: 0.36rem;
+    top: calc(env(safe-area-inset-top, 0px) + 0.46rem) !important;
+    right: 2.92rem !important;
+    gap: 0.28rem;
   }
 
+  .music-hub,
   .music-toggle,
   .music-next {
-    min-width: 1.92rem;
-    height: 1.92rem;
-    padding: 0 0.5rem;
-    font-size: 0.66rem;
+    width: 1.88rem;
+    height: 1.88rem;
+    min-width: 1.88rem;
+    font-size: 0.8rem;
+  }
+
+  .music-actions {
+    gap: 0.26rem;
   }
 
 }
