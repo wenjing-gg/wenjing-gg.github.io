@@ -712,7 +712,8 @@ a:hover {
   gap: 0.38rem;
   color: #435166;
   font-family: "Ma Shan Zheng", "YouYuan", "Comic Sans MS", "Segoe Print", "PingFang SC", cursive;
-  font-size: 1.06rem;
+  font-size: 1.22rem;
+  font-style: italic;
   line-height: 1.4;
   letter-spacing: 0.02em;
   white-space: nowrap;
@@ -735,7 +736,8 @@ a:hover {
   box-shadow: 0 7px 16px rgba(19, 57, 95, 0.15), inset 0 -1px 0 rgba(255, 255, 255, 0.82);
   color: #17395d;
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  font-size: 1.12rem;
+  font-size: 1.18rem;
+  font-style: normal;
   font-weight: 800;
   line-height: 1;
   letter-spacing: 0.02em;
@@ -776,12 +778,11 @@ a:hover {
 
   .love-days {
     justify-self: center;
-    font-size: 0.94rem;
+    font-size: 1.08rem;
   }
 
   .love-days__calendar {
     min-width: 3.1em;
-    font-size: 1rem;
+    font-size: 1.08rem;
   }
 }
-
