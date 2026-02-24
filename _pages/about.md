@@ -25,7 +25,7 @@ redirect_from:
   </section>
 
   <section id="publications">
-    <h2>学术成果</h2>
+    <h2>成果</h2>
     <h3 class="paper-group-title">已发表</h3>
     <div class="paper-list">
       <article class="paper-item">
@@ -121,4 +121,5 @@ redirect_from:
   <p class="love-empty">`love/` 目录暂无图片。</p>
   {% endif %}
 </section>
+
 
