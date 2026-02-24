@@ -26,7 +26,8 @@ redirect_from:
 
   <section id="publications">
     <h2>成果</h2>
-    <h3 class="paper-group-title">已发表</h3>
+    <h3 class="paper-group-title">论文</h3>
+    <h4 class="paper-group-subtitle">Published</h4>
     <div class="paper-list">
       <article class="paper-item">
         <span class="paper-note">学生一作 · MICCAI 2025 Early Accept</span>
@@ -43,7 +44,7 @@ redirect_from:
       </article>
     </div>
 
-    <h3 class="paper-group-title">Under Review</h3>
+    <h4 class="paper-group-subtitle">Under Review</h4>
     <div class="paper-list">
       <article class="paper-item">
         <span class="paper-note">Under Review</span>
@@ -65,10 +66,7 @@ redirect_from:
         <a href="https://arxiv.org/abs/2509.17925">arXiv: 2509.17925</a>
       </article>
     </div>
-  </section>
-
-  <section>
-    <h2>专利</h2>
+    <h3 class="paper-group-title">专利</h3>
     <ul class="profile-list">
       <li>一种基于 DR-TTA 神经网络的神经胶质瘤分割测试时域适应方法（第一发明人）</li>
     </ul>
@@ -121,5 +119,7 @@ redirect_from:
   <p class="love-empty">`love/` 目录暂无图片。</p>
   {% endif %}
 </section>
+
+
 
 

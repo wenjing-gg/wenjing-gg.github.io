@@ -134,11 +134,20 @@ a:hover {
   border-top: 1px solid var(--journal-rule);
 }
 
+
 .paper-group-title {
   margin: 1rem 0 0.55rem 0;
   font-size: 0.94rem;
   font-weight: 700;
   letter-spacing: 0.06em;
+  color: var(--journal-subtle);
+}
+
+.paper-group-subtitle {
+  margin: 0.72rem 0 0.5rem 0;
+  font-size: 0.9rem;
+  font-weight: 650;
+  letter-spacing: 0.05em;
   color: var(--journal-subtle);
 }
 
@@ -589,3 +598,6 @@ a:hover {
     display: block;
   }
 }
+
+
+
