@@ -741,3 +741,77 @@ a:hover {
   }
 }
 
+
+
+.love-window__header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.82rem;
+  margin: 0 0 0.62rem 0;
+  flex-wrap: wrap;
+}
+
+.love-window__header h2 {
+  margin: 0;
+}
+
+.love-days {
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.26rem;
+  color: var(--journal-subtle);
+  font-size: 0.86rem;
+  line-height: 1.42;
+}
+
+.love-days__text {
+  white-space: nowrap;
+}
+
+.love-days__calendar {
+  position: relative;
+  min-width: 2.5em;
+  padding: 0.36rem 0.5rem 0.2rem 0.5rem;
+  border: 1px solid #bfd0e2;
+  border-radius: 0.24rem;
+  background: linear-gradient(180deg, #ffffff, #eef4fb);
+  box-shadow: 0 2px 8px rgba(20, 62, 101, 0.14);
+  color: #1a3556;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+}
+
+.love-days__calendar::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 0.28rem;
+  border-radius: 0.22rem 0.22rem 0 0;
+  border-bottom: 1px solid rgba(104, 132, 165, 0.35);
+  background: linear-gradient(180deg, rgba(94, 131, 173, 0.26), rgba(165, 192, 223, 0.08));
+}
+
+
+@media (max-width: 760px) {
+  .love-window__header {
+    align-items: flex-start;
+    gap: 0.42rem;
+    margin-bottom: 0.48rem;
+  }
+
+  .love-days {
+    font-size: 0.78rem;
+  }
+
+  .love-days__calendar {
+    min-width: 2.3em;
+    font-size: 0.84rem;
+  }
+}

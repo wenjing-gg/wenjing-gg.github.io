@@ -226,6 +226,62 @@
   }
 
 
+  function parseLoveDate(value) {
+    if (typeof value !== "string") {
+      return null;
+    }
+
+    var parts = value.split("-");
+    if (parts.length !== 3) {
+      return null;
+    }
+
+    var year = Number(parts[0]);
+    var month = Number(parts[1]);
+    var day = Number(parts[2]);
+    if (Number.isNaN(year) || Number.isNaN(month) || Number.isNaN(day)) {
+      return null;
+    }
+
+    return new Date(year, month - 1, day);
+  }
+
+  function calculateLoveDays(startDate) {
+    var now = new Date();
+    var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    var start = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
+    var diffDays = Math.floor((today - start) / 86400000) + 1;
+    return diffDays < 0 ? 0 : diffDays;
+  }
+
+  function updateLoveDays() {
+    var daysNode = document.querySelector("[data-love-days]");
+    if (!daysNode) {
+      return;
+    }
+
+    var startDate = parseLoveDate(daysNode.getAttribute("data-love-start") || "2025-02-22");
+    if (!startDate) {
+      daysNode.textContent = "--";
+      return;
+    }
+
+    var loveDays = calculateLoveDays(startDate);
+    daysNode.textContent = String(loveDays);
+    daysNode.setAttribute("aria-label", "相恋已" + loveDays + "天");
+  }
+
+  function scheduleLoveDaysUpdate() {
+    updateLoveDays();
+
+    var now = new Date();
+    var nextMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 1, 0, 0);
+    var delay = Math.max(nextMidnight.getTime() - now.getTime(), 60000);
+
+    window.setTimeout(function () {
+      scheduleLoveDaysUpdate();
+    }, delay);
+  }
   function ensureAudio() {
     if (audioEl) {
       return true;
@@ -448,4 +504,6 @@
 
   initCursorFx();
   initMusicPanel();
+  scheduleLoveDaysUpdate();
 })();
+

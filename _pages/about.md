@@ -110,7 +110,14 @@ redirect_from:
 
 </article>
 <section class="love-window" aria-labelledby="love-window-title">
-  <h2 id="love-window-title">恋爱小窗</h2>
+  <div class="love-window__header">
+    <h2 id="love-window-title">恋爱小窗</h2>
+    <p class="love-days" aria-live="polite">
+      <span class="love-days__text">2025年2月22日至今相恋已</span>
+      <span class="love-days__calendar" data-love-days data-love-start="2025-02-22">--</span>
+      <span class="love-days__text">天</span>
+    </p>
+  </div>
   {% assign love_images = site.static_files | where_exp: "item", "item.path contains '/love/'" | sort: "path" %}
   {% if love_images.size > 0 %}
   <div class="love-marquee" role="region" aria-label="恋爱图片滚动展示">
@@ -131,5 +138,4 @@ redirect_from:
   <p class="love-empty">`love/` 目录暂无图片。</p>
   {% endif %}
 </section>
-
 
