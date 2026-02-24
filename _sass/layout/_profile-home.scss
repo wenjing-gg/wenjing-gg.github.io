@@ -704,13 +704,17 @@ a:hover {
 
 .love-days {
   margin: 0;
+  grid-column: 1 / -1;
   display: inline-flex;
   align-items: center;
-  justify-self: end;
-  gap: 0.32rem;
-  color: #445468;
-  font-size: 0.88rem;
-  line-height: 1.35;
+  justify-content: center;
+  justify-self: center;
+  gap: 0.38rem;
+  color: #435166;
+  font-family: "Ma Shan Zheng", "YouYuan", "Comic Sans MS", "Segoe Print", "PingFang SC", cursive;
+  font-size: 1.06rem;
+  line-height: 1.4;
+  letter-spacing: 0.02em;
   white-space: nowrap;
 }
 
@@ -723,7 +727,7 @@ a:hover {
   display: inline-flex;
   align-items: flex-end;
   justify-content: center;
-  min-width: 3.15em;
+  min-width: 3.3em;
   padding: 0.62rem 0.56rem 0.28rem 0.56rem;
   border: 1px solid #b6c9de;
   border-radius: 0.38rem;
@@ -731,7 +735,7 @@ a:hover {
   box-shadow: 0 7px 16px rgba(19, 57, 95, 0.15), inset 0 -1px 0 rgba(255, 255, 255, 0.82);
   color: #17395d;
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  font-size: 1.06rem;
+  font-size: 1.12rem;
   font-weight: 800;
   line-height: 1;
   letter-spacing: 0.02em;
@@ -762,7 +766,6 @@ a:hover {
   pointer-events: none;
 }
 
-
 @media (max-width: 760px) {
   .love-window__header {
     grid-template-columns: 1fr;
@@ -772,14 +775,13 @@ a:hover {
   }
 
   .love-days {
-    justify-self: start;
-    font-size: 0.79rem;
+    justify-self: center;
+    font-size: 0.94rem;
   }
 
   .love-days__calendar {
-    min-width: 3em;
-    font-size: 0.9rem;
+    min-width: 3.1em;
+    font-size: 1rem;
   }
 }
-
 
