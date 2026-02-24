@@ -24,52 +24,64 @@ redirect_from:
     </div>
   </section>
 
-  <section id="publications">
+  <section id="publications" class="achievements">
     <h2>成果</h2>
-    <h3 class="paper-group-title">论文</h3>
-    <h4 class="paper-group-subtitle">Published</h4>
-    <div class="paper-list">
-      <article class="paper-item">
-        <span class="paper-note">学生一作 · MICCAI 2025 Early Accept</span>
-        <h3>MT-WilmsNet: A Multi-level Transformer Fusion Network for Wilms’ Tumor Segmentation and Metastasis Prediction</h3>
-        <p class="paper-authors"><strong>作者：</strong>Zhu Zhu, <span class="author-self">Wenjing Yu</span>, Xiaohui Ma, Shuai Liu, Jie Dong, Yuxin Du, Changmiao Wang, Gang Yu</p>
-        <a href="https://doi.org/10.1007/978-3-032-04965-0_31">DOI: 10.1007/978-3-032-04965-0_31</a>
-      </article>
+    <div class="achievements-composition">
+      <section class="achievement-card achievement-card--paper" aria-labelledby="papers-title">
+        <h3 id="papers-title" class="achievement-card__title">论文</h3>
 
-      <article class="paper-item">
-        <span class="paper-note">BIBM 2025（CCF-B）</span>
-        <h3>DR-TTA: Dynamic and Robust Test-Time Adaptation Under Low-Quality MRI Conditions for Brain Tumor Segmentation</h3>
-        <p class="paper-authors"><strong>作者：</strong>Yuanhan Wang, Yifei Chen, Shuo Jiang, <span class="author-self">Wenjing Yu</span>, Mingxuan Liu, Beining Wu, Shenghao Zhu, Feiwei Qin, Jin Fan, Changmiao Wang</p>
-        <a href="https://doi.org/10.1109/BIBM66473.2025.11356381">DOI: 10.1109/BIBM66473.2025.11356381</a>
-      </article>
+        <div class="paper-bucket paper-bucket--published">
+          <h4 class="paper-group-subtitle">Published</h4>
+          <div class="paper-list">
+            <article class="paper-item">
+              <span class="paper-note">学生一作 · MICCAI 2025 Early Accept</span>
+              <h3>MT-WilmsNet: A Multi-level Transformer Fusion Network for Wilms’ Tumor Segmentation and Metastasis Prediction</h3>
+              <p class="paper-authors"><strong>作者：</strong>Zhu Zhu, <span class="author-self">Wenjing Yu</span>, Xiaohui Ma, Shuai Liu, Jie Dong, Yuxin Du, Changmiao Wang, Gang Yu</p>
+              <a href="https://doi.org/10.1007/978-3-032-04965-0_31">DOI: 10.1007/978-3-032-04965-0_31</a>
+            </article>
+
+            <article class="paper-item">
+              <span class="paper-note">BIBM 2025（CCF-B）</span>
+              <h3>DR-TTA: Dynamic and Robust Test-Time Adaptation Under Low-Quality MRI Conditions for Brain Tumor Segmentation</h3>
+              <p class="paper-authors"><strong>作者：</strong>Yuanhan Wang, Yifei Chen, Shuo Jiang, <span class="author-self">Wenjing Yu</span>, Mingxuan Liu, Beining Wu, Shenghao Zhu, Feiwei Qin, Jin Fan, Changmiao Wang</p>
+              <a href="https://doi.org/10.1109/BIBM66473.2025.11356381">DOI: 10.1109/BIBM66473.2025.11356381</a>
+            </article>
+          </div>
+        </div>
+
+        <div class="paper-bucket paper-bucket--review">
+          <h4 class="paper-group-subtitle">Under Review</h4>
+          <div class="paper-list">
+            <article class="paper-item">
+              <span class="paper-note">Under Review</span>
+              <h3>A Large Scale Benchmark for Test Time Adaptation Methods in Medical Image Segmentation</h3>
+              <p class="paper-authors"><strong>作者：</strong><span class="author-self">Wenjing Yu</span>, Shuo Jiang, Yifei Chen, Shuo Chang, Yuanhan Wang, Beining Wu, Jie Dong, Mingxuan Liu, Shenghao Zhu, Feiwei Qin, Changmiao Wang, Qiyuan Tian</p>
+              <a href="https://arxiv.org/abs/2512.02497">arXiv: 2512.02497</a>
+            </article>
+
+            <article class="paper-item">
+              <span class="paper-note">Under Review</span>
+              <h3>MTC-WTNet: A Multitask Collaboration Framework for Wilms’ Tumor Segmentation and Preoperative Metastasis Prediction</h3>
+              <p class="paper-authors"><strong>作者：</strong>Zhu Zhu, <span class="author-self">Wenjing Yu</span>, Wenxu Qi, Yuxin Du, Xiaohui Ma, Shuai Liu, Jie Dong, Changmiao Wang, Feiwei Qin and Gang Yu</p>
+            </article>
+
+            <article class="paper-item">
+              <span class="paper-note">Under Review</span>
+              <h3>SmaRT: Style-Modulated Robust Test-Time Adaptation for Cross-Domain Brain Tumor Segmentation in MRI</h3>
+              <p class="paper-authors"><strong>作者：</strong>Yuanhan Wang, Yifei Chen, Shuo Jiang, <span class="author-self">Wenjing Yu</span>, Mingxuan Liu, Beining Wu, Jinying Zong, Feiwei Qin, Changmiao Wang, Qiyuan Tian</p>
+              <a href="https://arxiv.org/abs/2509.17925">arXiv: 2509.17925</a>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="achievement-card achievement-card--patent" aria-labelledby="patent-title">
+        <h3 id="patent-title" class="achievement-card__title">专利</h3>
+        <ul class="profile-list">
+          <li>一种基于 DR-TTA 神经网络的神经胶质瘤分割测试时域适应方法（第一发明人）</li>
+        </ul>
+      </section>
     </div>
-
-    <h4 class="paper-group-subtitle">Under Review</h4>
-    <div class="paper-list">
-      <article class="paper-item">
-        <span class="paper-note">Under Review</span>
-        <h3>A Large Scale Benchmark for Test Time Adaptation Methods in Medical Image Segmentation</h3>
-        <p class="paper-authors"><strong>作者：</strong><span class="author-self">Wenjing Yu</span>, Shuo Jiang, Yifei Chen, Shuo Chang, Yuanhan Wang, Beining Wu, Jie Dong, Mingxuan Liu, Shenghao Zhu, Feiwei Qin, Changmiao Wang, Qiyuan Tian</p>
-        <a href="https://arxiv.org/abs/2512.02497">arXiv: 2512.02497</a>
-      </article>
-
-      <article class="paper-item">
-        <span class="paper-note">Under Review</span>
-        <h3>MTC-WTNet: A Multitask Collaboration Framework for Wilms’ Tumor Segmentation and Preoperative Metastasis Prediction</h3>
-        <p class="paper-authors"><strong>作者：</strong>Zhu Zhu, <span class="author-self">Wenjing Yu</span>, Wenxu Qi, Yuxin Du, Xiaohui Ma, Shuai Liu, Jie Dong, Changmiao Wang, Feiwei Qin and Gang Yu</p>
-      </article>
-
-      <article class="paper-item">
-        <span class="paper-note">Under Review</span>
-        <h3>SmaRT: Style-Modulated Robust Test-Time Adaptation for Cross-Domain Brain Tumor Segmentation in MRI</h3>
-        <p class="paper-authors"><strong>作者：</strong>Yuanhan Wang, Yifei Chen, Shuo Jiang, <span class="author-self">Wenjing Yu</span>, Mingxuan Liu, Beining Wu, Jinying Zong, Feiwei Qin, Changmiao Wang, Qiyuan Tian</p>
-        <a href="https://arxiv.org/abs/2509.17925">arXiv: 2509.17925</a>
-      </article>
-    </div>
-    <h3 class="paper-group-title">专利</h3>
-    <ul class="profile-list">
-      <li>一种基于 DR-TTA 神经网络的神经胶质瘤分割测试时域适应方法（第一发明人）</li>
-    </ul>
   </section>
 
   <section>
@@ -119,7 +131,4 @@ redirect_from:
   <p class="love-empty">`love/` 目录暂无图片。</p>
   {% endif %}
 </section>
-
-
-
 

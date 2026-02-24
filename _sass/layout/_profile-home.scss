@@ -129,6 +129,78 @@ a:hover {
   font-size: 0.94rem;
 }
 
+.achievements-composition {
+  display: grid;
+  grid-template-columns: minmax(0, 2.15fr) minmax(240px, 1fr);
+  gap: 0.95rem;
+  margin-top: 0.55rem;
+}
+
+.achievement-card {
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--journal-rule);
+  border-radius: 0.24rem;
+  backdrop-filter: blur(4px);
+}
+
+.achievement-card__title {
+  margin: 0 0 0.7rem 0;
+  padding-bottom: 0.38rem;
+  border-bottom: 1px solid rgba(78, 107, 141, 0.28);
+  font-size: 0.98rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  color: var(--journal-title);
+}
+
+.achievement-card--paper {
+  background: linear-gradient(164deg, rgba(229, 241, 252, 0.84), rgba(248, 251, 255, 0.92));
+  border-color: rgba(111, 146, 184, 0.46);
+}
+
+.achievement-card--patent {
+  background: linear-gradient(164deg, rgba(250, 244, 234, 0.88), rgba(255, 250, 244, 0.95));
+  border-color: rgba(176, 145, 103, 0.42);
+}
+
+.achievement-card--patent .achievement-card__title {
+  border-bottom-color: rgba(170, 138, 96, 0.34);
+  color: #64492f;
+}
+
+.achievement-card--patent .profile-list {
+  padding-left: 1.1rem;
+}
+
+.paper-bucket {
+  padding: 0.72rem 0.84rem;
+  border: 1px solid rgba(106, 134, 165, 0.3);
+  border-radius: 0.18rem;
+  background: rgba(255, 255, 255, 0.56);
+}
+
+.paper-bucket + .paper-bucket {
+  margin-top: 0.78rem;
+}
+
+.paper-bucket--published {
+  border-left: 4px solid #376a9c;
+  background: linear-gradient(180deg, rgba(230, 241, 251, 0.76), rgba(255, 255, 255, 0.72));
+}
+
+.paper-bucket--review {
+  border-left: 4px solid #6677a8;
+  background: linear-gradient(180deg, rgba(236, 239, 250, 0.76), rgba(255, 255, 255, 0.72));
+}
+
+.paper-bucket .paper-group-subtitle {
+  margin: 0 0 0.52rem 0;
+  color: var(--journal-title);
+}
+
+.paper-bucket .paper-list {
+  border-top-color: rgba(109, 133, 160, 0.34);
+}
 .paper-list {
   counter-reset: paper-index;
   border-top: 1px solid var(--journal-rule);
@@ -563,6 +635,19 @@ a:hover {
 }
 
 @media (max-width: 1023px) {
+  .achievements-composition {
+    grid-template-columns: 1fr;
+  }
+
+  .achievement-card {
+    padding: 0.78rem 0.82rem;
+  }
+
+  .paper-bucket {
+    padding: 0.64rem 0.7rem;
+  }
+
+
   .sidebar {
     margin-bottom: 1.2rem;
   }
@@ -598,6 +683,4 @@ a:hover {
     display: block;
   }
 }
-
-
 
