@@ -113,8 +113,8 @@ redirect_from:
   <div class="love-window__header">
     <h2 id="love-window-title">恋爱小窗</h2>
     <p class="love-days" aria-live="polite">
-      <span class="love-days__text">2025年2月22日至今相恋已</span>
-      <span class="love-days__calendar" data-love-days data-love-start="2025-02-22">--</span>
+      <span class="love-days__text">2024年12月24日至今相恋已</span>
+      <span class="love-days__calendar" data-love-days data-love-start="2024-12-24">--</span>
       <span class="love-days__text">天</span>
     </p>
   </div>
@@ -138,4 +138,5 @@ redirect_from:
   <p class="love-empty">`love/` 目录暂无图片。</p>
   {% endif %}
 </section>
+
 

@@ -260,7 +260,7 @@
       return;
     }
 
-    var startDate = parseLoveDate(daysNode.getAttribute("data-love-start") || "2025-02-22");
+    var startDate = parseLoveDate(daysNode.getAttribute("data-love-start") || "2024-12-24");
     if (!startDate) {
       daysNode.textContent = "--";
       return;
@@ -506,4 +506,5 @@
   initMusicPanel();
   scheduleLoveDaysUpdate();
 })();
+
 
