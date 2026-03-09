@@ -786,3 +786,340 @@ a:hover {
     font-size: 1.08rem;
   }
 }
+
+.profile-empty {
+  margin: 0.1rem 0 0;
+  color: var(--journal-subtle);
+  font-size: 0.92rem;
+}
+
+.admin-entry {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid rgba(73, 104, 141, 0.22);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.78);
+  color: var(--journal-title) !important;
+  text-decoration: none;
+  transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.admin-entry:hover,
+.admin-entry--active {
+  transform: translateY(-1px);
+  border-color: rgba(49, 91, 140, 0.48);
+  box-shadow: 0 8px 18px rgba(27, 63, 102, 0.12);
+}
+
+#profile-admin-app {
+  max-width: 1420px;
+  margin: 0 auto;
+}
+
+.admin-login {
+  min-height: 58vh;
+  display: grid;
+  place-items: center;
+}
+
+.admin-login__card,
+.admin-shell__panel,
+.admin-shell__preview {
+  border: 1px solid var(--journal-rule);
+  border-radius: 0.32rem;
+  background: rgba(var(--journal-surface-rgb), 0.88);
+  backdrop-filter: blur(8px);
+}
+
+.admin-login__card {
+  width: min(560px, 100%);
+  padding: 1.4rem;
+}
+
+.admin-login__card h1,
+.admin-hero h1,
+.admin-preview__header h2 {
+  margin: 0 0 0.55rem 0;
+  color: var(--journal-title);
+}
+
+.admin-login__note,
+.admin-login__tip,
+.admin-tip,
+.admin-hero p,
+.admin-preview__header p {
+  margin: 0;
+  color: var(--journal-subtle);
+}
+
+.admin-login__tip,
+.admin-tip {
+  font-size: 0.9rem;
+}
+
+.admin-login__form {
+  margin-top: 1rem;
+}
+
+.admin-login__actions,
+.admin-hero__actions,
+.admin-preview__header {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  flex-wrap: wrap;
+}
+
+.admin-login__actions,
+.admin-hero__actions {
+  margin-top: 0.9rem;
+}
+
+.admin-shell {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.88fr);
+  gap: 1rem;
+}
+
+.admin-shell__panel {
+  padding: 1rem;
+}
+
+.admin-shell__preview {
+  padding: 0.9rem;
+  position: sticky;
+  top: 1rem;
+  align-self: start;
+}
+
+.admin-hero {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.7rem;
+}
+
+.admin-section + .admin-section {
+  margin-top: 1rem;
+}
+
+.admin-section__header,
+.admin-block__header,
+.admin-subsection__header,
+.admin-list-manager__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.7rem;
+  flex-wrap: wrap;
+}
+
+.admin-section__header {
+  margin-bottom: 0.55rem;
+}
+
+.admin-section__header h2,
+.admin-block__header h3,
+.admin-subsection__header h4,
+.admin-list-manager__header h3 {
+  margin: 0;
+  color: var(--journal-title);
+}
+
+.admin-section__header h2 {
+  font-size: 1.02rem;
+}
+
+.admin-block,
+.admin-subsection,
+.admin-list-manager {
+  padding: 0.85rem;
+  border: 1px solid var(--journal-rule);
+  border-radius: 0.26rem;
+  background: rgba(255, 255, 255, 0.74);
+}
+
+.admin-composition {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.9fr);
+  gap: 0.9rem;
+}
+
+.admin-block--paper {
+  background: linear-gradient(164deg, rgba(229, 241, 252, 0.68), rgba(248, 251, 255, 0.88));
+}
+
+.admin-block--patent {
+  background: linear-gradient(164deg, rgba(250, 244, 234, 0.7), rgba(255, 250, 244, 0.9));
+}
+
+.admin-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.admin-form-grid--single {
+  grid-template-columns: 1fr;
+}
+
+.admin-field {
+  display: grid;
+  gap: 0.32rem;
+}
+
+.admin-field span {
+  color: var(--journal-title);
+  font-size: 0.9rem;
+}
+
+.admin-input,
+.admin-textarea {
+  width: 100%;
+  border: 1px solid rgba(86, 109, 136, 0.26);
+  border-radius: 0.24rem;
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--journal-ink);
+  padding: 0.62rem 0.72rem;
+  font: inherit;
+}
+
+.admin-textarea {
+  min-height: 7rem;
+  resize: vertical;
+}
+
+.admin-button,
+.admin-upload-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.15rem;
+  padding: 0.45rem 0.82rem;
+  border: 1px solid rgba(71, 108, 150, 0.28);
+  border-radius: 999px;
+  background: rgba(236, 243, 250, 0.92);
+  color: var(--journal-title);
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+
+.admin-button:hover,
+.admin-upload-trigger:hover {
+  transform: translateY(-1px);
+  border-color: rgba(47, 90, 138, 0.46);
+  box-shadow: 0 8px 18px rgba(32, 67, 109, 0.12);
+}
+
+.admin-button--ghost {
+  background: rgba(255, 255, 255, 0.92);
+}
+
+.admin-button--danger {
+  background: rgba(255, 241, 241, 0.96);
+  border-color: rgba(172, 86, 86, 0.24);
+  color: #8d2e2e;
+}
+
+.admin-upload-trigger input {
+  display: none;
+}
+
+.admin-card-list,
+.admin-image-grid {
+  display: grid;
+  gap: 0.72rem;
+  margin-top: 0.75rem;
+}
+
+.admin-editor-card,
+.admin-image-card {
+  padding: 0.72rem;
+  border: 1px solid rgba(89, 113, 142, 0.18);
+  border-radius: 0.24rem;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.admin-editor-card__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.7rem;
+  margin-bottom: 0.6rem;
+}
+
+.admin-editor-card--compact .admin-editor-card__top {
+  margin-bottom: 0.45rem;
+}
+
+.admin-empty-note,
+.admin-error {
+  margin: 0.65rem 0 0;
+  color: var(--journal-subtle);
+}
+
+.admin-error {
+  color: #a33535;
+}
+
+.admin-image-grid {
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.admin-image-card img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 0.22rem;
+  border: 1px solid var(--journal-rule);
+  margin-bottom: 0.62rem;
+}
+
+.admin-preview__body {
+  margin-top: 0.8rem;
+  max-height: calc(100vh - 7.8rem);
+  overflow: auto;
+  padding-right: 0.15rem;
+}
+
+.admin-preview__body a {
+  pointer-events: none;
+}
+
+@media (max-width: 1180px) {
+  .admin-shell,
+  .admin-composition {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-shell__preview {
+    position: static;
+  }
+}
+
+@media (max-width: 760px) {
+  .admin-form-grid,
+  .admin-login__actions,
+  .admin-hero,
+  .admin-hero__actions,
+  .admin-preview__header {
+    grid-template-columns: 1fr;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .admin-shell__panel,
+  .admin-shell__preview,
+  .admin-login__card {
+    padding: 0.85rem;
+  }
+
+  .admin-preview__body {
+    max-height: none;
+  }
+}

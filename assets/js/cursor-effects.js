@@ -255,20 +255,22 @@
   }
 
   function updateLoveDays() {
-    var daysNode = document.querySelector("[data-love-days]");
-    if (!daysNode) {
+    var dayNodes = document.querySelectorAll("[data-love-days]");
+    if (!dayNodes.length) {
       return;
     }
 
-    var startDate = parseLoveDate(daysNode.getAttribute("data-love-start") || "2024-12-24");
-    if (!startDate) {
-      daysNode.textContent = "--";
-      return;
-    }
+    Array.prototype.forEach.call(dayNodes, function (daysNode) {
+      var startDate = parseLoveDate(daysNode.getAttribute("data-love-start") || "2024-12-24");
+      if (!startDate) {
+        daysNode.textContent = "--";
+        return;
+      }
 
-    var loveDays = calculateLoveDays(startDate);
-    daysNode.textContent = String(loveDays);
-    daysNode.setAttribute("aria-label", "相恋已" + loveDays + "天");
+      var loveDays = calculateLoveDays(startDate);
+      daysNode.textContent = String(loveDays);
+      daysNode.setAttribute("aria-label", "相恋已" + loveDays + "天");
+    });
   }
 
   function scheduleLoveDaysUpdate() {
@@ -501,6 +503,7 @@
       rafId = window.requestAnimationFrame(render);
     }
   });
+  document.addEventListener("profile:rendered", updateLoveDays);
 
   initCursorFx();
   initMusicPanel();
