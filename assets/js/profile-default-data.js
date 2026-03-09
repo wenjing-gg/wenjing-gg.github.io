@@ -4,122 +4,19 @@
   window.__profileAdminConfig = {
     storageKey: "profileAdminContent.v1",
     sessionKey: "profileAdminUnlocked.v1",
+    tokenSessionKey: "profileGithubToken.v1",
     defaultPasswordHash: "3d81eaac0a509eb11b4e7d9d68c2f1f995cc38acc245e89be945f431e6f0b08e",
     adminPath: {{ "/admin/" | relative_url | jsonify }},
-    homePath: {{ "/" | relative_url | jsonify }}
-  };
-
-  window.__profileDefaultData = {
-    meta: {
-      selfAuthorName: "Wenjing Yu"
-    },
-    intro: {
-      lead: "余文敬，男，汉族，中共党员，现为杭州电子科技大学 3DV Lab、清华大学 BIRTH Lab 及香港中文大学（深圳）SRIBD Lab 三方联合实验室联合培养博士研究生。",
-      mentorName: "秦飞巍教授",
-      mentorUrl: "https://faculty.hdu.edu.cn/jsjxy/qfw/main.htm",
-      mentorSummary: "研究方向聚焦医学影像分析、医学多任务学习与垂域多智能体，兼具理论研究与工程实践经验。",
-      phone: "18268000432",
-      emails: [
-        "yuwenjing@hdu.edu.cn",
-        "yuwenjing259@gmail.com"
-      ]
-    },
-    research: [
-      "医学影像分析",
-      "医学多任务学习",
-      "测试时域适应",
-      "垂域多智能体"
-    ],
-    achievements: {
-      papers: {
-        published: [
-          {
-            note: "学生一作 · MICCAI 2025 Early Accept",
-            title: "MT-WilmsNet: A Multi-level Transformer Fusion Network for Wilms’ Tumor Segmentation and Metastasis Prediction",
-            authors: "Zhu Zhu, Wenjing Yu, Xiaohui Ma, Shuai Liu, Jie Dong, Yuxin Du, Changmiao Wang, Gang Yu",
-            linkText: "DOI: 10.1007/978-3-032-04965-0_31",
-            linkUrl: "https://doi.org/10.1007/978-3-032-04965-0_31"
-          },
-          {
-            note: "BIBM 2025（CCF-B）",
-            title: "DR-TTA: Dynamic and Robust Test-Time Adaptation Under Low-Quality MRI Conditions for Brain Tumor Segmentation",
-            authors: "Yuanhan Wang, Yifei Chen, Shuo Jiang, Wenjing Yu, Mingxuan Liu, Beining Wu, Shenghao Zhu, Feiwei Qin, Jin Fan, Changmiao Wang",
-            linkText: "DOI: 10.1109/BIBM66473.2025.11356381",
-            linkUrl: "https://doi.org/10.1109/BIBM66473.2025.11356381"
-          }
-        ],
-        review: [
-          {
-            note: "Under Review",
-            title: "A Large Scale Benchmark for Test Time Adaptation Methods in Medical Image Segmentation",
-            authors: "Wenjing Yu, Shuo Jiang, Yifei Chen, Shuo Chang, Yuanhan Wang, Beining Wu, Jie Dong, Mingxuan Liu, Shenghao Zhu, Feiwei Qin, Changmiao Wang, Qiyuan Tian",
-            linkText: "arXiv: 2512.02497",
-            linkUrl: "https://arxiv.org/abs/2512.02497"
-          },
-          {
-            note: "Under Review",
-            title: "MTC-WTNet: A Multitask Collaboration Framework for Wilms’ Tumor Segmentation and Preoperative Metastasis Prediction",
-            authors: "Zhu Zhu, Wenjing Yu, Wenxu Qi, Yuxin Du, Xiaohui Ma, Shuai Liu, Jie Dong, Changmiao Wang, Feiwei Qin and Gang Yu",
-            linkText: "",
-            linkUrl: ""
-          },
-          {
-            note: "Under Review",
-            title: "SmaRT: Style-Modulated Robust Test-Time Adaptation for Cross-Domain Brain Tumor Segmentation in MRI",
-            authors: "Yuanhan Wang, Yifei Chen, Shuo Jiang, Wenjing Yu, Mingxuan Liu, Beining Wu, Jinying Zong, Feiwei Qin, Changmiao Wang, Qiyuan Tian",
-            linkText: "arXiv: 2509.17925",
-            linkUrl: "https://arxiv.org/abs/2509.17925"
-          }
-        ]
-      },
-      patents: [
-        {
-          title: "一种基于 DR-TTA 神经网络的神经胶质瘤分割测试时域适应方法",
-          note: "第一发明人"
-        }
-      ]
-    },
-    honors: [
-      "参与国家级大学生创新创业大赛项目",
-      "参与省级“新苗人才”培养项目",
-      "获国家励志奖学金、校级优秀学业奖学金、优秀班级干部等奖励"
-    ],
-    hobbies: {
-      items: [
-        "羽毛球（HDU 校队成员）",
-        "投资分析初学",
-        "紫微斗数初学"
-      ],
-      images: [
-        {
-          src: {{ "/images/yuwenjing-hobby-1.jpeg" | relative_url | jsonify }},
-          alt: "羽毛球训练照片 1"
-        },
-        {
-          src: {{ "/images/yuwenjing-hobby-2.jpeg" | relative_url | jsonify }},
-          alt: "羽毛球训练照片 2"
-        },
-        {
-          src: {{ "/images/yuwenjing-hobby-3.jpeg" | relative_url | jsonify }},
-          alt: "羽毛球训练照片 3"
-        },
-        {
-          src: {{ "/images/yuwenjing-hobby-4.jpeg" | relative_url | jsonify }},
-          alt: "羽毛球训练照片 4"
-        }
-      ]
-    },
-    love: {
-      startDate: "2024-12-24",
-      images: [
-        {% assign love_images = site.static_files | where_exp: "item", "item.path contains '/love/'" | sort: "path" %}
-        {% for item in love_images %}
-        {
-          src: {{ item.path | relative_url | jsonify }},
-          alt: {{ item.basename | jsonify }}
-        }{% unless forloop.last %},{% endunless %}
-        {% endfor %}
-      ]
+    homePath: {{ "/" | relative_url | jsonify }},
+    github: {
+      owner: "wenjing-gg",
+      repo: "wenjing-gg.github.io",
+      branch: "master",
+      dataPath: "_data/profile_content.json",
+      hobbyDir: "images/admin-hobbies",
+      loveDir: "love/admin"
     }
   };
+
+  window.__profileDefaultData = {{ site.data.profile_content | jsonify }};
 })();

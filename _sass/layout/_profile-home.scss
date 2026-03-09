@@ -1026,6 +1026,48 @@ a:hover {
   color: #8d2e2e;
 }
 
+.admin-block--publish {
+  background: linear-gradient(180deg, rgba(240, 246, 252, 0.78), rgba(255, 255, 255, 0.92));
+}
+
+.admin-publish-meta {
+  display: flex;
+  gap: 0.55rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.75rem;
+}
+
+.admin-publish-pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.95rem;
+  padding: 0.25rem 0.72rem;
+  border: 1px solid rgba(81, 110, 141, 0.18);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--journal-title);
+  font-size: 0.88rem;
+}
+
+.admin-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: 0.72rem;
+  color: var(--journal-subtle);
+}
+
+.admin-check input {
+  margin: 0;
+}
+
+.admin-publish-actions {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin-top: 0.82rem;
+}
+
 .admin-upload-trigger input {
   display: none;
 }
@@ -1080,6 +1122,17 @@ a:hover {
   margin-bottom: 0.62rem;
 }
 
+.admin-image-card__meta,
+.admin-success {
+  margin: 0 0 0.6rem;
+  color: var(--journal-subtle);
+  font-size: 0.88rem;
+}
+
+.admin-success {
+  color: #256645;
+}
+
 .admin-preview__body {
   margin-top: 0.8rem;
   max-height: calc(100vh - 7.8rem);
@@ -1107,7 +1160,8 @@ a:hover {
   .admin-login__actions,
   .admin-hero,
   .admin-hero__actions,
-  .admin-preview__header {
+  .admin-preview__header,
+  .admin-publish-actions {
     grid-template-columns: 1fr;
     flex-direction: column;
     align-items: stretch;

@@ -86,7 +86,12 @@
     return Array.isArray(v)
       ? v
           .map(function (item) {
-            return { src: text(item && item.src), alt: text(item && item.alt) };
+            return {
+              src: text(item && item.src),
+              alt: text(item && item.alt),
+              repoPath: text(item && item.repoPath),
+              uploadName: text(item && item.uploadName)
+            };
           })
           .filter(function (item) {
             return trim(item.src);
@@ -222,7 +227,7 @@
   function template(kind) {
     if (kind === "paper") return { note: "", title: "", authors: "", linkText: "", linkUrl: "" };
     if (kind === "patent") return { title: "", note: "" };
-    if (kind === "image") return { src: "", alt: "" };
+    if (kind === "image") return { src: "", alt: "", repoPath: "", uploadName: "" };
     return "";
   }
 
@@ -256,6 +261,7 @@
   api.util = {
     text: text,
     trim: trim,
+    clone: clone,
     dateStr: dateStr,
     cnDate: cnDate,
     escapeHtml: escapeHtml,

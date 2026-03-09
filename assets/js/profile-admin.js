@@ -4,8 +4,14 @@
   if (!site || !root) return;
 
   var util = site.util;
-  var errorText = "";
   var bound = false;
+  var errorText = "";
+  var publishError = "";
+  var publishMessage = "";
+  var publishBusy = false;
+  var publishToken = site.publish ? site.publish.getToken() : "";
+  var rememberToken = Boolean(publishToken);
+  var commitMessage = "chore: update profile content";
 
   function field(label, path, value, placeholder, type) {
     return '<label class="admin-field"><span>' + util.escapeHtml(label) + '</span><input class="admin-input" type="' + util.escapeHtml(type || "text") + '" data-bind="' + util.escapeHtml(path) + '" value="' + util.escapeHtml(util.text(value)) + '" placeholder="' + util.escapeHtml(placeholder || "") + '"></label>';
@@ -13,6 +19,10 @@
 
   function area(label, path, value, placeholder) {
     return '<label class="admin-field"><span>' + util.escapeHtml(label) + '</span><textarea class="admin-textarea" rows="4" data-bind="' + util.escapeHtml(path) + '" placeholder="' + util.escapeHtml(placeholder || "") + '">' + util.escapeHtml(util.text(value)) + "</textarea></label>";
+  }
+
+  function metaField(label, fieldName, value, placeholder, type) {
+    return '<label class="admin-field"><span>' + util.escapeHtml(label) + '</span><input class="admin-input" type="' + util.escapeHtml(type || "text") + '" data-publish-field="' + util.escapeHtml(fieldName) + '" value="' + util.escapeHtml(util.text(value)) + '" placeholder="' + util.escapeHtml(placeholder || "") + '"' + (publishBusy ? " disabled" : "") + "></label>";
   }
 
   function cards(path, items, label, placeholder) {
@@ -37,20 +47,41 @@
 
   function images(title, path, items) {
     return '<div class="admin-block"><div class="admin-block__header"><h3>' + util.escapeHtml(title) + '</h3><label class="admin-upload-trigger">上传图片<input type="file" accept="image/*" multiple data-upload-path="' + util.escapeHtml(path) + '"></label></div>' + ((items || []).length ? '<div class="admin-image-grid">' + items.map(function (item, index) {
-      return '<article class="admin-image-card"><img src="' + util.escapeHtml(item.src) + '" alt="' + util.escapeHtml(util.trim(item.alt) || ("图片 " + (index + 1))) + '"><label class="admin-field"><span>图片说明</span><input class="admin-input" type="text" data-bind="' + util.escapeHtml(path + "." + index + ".alt") + '" value="' + util.escapeHtml(item.alt) + '" placeholder="请输入图片说明"></label><button class="admin-button admin-button--danger" type="button" data-delete-item="' + util.escapeHtml(path) + '" data-index="' + index + '">删除图片</button></article>';
+      return '<article class="admin-image-card"><img src="' + util.escapeHtml(item.src) + '" alt="' + util.escapeHtml(util.trim(item.alt) || ("图片 " + (index + 1))) + '"><label class="admin-field"><span>图片说明</span><input class="admin-input" type="text" data-bind="' + util.escapeHtml(path + "." + index + ".alt") + '" value="' + util.escapeHtml(item.alt) + '" placeholder="请输入图片说明"></label><p class="admin-image-card__meta">' + util.escapeHtml(/^data:/i.test(util.trim(item.src)) ? "待发布到 GitHub" : "已引用仓库图片") + '</p><button class="admin-button admin-button--danger" type="button" data-delete-item="' + util.escapeHtml(path) + '" data-index="' + index + '">删除图片</button></article>';
     }).join("") + "</div>" : '<p class="admin-empty-note">当前暂无图片。</p>') + "</div>";
   }
 
+  function publishPanel() {
+    return [
+      '<section class="admin-section">',
+      '<div class="admin-section__header"><h2>发布到 GitHub</h2></div>',
+      '<div class="admin-block admin-block--publish">',
+      '<div class="admin-publish-meta"><span class="admin-publish-pill">仓库：' + util.escapeHtml((site.config.github && site.config.github.owner) || "") + "/" + util.escapeHtml((site.config.github && site.config.github.repo) || "") + '</span><span class="admin-publish-pill">分支：' + util.escapeHtml((site.config.github && site.config.github.branch) || "master") + "</span></div>",
+      '<div class="admin-form-grid">',
+      metaField("GitHub Token", "token", publishToken, "需要 contents write 权限", "password"),
+      metaField("提交说明", "commitMessage", commitMessage, "例如：chore: update homepage content"),
+      "</div>",
+      '<label class="admin-check"><input type="checkbox" data-publish-field="rememberToken"' + (rememberToken ? " checked" : "") + (publishBusy ? " disabled" : "") + '>记住 Token（当前浏览器会话）</label>',
+      '<div class="admin-publish-actions"><button class="admin-button" type="button" data-admin-action="publish"' + (publishBusy ? " disabled" : "") + ">" + (publishBusy ? "发布中..." : "提交到 GitHub 并发布") + '</button><button class="admin-button admin-button--ghost" type="button" data-admin-action="clear-token"' + (publishBusy ? " disabled" : "") + '>清除 Token</button></div>',
+      '<p class="admin-tip">GitHub Pages 会在仓库更新后自动重新部署。Token 建议使用只针对该仓库的细粒度令牌，授予 Contents: Read and write、Metadata: Read。</p>',
+      publishMessage ? '<p class="admin-success">' + util.escapeHtml(publishMessage) + "</p>" : "",
+      publishError ? '<p class="admin-error">' + util.escapeHtml(publishError) + "</p>" : "",
+      "</div>",
+      "</section>"
+    ].join("");
+  }
+
   function loginHtml() {
-    return '<section class="admin-login"><div class="admin-login__card"><h1>管理员修改页面</h1><p class="admin-login__note">输入管理员密码后，可视化修改个人介绍、研究方向、成果、项目与荣誉、爱好图片及恋爱小窗图片。</p><p class="admin-login__tip">当前版本保存在本机浏览器中，用于快速改稿；若要正式发布到公开网站，仍需把改动提交到仓库。</p><form class="admin-login__form" data-admin-login><label class="admin-field"><span>管理员密码</span><input class="admin-input" type="password" name="password" autocomplete="current-password" placeholder="请输入密码"></label>' + (errorText ? '<p class="admin-error">' + util.escapeHtml(errorText) + "</p>" : "") + '<div class="admin-login__actions"><button class="admin-button" type="submit">进入管理页</button><a class="admin-button admin-button--ghost" href="' + util.escapeHtml(site.config.homePath) + '">返回主页</a></div></form></div></section>';
+    return '<section class="admin-login"><div class="admin-login__card"><h1>管理员修改页面</h1><p class="admin-login__note">输入管理员密码后，可视化修改个人介绍、研究方向、成果、项目与荣誉、爱好图片及恋爱小窗图片。</p><p class="admin-login__tip">进入后既可本地预览，也可直接提交到 GitHub 仓库并触发 Pages 自动发布。</p><form class="admin-login__form" data-admin-login><label class="admin-field"><span>管理员密码</span><input class="admin-input" type="password" name="password" autocomplete="current-password" placeholder="请输入密码"></label>' + (errorText ? '<p class="admin-error">' + util.escapeHtml(errorText) + "</p>" : "") + '<div class="admin-login__actions"><button class="admin-button" type="submit">进入管理页</button><a class="admin-button admin-button--ghost" href="' + util.escapeHtml(site.config.homePath) + '">返回主页</a></div></form></div></section>';
   }
 
   function shellHtml(data) {
     return [
       '<div class="admin-shell">',
       '<section class="admin-shell__panel">',
-      '<div class="admin-hero"><div><h1>管理员修改页面</h1><p>左侧编辑，右侧预览。所有内容保存到当前浏览器。</p></div><div class="admin-hero__actions"><button class="admin-button admin-button--ghost" type="button" data-admin-action="reset">恢复站点默认</button><button class="admin-button admin-button--ghost" type="button" data-admin-action="logout">退出管理员</button></div></div>',
-      '<p class="admin-tip">图片上传后会自动压缩，适合快速更新，不适合作为长期图片仓库。</p>',
+      '<div class="admin-hero"><div><h1>管理员修改页面</h1><p>左侧编辑，右侧预览。支持本地保存，也支持直接推送到 GitHub。</p></div><div class="admin-hero__actions"><button class="admin-button admin-button--ghost" type="button" data-admin-action="reset">恢复站点默认</button><button class="admin-button admin-button--ghost" type="button" data-admin-action="logout">退出管理员</button></div></div>',
+      '<p class="admin-tip">图片上传后会自动压缩。未发布前只保存在当前浏览器；发布后会写入仓库并触发 GitHub Pages 自动部署。</p>',
+      publishPanel(),
       '<section class="admin-section"><div class="admin-section__header"><h2>个人介绍</h2></div><div class="admin-block"><div class="admin-form-grid admin-form-grid--single">' + area("主要介绍", "intro.lead", data.intro.lead, "请输入个人介绍主文案") + field("导师名称", "intro.mentorName", data.intro.mentorName, "例如：秦飞巍教授") + field("导师主页", "intro.mentorUrl", data.intro.mentorUrl, "https://...") + area("导师说明 / 研究概述", "intro.mentorSummary", data.intro.mentorSummary, "请输入导师或研究方向介绍") + field("联系电话", "intro.phone", data.intro.phone, "请输入联系电话") + '</div><div class="admin-list-manager"><div class="admin-list-manager__header"><h3>邮箱</h3><button class="admin-button" type="button" data-add-item="intro.emails" data-template="text">新增邮箱</button></div>' + cards("intro.emails", data.intro.emails, "邮箱", "请输入邮箱地址") + "</div></div></section>",
       '<section class="admin-section"><div class="admin-section__header"><h2>研究方向</h2><button class="admin-button" type="button" data-add-item="research" data-template="text">新增方向</button></div>' + cards("research", data.research, "方向", "请输入研究方向") + "</section>",
       '<section class="admin-section"><div class="admin-section__header"><h2>成果</h2></div><div class="admin-composition"><section class="admin-block admin-block--paper"><div class="admin-block__header"><h3>论文</h3></div>' + papers("achievements.papers.published", data.achievements.papers.published, "Published") + papers("achievements.papers.review", data.achievements.papers.review, "Under Review") + '</section><section class="admin-block admin-block--patent"><div class="admin-block__header"><h3>专利</h3><button class="admin-button" type="button" data-add-item="achievements.patents" data-template="patent">新增专利</button></div>' + patents("achievements.patents", data.achievements.patents) + "</section></div></section>",
@@ -69,7 +100,6 @@
   }
 
   function setDefaultState() {
-    site.state = util.normalize(site.defaults);
     site.reset();
   }
 
@@ -101,11 +131,53 @@
           ctx.fillStyle = "#ffffff";
           ctx.fillRect(0, 0, width, height);
           ctx.drawImage(image, 0, 0, width, height);
-          resolve({ src: canvas.toDataURL("image/jpeg", 0.82), alt: file.name.replace(/\.[^.]+$/, "") });
+          resolve({
+            src: canvas.toDataURL("image/jpeg", 0.82),
+            alt: file.name.replace(/\.[^.]+$/, ""),
+            repoPath: "",
+            uploadName: file.name
+          });
         };
         image.src = reader.result;
       };
       reader.readAsDataURL(file);
+    });
+  }
+
+  function updatePublishField(target) {
+    var key = target.getAttribute("data-publish-field");
+    if (!key) return;
+    if (key === "token") publishToken = target.value;
+    if (key === "commitMessage") commitMessage = target.value;
+    if (key === "rememberToken") rememberToken = Boolean(target.checked);
+  }
+
+  function handlePublish() {
+    if (!site.publish) {
+      publishError = "当前页面未加载发布模块。";
+      render();
+      return;
+    }
+
+    publishBusy = true;
+    publishError = "";
+    publishMessage = "";
+    render();
+
+    site.publish.publishToGithub({
+      token: publishToken,
+      message: commitMessage
+    }).then(function (result) {
+      publishBusy = false;
+      publishError = "";
+      publishMessage = "已提交到 GitHub：" + result.commitSha.slice(0, 7) + "，GitHub Pages 将自动发布。";
+      if (rememberToken) site.publish.setToken(publishToken);
+      else site.publish.clearToken();
+      render();
+    }).catch(function (error) {
+      publishBusy = false;
+      publishError = error && error.message ? error.message : "发布失败。";
+      render();
     });
   }
 
@@ -129,6 +201,12 @@
     });
 
     root.addEventListener("input", function (event) {
+      var publishField = event.target && event.target.getAttribute("data-publish-field");
+      if (publishField) {
+        updatePublishField(event.target);
+        return;
+      }
+
       var path = event.target && event.target.getAttribute("data-bind");
       if (!path) return;
       util.setByPath(site.state, path, event.target.value);
@@ -136,6 +214,12 @@
     });
 
     root.addEventListener("change", function (event) {
+      var publishField = event.target && event.target.getAttribute("data-publish-field");
+      if (publishField) {
+        updatePublishField(event.target);
+        return;
+      }
+
       var path = event.target && event.target.getAttribute("data-upload-path");
       if (!path) return;
       var input = event.target;
@@ -165,6 +249,17 @@
           render();
         } else if (type === "reset" && window.confirm("确定恢复为站点默认内容吗？当前浏览器中的本地修改会被清空。")) {
           setDefaultState();
+          publishError = "";
+          publishMessage = "";
+          render();
+        } else if (type === "publish") {
+          handlePublish();
+        } else if (type === "clear-token" && site.publish) {
+          publishToken = "";
+          rememberToken = false;
+          site.publish.clearToken();
+          publishMessage = "";
+          publishError = "";
           render();
         }
         return;
