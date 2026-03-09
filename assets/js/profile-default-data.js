@@ -1,4 +1,5 @@
 ---
+layout: null
 ---
 (function () {
   window.__profileAdminConfig = {
