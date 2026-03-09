@@ -122,9 +122,7 @@
     item.setAttribute("data-admin-entry", "true");
     var active = window.location.pathname.replace(/\/+$/, "") === site.config.adminPath.replace(/\/+$/, "") ? " admin-entry--active" : "";
     item.innerHTML = '<a class="admin-entry' + active + '" href="' + util.escapeHtml(site.config.adminPath) + '" aria-label="管理员修改页面" title="管理员修改页面"><i class="fa-solid fa-gear" aria-hidden="true"></i></a>';
-    var theme = links.querySelector("#theme-toggle");
-    if (theme) links.insertBefore(item, theme);
-    else links.appendChild(item);
+    links.appendChild(item);
   }
 
   function renderAll() {
