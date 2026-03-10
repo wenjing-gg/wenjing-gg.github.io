@@ -6,18 +6,18 @@
   var tokenKey = site.config.tokenSessionKey || "profileGithubToken.v1";
   var util = site.util;
 
-  function getSession(key) {
+  function getStored(key) {
     try {
-      return window.sessionStorage.getItem(key) || "";
+      return window.localStorage.getItem(key) || "";
     } catch (error) {
       return "";
     }
   }
 
-  function setSession(key, value) {
+  function setStored(key, value) {
     try {
-      if (value) window.sessionStorage.setItem(key, value);
-      else window.sessionStorage.removeItem(key);
+      if (value) window.localStorage.setItem(key, value);
+      else window.localStorage.removeItem(key);
     } catch (error) {}
   }
 
@@ -226,13 +226,13 @@
 
   site.publish = {
     getToken: function () {
-      return getSession(tokenKey);
+      return getStored(tokenKey);
     },
     setToken: function (value) {
-      setSession(tokenKey, util.trim(value));
+      setStored(tokenKey, util.trim(value));
     },
     clearToken: function () {
-      setSession(tokenKey, "");
+      setStored(tokenKey, "");
     },
     publishToGithub: publishToGithub
   };

@@ -884,6 +884,15 @@ a:hover {
   gap: 1rem;
 }
 
+.admin-shell--single {
+  grid-template-columns: 1fr;
+}
+
+.admin-shell--single .admin-shell__panel {
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
 .admin-shell__panel {
   padding: 1rem;
 }
@@ -922,6 +931,21 @@ a:hover {
   margin-bottom: 0.55rem;
 }
 
+.admin-section__inline-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.7rem;
+  flex-wrap: wrap;
+  margin: 0.95rem 0 0.2rem;
+}
+
+.admin-section__inline-head h3 {
+  margin: 0;
+  color: var(--journal-title);
+  font-size: 0.96rem;
+}
+
 .admin-section__header h2,
 .admin-block__header h3,
 .admin-subsection__header h4,
@@ -947,6 +971,10 @@ a:hover {
   display: grid;
   grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.9fr);
   gap: 0.9rem;
+}
+
+.admin-composition--single {
+  grid-template-columns: 1fr;
 }
 
 .admin-block--paper {
@@ -1133,6 +1161,57 @@ a:hover {
   color: #256645;
 }
 
+.admin-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 11050;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+}
+
+.admin-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(17, 30, 48, 0.42);
+  backdrop-filter: blur(4px);
+}
+
+.admin-modal__dialog {
+  position: relative;
+  z-index: 1;
+  width: min(760px, 100%);
+  max-height: calc(100vh - 2rem);
+  overflow: auto;
+  padding: 1rem;
+  border: 1px solid var(--journal-rule);
+  border-radius: 0.32rem;
+  background: rgba(255, 255, 255, 0.97);
+  box-shadow: 0 20px 48px rgba(18, 43, 70, 0.18);
+}
+
+.admin-modal__header,
+.admin-modal__actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.7rem;
+  flex-wrap: wrap;
+}
+
+.admin-modal__header {
+  margin-bottom: 0.75rem;
+}
+
+.admin-modal__header h3 {
+  margin: 0;
+  color: var(--journal-title);
+}
+
+.admin-modal__actions {
+  margin-top: 0.9rem;
+}
+
 .admin-preview__body {
   margin-top: 0.8rem;
   max-height: calc(100vh - 7.8rem);
@@ -1161,7 +1240,10 @@ a:hover {
   .admin-hero,
   .admin-hero__actions,
   .admin-preview__header,
-  .admin-publish-actions {
+  .admin-publish-actions,
+  .admin-section__inline-head,
+  .admin-modal__header,
+  .admin-modal__actions {
     grid-template-columns: 1fr;
     flex-direction: column;
     align-items: stretch;
