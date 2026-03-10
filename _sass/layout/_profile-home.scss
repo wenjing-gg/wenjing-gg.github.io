@@ -946,6 +946,10 @@ a:hover {
   font-size: 0.96rem;
 }
 
+.admin-section__inline-head--tight {
+  margin-top: 0.7rem;
+}
+
 .admin-section__header h2,
 .admin-block__header h3,
 .admin-subsection__header h4,
@@ -993,6 +997,16 @@ a:hover {
 
 .admin-form-grid--single {
   grid-template-columns: 1fr;
+}
+
+.admin-intro-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.admin-intro-grid__wide {
+  grid-column: 1 / -1;
 }
 
 .admin-field {
@@ -1236,6 +1250,7 @@ a:hover {
 
 @media (max-width: 760px) {
   .admin-form-grid,
+  .admin-intro-grid,
   .admin-login__actions,
   .admin-hero,
   .admin-hero__actions,
