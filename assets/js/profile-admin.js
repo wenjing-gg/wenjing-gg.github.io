@@ -81,7 +81,7 @@
       field("导师名称", "intro.mentorName", data.intro.mentorName, "例如：秦飞巍教授"),
       field("导师主页", "intro.mentorUrl", data.intro.mentorUrl, "https://..."),
       field("联系电话", "intro.phone", data.intro.phone, "请输入联系电话"),
-      '<div class="admin-intro-grid__wide">' + area("导师说明 / 研究概述", "intro.mentorSummary", data.intro.mentorSummary, "请输入导师或研究方向介绍") + "</div>",
+      '<div class="admin-intro-grid__wide">' + area("研究概述", "intro.mentorSummary", data.intro.mentorSummary, "请输入导师或研究方向介绍") + "</div>",
       "</div>",
       '<div class="admin-section__inline-head admin-section__inline-head--tight"><h3>邮箱</h3><button class="admin-button" type="button" data-add-item="intro.emails" data-template="text">新增邮箱</button></div>',
       cards("intro.emails", data.intro.emails, "邮箱", "请输入邮箱地址"),
@@ -371,3 +371,4 @@
   bind();
   render();
 })();
+
