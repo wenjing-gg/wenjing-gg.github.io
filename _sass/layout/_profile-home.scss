@@ -797,6 +797,7 @@ a:hover {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  position: relative;
   flex-shrink: 0;
   width: 2rem;
   height: 2rem;
@@ -816,14 +817,15 @@ a:hover {
 }
 
 .admin-entry i {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 1rem;
-  height: 1rem;
-  font-size: 1rem;
-  line-height: 1;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0.95rem;
+  height: 0.95rem;
+  font-size: 0.95rem;
+  line-height: 0.95rem;
   text-align: center;
+  transform: translate(-50%, -50%);
 }
 
 .admin-entry:hover,
