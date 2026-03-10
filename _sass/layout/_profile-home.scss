@@ -797,14 +797,33 @@ a:hover {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
   width: 2rem;
   height: 2rem;
+  padding: 0 !important;
   border: 1px solid rgba(73, 104, 141, 0.22);
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.78);
   color: var(--journal-title) !important;
   text-decoration: none;
+  line-height: 1 !important;
   transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.masthead .visible-links [data-admin-entry="true"] {
+  display: flex;
+  align-items: center;
+}
+
+.admin-entry i {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1rem;
+  height: 1rem;
+  font-size: 1rem;
+  line-height: 1;
+  text-align: center;
 }
 
 .admin-entry:hover,
