@@ -11,14 +11,29 @@
     return preview ? "" : ' id="' + id + '"';
   }
 
+  function iconForText(text) {
+    var value = util.trim(text);
+    if (/影像|肿瘤|医学/.test(value)) return "fa-solid fa-brain";
+    if (/多任务|协作|智能体/.test(value)) return "fa-solid fa-diagram-project";
+    if (/适应|鲁棒|测试/.test(value)) return "fa-solid fa-wave-square";
+    if (/投资|分析/.test(value)) return "fa-solid fa-chart-line";
+    if (/羽毛球/.test(value)) return "fa-solid fa-medal";
+    if (/紫微|斗数/.test(value)) return "fa-solid fa-star";
+    return "fa-solid fa-atom";
+  }
+
   function listHtml(items, emptyText) {
     if (!Array.isArray(items) || !items.length) return '<p class="profile-empty">' + util.escapeHtml(emptyText || "暂无内容。") + "</p>";
-    return '<ul class="profile-list">' + items.map(function (item) { return "<li>" + util.escapeHtml(item) + "</li>"; }).join("") + "</ul>";
+    return '<ul class="profile-list">' + items.map(function (item) {
+      return '<li><span class="profile-list__icon"><i class="' + iconForText(item) + '" aria-hidden="true"></i></span><span>' + util.escapeHtml(item) + "</span></li>";
+    }).join("") + "</ul>";
   }
 
   function topicHtml(items) {
     if (!Array.isArray(items) || !items.length) return '<p class="profile-empty">暂无研究方向。</p>';
-    return '<div class="topic-grid">' + items.map(function (item) { return "<span>" + util.escapeHtml(item) + "</span>"; }).join("") + "</div>";
+    return '<div class="topic-grid">' + items.map(function (item) {
+      return '<span><i class="' + iconForText(item) + '" aria-hidden="true"></i>' + util.escapeHtml(item) + "</span>";
+    }).join("") + "</div>";
   }
 
   function photoHtml(images) {
@@ -36,7 +51,7 @@
       html.push('<p class="paper-authors"><strong>Authors:</strong> ' + util.hiAuthor(item.authors, site.state.meta && site.state.meta.selfAuthorName) + "</p>");
     }
     if (util.trim(item.linkText) && util.cleanUrl(item.linkUrl)) {
-      html.push('<a href="' + util.escapeHtml(util.cleanUrl(item.linkUrl)) + '" target="_blank" rel="noopener noreferrer">' + util.escapeHtml(item.linkText) + "</a>");
+      html.push('<a class="paper-link" href="' + util.escapeHtml(util.cleanUrl(item.linkUrl)) + '" target="_blank" rel="noopener noreferrer">' + util.escapeHtml(item.linkText) + '<i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>');
     } else if (util.trim(item.linkText)) {
       html.push('<p class="paper-meta">' + util.escapeHtml(item.linkText) + "</p>");
     }
@@ -99,18 +114,23 @@
     }
 
     return [
+      '<div class="profile-shell">',
       '<div class="profile-hero"' + idAttr("intro", preview) + '>',
+      '<div class="profile-hero__shine" aria-hidden="true"></div>',
+      '<p class="profile-hero__eyebrow">Medical Imaging · Multitask Learning · Domain Adaptation</p>',
+      '<h2 class="profile-hero__title">余文敬</h2>',
       '<p class="profile-hero__lead">' + util.escapeHtml(intro.lead) + "</p>",
       mentorHtml ? "<p>" + mentorHtml + "</p>" : "",
       contacts.length ? '<p class="profile-hero__contact"><strong>联系方式：</strong>' + contacts.join(" ｜ ") + "</p>" : "",
       "</div>",
       '<article class="journal-profile">',
-      '<section' + idAttr("research", preview) + '><h2>研究方向</h2>' + topicHtml(data.research) + "</section>",
-      '<section' + idAttr("publications", preview) + ' class="achievements"><h2>成果</h2><div class="achievements-composition"><section class="achievement-card achievement-card--paper"><h3 class="achievement-card__title">论文</h3>' + paperBucket("Published", data.achievements.papers.published, "published") + paperBucket("Under Review", data.achievements.papers.review, "review") + '</section><section class="achievement-card achievement-card--patent"><h3 class="achievement-card__title">专利</h3>' + patentHtml(data.achievements.patents) + "</section></div></section>",
-      "<section><h2>项目与荣誉</h2>" + listHtml(data.honors) + "</section>",
-      '<section' + idAttr("hobbies", preview) + '><h2>爱好</h2>' + listHtml(data.hobbies.items) + photoHtml(data.hobbies.images) + "</section>",
+      '<section class="profile-section profile-section--research"' + idAttr("research", preview) + '><div class="profile-section__heading"><span>01</span><h2>研究方向</h2></div>' + topicHtml(data.research) + "</section>",
+      '<section' + idAttr("publications", preview) + ' class="profile-section achievements"><div class="profile-section__heading"><span>02</span><h2>成果</h2></div><div class="achievements-composition"><section class="achievement-card achievement-card--paper"><h3 class="achievement-card__title"><i class="fa-solid fa-file-lines" aria-hidden="true"></i>论文</h3>' + paperBucket("Published", data.achievements.papers.published, "published") + paperBucket("Under Review", data.achievements.papers.review, "review") + '</section><section class="achievement-card achievement-card--patent"><h3 class="achievement-card__title"><i class="fa-solid fa-certificate" aria-hidden="true"></i>专利</h3>' + patentHtml(data.achievements.patents) + "</section></div></section>",
+      '<section class="profile-section profile-section--honors"><div class="profile-section__heading"><span>03</span><h2>项目与荣誉</h2></div>' + listHtml(data.honors) + "</section>",
+      '<section class="profile-section profile-section--hobbies"' + idAttr("hobbies", preview) + '><div class="profile-section__heading"><span>04</span><h2>爱好</h2></div>' + listHtml(data.hobbies.items) + photoHtml(data.hobbies.images) + "</section>",
       "</article>",
-      loveHtml(data.love, preview)
+      loveHtml(data.love, preview),
+      "</div>"
     ].join("");
   }
 
