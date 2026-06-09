@@ -1301,7 +1301,7 @@ a:hover {
 
 /* New glass home surface */
 :root {
-  /* Replace this file with a licensed VCG download if needed. Verified VCG pages: 1613502817/VCG41N2254772632, 1373161793/VCG41N1384858271, 1198738725/VCG41N1133606729, 1340091989/VCG211340091989. */
+  /* Licensed VCG replacement workflow: docs/profile-background-vcg.md */
   --profile-bg-image: #{url("/images/profile-bg-medtech.jpg")};
   --glass-ink: #102031;
   --glass-muted: #4d6377;
@@ -1315,6 +1315,7 @@ a:hover {
   --glass-surface: rgba(255, 255, 255, 0.62);
   --glass-surface-strong: rgba(255, 255, 255, 0.76);
   --glass-shadow: 0 24px 70px rgba(4, 32, 54, 0.16);
+  --glass-radius: 8px;
 }
 
 body {
@@ -1395,7 +1396,7 @@ body::after {
   top: 5.2rem;
   padding: 1rem 0.9rem;
   border: 1px solid var(--glass-line);
-  border-radius: 0.75rem;
+  border-radius: var(--glass-radius);
   background: rgba(255, 255, 255, 0.56);
   box-shadow: 0 20px 48px rgba(13, 47, 74, 0.12);
   backdrop-filter: blur(18px) saturate(1.25);
@@ -1432,7 +1433,7 @@ body::after {
   position: relative;
   isolation: isolate;
   border: 1px solid var(--glass-line);
-  border-radius: 0.85rem;
+  border-radius: var(--glass-radius);
   background:
     linear-gradient(145deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.42)),
     linear-gradient(315deg, rgba(36, 199, 214, 0.12), rgba(214, 159, 84, 0.08));
@@ -1464,7 +1465,7 @@ body::after {
   position: absolute;
   inset: 1px;
   z-index: -1;
-  border-radius: calc(0.85rem - 1px);
+  border-radius: calc(var(--glass-radius) - 1px);
   border: 1px solid rgba(255, 255, 255, 0.34);
   pointer-events: none;
 }
@@ -1598,7 +1599,7 @@ body::after {
   padding: 0.85rem;
   border: 1px solid rgba(255, 255, 255, 0.54);
   border-left: 1px solid rgba(255, 255, 255, 0.54);
-  border-radius: 0.65rem;
+  border-radius: var(--glass-radius);
   background: linear-gradient(145deg, rgba(255, 255, 255, 0.62), rgba(241, 250, 251, 0.32));
   box-shadow: 0 14px 30px rgba(7, 55, 80, 0.1);
   color: var(--glass-title);
@@ -1635,7 +1636,7 @@ body::after {
 
 .achievement-card {
   border: 1px solid rgba(255, 255, 255, 0.5);
-  border-radius: 0.7rem;
+  border-radius: var(--glass-radius);
   background: rgba(255, 255, 255, 0.46);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 18px 38px rgba(9, 48, 72, 0.1);
   backdrop-filter: blur(14px) saturate(1.18);
@@ -1670,7 +1671,7 @@ body::after {
 
 .paper-bucket {
   border: 1px solid rgba(255, 255, 255, 0.44);
-  border-radius: 0.65rem;
+  border-radius: var(--glass-radius);
   background: rgba(255, 255, 255, 0.42);
 }
 
@@ -1741,7 +1742,7 @@ body::after {
   margin: 0;
   padding: 0.68rem 0.78rem;
   border: 1px solid rgba(255, 255, 255, 0.46);
-  border-radius: 0.62rem;
+  border-radius: var(--glass-radius);
   background: rgba(255, 255, 255, 0.42);
   color: var(--glass-muted);
 }
@@ -1763,7 +1764,7 @@ body::after {
 .photo-grid img,
 .love-card img {
   border: 1px solid rgba(255, 255, 255, 0.64);
-  border-radius: 0.7rem;
+  border-radius: var(--glass-radius);
   box-shadow: 0 16px 34px rgba(8, 45, 70, 0.14);
   transition: transform 0.22s ease, box-shadow 0.22s ease;
 }
@@ -1790,7 +1791,7 @@ body::after {
 
 .love-days__calendar {
   border-color: rgba(255, 255, 255, 0.68);
-  border-radius: 0.58rem;
+  border-radius: var(--glass-radius);
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(231, 248, 250, 0.7));
   box-shadow: 0 12px 24px rgba(8, 54, 80, 0.13), inset 0 1px 0 rgba(255, 255, 255, 0.86);
   color: var(--glass-title);
@@ -1934,7 +1935,7 @@ body::after {
   .profile-section,
   .love-window,
   .sidebar.sticky {
-    border-radius: 0.72rem;
+    border-radius: var(--glass-radius);
   }
 
   .sidebar.sticky {
@@ -2003,7 +2004,7 @@ body::after {
 
   .profile-hero__contact {
     display: flex;
-    border-radius: 0.66rem;
+    border-radius: var(--glass-radius);
   }
 
   .topic-grid,
