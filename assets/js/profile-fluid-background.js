@@ -3,6 +3,7 @@
   if (!hasProfileHome) return;
 
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var isCoarsePointer = window.matchMedia("(pointer: coarse)").matches;
   var stage = document.createElement("div");
   var canvas = document.createElement("canvas");
   var pointer = {
@@ -12,6 +13,8 @@
     ty: 0.42
   };
   var rafId = 0;
+  var pointerFrame = 0;
+  var startLoop = null;
 
   stage.className = "profile-fluid-stage";
   stage.setAttribute("aria-hidden", "true");
@@ -22,15 +25,17 @@
   document.addEventListener(
     "pointermove",
     function (event) {
-      pointer.tx = event.clientX / Math.max(window.innerWidth, 1);
-      pointer.ty = event.clientY / Math.max(window.innerHeight, 1);
+      if (pointerFrame) return;
+      var clientX = event.clientX;
+      var clientY = event.clientY;
+      pointerFrame = window.requestAnimationFrame(function () {
+        pointer.tx = clientX / Math.max(window.innerWidth, 1);
+        pointer.ty = clientY / Math.max(window.innerHeight, 1);
+        pointerFrame = 0;
+      });
     },
     { passive: true }
   );
-
-  function clamp(value, min, max) {
-    return Math.max(min, Math.min(max, value));
-  }
 
   function easeOutQuint(t) {
     return 1 - Math.pow(1 - t, 5);
@@ -52,7 +57,6 @@
       ".paper-link"
     ].join(",");
     var nodes = Array.prototype.slice.call(document.querySelectorAll(selector));
-    var tiltSelector = ".profile-hero, .profile-section, .love-window, .achievement-card, .topic-grid span, .paper-bucket, .profile-list li";
     var observer = "IntersectionObserver" in window
       ? new IntersectionObserver(
           function (entries) {
@@ -71,39 +75,14 @@
       if (node.dataset.profileMotionReady === "true") return;
       node.dataset.profileMotionReady = "true";
       node.style.setProperty("--motion-order", String(index % 18));
+      node.style.setProperty("--hover-x", (54 + (index % 5) * 7).toFixed(1) + "%");
+      node.style.setProperty("--hover-y", (12 + (index % 4) * 8).toFixed(1) + "%");
       node.classList.add("profile-motion-item");
 
       if (observer) {
         observer.observe(node);
       } else {
         node.classList.add("is-visible");
-      }
-
-      if (node.matches && node.matches(tiltSelector)) {
-        node.classList.add("profile-tilt-card");
-        node.addEventListener(
-          "pointermove",
-          function (event) {
-            var rect = node.getBoundingClientRect();
-            var nx = (event.clientX - rect.left) / Math.max(rect.width, 1);
-            var ny = (event.clientY - rect.top) / Math.max(rect.height, 1);
-            node.style.setProperty("--tilt-y", clamp((nx - 0.5) * 7, -4, 4).toFixed(2) + "deg");
-            node.style.setProperty("--tilt-x", clamp((0.5 - ny) * 6, -3, 3).toFixed(2) + "deg");
-            node.style.setProperty("--hover-x", (nx * 100).toFixed(1) + "%");
-            node.style.setProperty("--hover-y", (ny * 100).toFixed(1) + "%");
-          },
-          { passive: true }
-        );
-        node.addEventListener(
-          "pointerleave",
-          function () {
-            node.style.setProperty("--tilt-x", "0deg");
-            node.style.setProperty("--tilt-y", "0deg");
-            node.style.setProperty("--hover-x", "50%");
-            node.style.setProperty("--hover-y", "20%");
-          },
-          { passive: true }
-        );
       }
     });
   }
@@ -113,9 +92,8 @@
     var renderer = new THREE.WebGLRenderer({
       canvas: canvas,
       alpha: true,
-      antialias: true,
-      preserveDrawingBuffer: true,
-      powerPreference: "high-performance"
+      antialias: false,
+      powerPreference: "low-power"
     });
     var scene = new THREE.Scene();
     var camera = new THREE.PerspectiveCamera(42, 1, 0.1, 100);
@@ -127,7 +105,7 @@
     var surfaceMaterial = new THREE.ShaderMaterial({
         transparent: true,
         depthWrite: false,
-        side: THREE.DoubleSide,
+        side: THREE.FrontSide,
         uniforms: uniforms,
         vertexShader: [
           "uniform float uTime;",
@@ -169,11 +147,10 @@
           "}"
         ].join("\n")
     });
-    var surfaceGeometry = new THREE.PlaneGeometry(18, 11.5, 128, 88);
+    var surfaceGeometry = new THREE.PlaneGeometry(18, 11.5, 64, 40);
     var surfaces = [
       { x: -0.9, y: 0.1, z: -4.35, rx: -0.13, ry: 0.08, rz: 0, scale: 1, phase: 0 },
-      { x: 1.8, y: -1.35, z: -5.2, rx: -0.2, ry: -0.12, rz: 0.18, scale: 0.76, phase: 1.9 },
-      { x: -2.2, y: 1.45, z: -5.9, rx: -0.05, ry: 0.18, rz: -0.2, scale: 0.58, phase: 3.2 }
+      { x: 1.8, y: -1.35, z: -5.2, rx: -0.2, ry: -0.12, rz: 0.18, scale: 0.76, phase: 1.9 }
     ].map(function (surface) {
       var mesh = new THREE.Mesh(surfaceGeometry, surfaceMaterial);
       mesh.userData.fluid = surface;
@@ -191,11 +168,21 @@
       var height = Math.max(window.innerHeight, 1);
       camera.aspect = width / height;
       camera.updateProjectionMatrix();
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.7));
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.25));
       renderer.setSize(width, height, false);
     }
 
-    function frame() {
+    var frameInterval = 1000 / 30;
+    var lastFrame = 0;
+
+    function frame(now) {
+      rafId = 0;
+      if (document.hidden || reduceMotion) return;
+      if (lastFrame && now - lastFrame < frameInterval) {
+        startLoop();
+        return;
+      }
+      lastFrame = now;
       var time = clock.getElapsedTime();
       pointer.x += (pointer.tx - pointer.x) * 0.055;
       pointer.y += (pointer.ty - pointer.y) * 0.055;
@@ -213,12 +200,17 @@
       });
 
       renderer.render(scene, camera);
-      if (!reduceMotion) rafId = window.requestAnimationFrame(frame);
+      startLoop();
     }
 
     resize();
     window.addEventListener("resize", resize, { passive: true });
-    frame();
+    startLoop = function () {
+      if (!rafId && !document.hidden && !reduceMotion) {
+        rafId = window.requestAnimationFrame(frame);
+      }
+    };
+    startLoop();
   }
 
   function initCanvasFallback() {
@@ -230,12 +222,11 @@
     var bands = [
       { hue: 168, y: 0.2, thickness: 0.16, phase: 0.3, alpha: 0.2 },
       { hue: 27, y: 0.36, thickness: 0.14, phase: 1.5, alpha: 0.16 },
-      { hue: 248, y: 0.58, thickness: 0.18, phase: 2.7, alpha: 0.18 },
-      { hue: 43, y: 0.76, thickness: 0.13, phase: 4.1, alpha: 0.14 }
+      { hue: 248, y: 0.62, thickness: 0.18, phase: 2.7, alpha: 0.18 }
     ];
 
     function resize() {
-      ratio = Math.min(window.devicePixelRatio || 1, 1.7);
+      ratio = Math.min(window.devicePixelRatio || 1, 1.18);
       width = Math.max(window.innerWidth, 1);
       height = Math.max(window.innerHeight, 1);
       canvas.width = Math.floor(width * ratio);
@@ -256,7 +247,7 @@
       var baseY = height * (band.y + (pointer.y - 0.5) * 0.035);
       var amp = height * (0.045 + index * 0.008);
       var thickness = height * band.thickness;
-      var step = Math.max(width / 16, 40);
+      var step = Math.max(width / 12, 56);
       context.moveTo(-step, baseY);
       for (var x = -step; x <= width + step; x += step) {
         var y = baseY + Math.sin(x / width * Math.PI * 2.6 + t * (0.42 + index * 0.04) + band.phase) * amp;
@@ -271,7 +262,17 @@
       context.fill();
     }
 
+    var frameInterval = isCoarsePointer ? 1000 / 22 : 1000 / 28;
+    var lastFrame = 0;
+
     function frame(now) {
+      rafId = 0;
+      if (document.hidden || reduceMotion) return;
+      if (lastFrame && now - lastFrame < frameInterval) {
+        startLoop();
+        return;
+      }
+      lastFrame = now;
       var t = (now - start) / 1000;
       pointer.x += (pointer.tx - pointer.x) * 0.06;
       pointer.y += (pointer.ty - pointer.y) * 0.06;
@@ -283,25 +284,45 @@
       });
 
       context.globalCompositeOperation = "source-over";
-      if (!reduceMotion) rafId = window.requestAnimationFrame(frame);
+      startLoop();
     }
 
     resize();
     window.addEventListener("resize", resize, { passive: true });
-    frame(performance.now());
+    if (reduceMotion) {
+      context.clearRect(0, 0, width, height);
+      context.globalCompositeOperation = "screen";
+      bands.forEach(function (band, index) {
+        drawBand(band, 0.8 + index * 0.24, index);
+      });
+      context.globalCompositeOperation = "source-over";
+      return;
+    }
+    startLoop = function () {
+      if (!rafId && !document.hidden && !reduceMotion) {
+        rafId = window.requestAnimationFrame(frame);
+      }
+    };
+    startLoop();
   }
 
   document.addEventListener("profile:rendered", initMotion);
   initMotion();
 
-  initThreeFluid().catch(function () {
+  if (reduceMotion || isCoarsePointer || window.innerWidth < 760) {
     initCanvasFallback();
-  });
+  } else {
+    initThreeFluid().catch(function () {
+      initCanvasFallback();
+    });
+  }
 
   document.addEventListener("visibilitychange", function () {
     if (document.hidden && rafId) {
       window.cancelAnimationFrame(rafId);
       rafId = 0;
+    } else if (!document.hidden && startLoop) {
+      startLoop();
     }
   });
 })();

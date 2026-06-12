@@ -6,13 +6,16 @@
 
   var coarsePointer = window.matchMedia("(pointer: coarse)").matches;
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var hasFinePointerFx = !coarsePointer && !reduceMotion;
+  var hasFinePointerFx = !coarsePointer && !reduceMotion && window.innerWidth > 760;
 
   var pointerX = window.innerWidth * 0.5;
   var pointerY = window.innerHeight * 0.5;
   var ringX = pointerX;
   var ringY = pointerY;
   var rafId = 0;
+  var renderTimer = 0;
+  var lastRenderAt = 0;
+  var lastParticleAt = 0;
 
   var ring = null;
   var dot = null;
@@ -32,6 +35,7 @@
 
   var storageKeyEnabled = "ambientMusicEnabled";
   var storageKeyTrack = "ambientMusicTrackIndex";
+  var cursorFrameInterval = 1000 / 30;
 
   var musicTracks = Array.isArray(window.__musicTracks)
     ? window.__musicTracks.filter(function (item) {
@@ -62,19 +66,19 @@
     resizeCanvas();
     window.addEventListener("resize", resizeCanvas, { passive: true });
 
-    document.addEventListener("mousemove", movePointer, { passive: true });
+    document.addEventListener("pointermove", movePointer, { passive: true });
 
     document.addEventListener(
       "click",
       function (event) {
-        burst(event.clientX, event.clientY, 18);
+        burst(event.clientX, event.clientY, 10);
       },
       { passive: true }
     );
 
     document.addEventListener("mousedown", function () {
       ring.classList.add("cursor-fx--active");
-      burst(pointerX, pointerY, 10);
+      burst(pointerX, pointerY, 6);
     });
 
     document.addEventListener("mouseup", function () {
@@ -93,7 +97,7 @@
       }
     });
 
-    rafId = window.requestAnimationFrame(render);
+    scheduleRender(0);
   }
 
   function resizeCanvas() {
@@ -101,7 +105,7 @@
       return;
     }
 
-    deviceRatio = Math.min(window.devicePixelRatio || 1, 2);
+    deviceRatio = Math.min(window.devicePixelRatio || 1, 1.25);
     canvas.width = Math.floor(window.innerWidth * deviceRatio);
     canvas.height = Math.floor(window.innerHeight * deviceRatio);
     canvas.style.width = window.innerWidth + "px";
@@ -112,7 +116,11 @@
   function movePointer(event) {
     pointerX = event.clientX;
     pointerY = event.clientY;
-    spawnParticle(pointerX, pointerY, 0.7, 0.8);
+    var now = performance.now();
+    if (now - lastParticleAt > 100 && particles.length < 70) {
+      spawnParticle(pointerX, pointerY, 0.42, 0.58);
+      lastParticleAt = now;
+    }
   }
 
   function isInteractiveTarget(target) {
@@ -135,12 +143,12 @@
       y: y,
       vx: Math.cos(angle) * velocity,
       vy: Math.sin(angle) * velocity,
-      life: 16 + Math.random() * 18,
-      size: (5 + Math.random() * 10) * scale,
+      life: 10 + Math.random() * 16,
+      size: (3 + Math.random() * 7) * scale,
       hue: 188 + Math.random() * 52
     });
 
-    if (particles.length > 220) {
+    if (particles.length > 90) {
       particles.shift();
     }
   }
@@ -170,7 +178,7 @@
       point.y += point.vy;
       point.vx *= 0.98;
       point.vy *= 0.98;
-      point.life -= 0.42;
+      point.life -= 0.58;
 
       if (point.life > 0) {
         var alpha = Math.min(point.life / 20, 0.68);
@@ -192,21 +200,44 @@
     context.globalCompositeOperation = "source-over";
   }
 
-  function render() {
+  function scheduleRender(delay) {
+    if (!hasFinePointerFx || document.hidden || rafId || renderTimer) {
+      return;
+    }
+
+    if (delay > 0) {
+      renderTimer = window.setTimeout(function () {
+        renderTimer = 0;
+        rafId = window.requestAnimationFrame(render);
+      }, delay);
+      return;
+    }
+
+    rafId = window.requestAnimationFrame(render);
+  }
+
+  function render(now) {
+    rafId = 0;
+    if (document.hidden) {
+      return;
+    }
+
+    if (lastRenderAt && now - lastRenderAt < cursorFrameInterval) {
+      scheduleRender(cursorFrameInterval - (now - lastRenderAt));
+      return;
+    }
+    lastRenderAt = now;
+
     if (ring && dot) {
       ringX += (pointerX - ringX) * 0.2;
       ringY += (pointerY - ringY) * 0.2;
 
       dot.style.transform = "translate3d(" + pointerX + "px," + pointerY + "px,0)";
       ring.style.transform = "translate3d(" + ringX + "px," + ringY + "px,0)";
-
-      if (Math.random() > 0.74) {
-        spawnParticle(pointerX, pointerY, 0.35, 0.55);
-      }
     }
 
     drawParticles();
-    rafId = window.requestAnimationFrame(render);
+    scheduleRender(cursorFrameInterval);
   }
 
   function setStoredValue(key, value) {
@@ -499,8 +530,12 @@
         window.cancelAnimationFrame(rafId);
         rafId = 0;
       }
+      if (renderTimer) {
+        window.clearTimeout(renderTimer);
+        renderTimer = 0;
+      }
     } else if (hasFinePointerFx && !rafId) {
-      rafId = window.requestAnimationFrame(render);
+      scheduleRender(0);
     }
   });
   document.addEventListener("profile:rendered", updateLoveDays);
@@ -509,5 +544,3 @@
   initMusicPanel();
   scheduleLoveDaysUpdate();
 })();
-
-
