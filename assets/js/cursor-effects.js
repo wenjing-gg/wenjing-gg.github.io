@@ -6,7 +6,7 @@
 
   var coarsePointer = window.matchMedia("(pointer: coarse)").matches;
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var hasFinePointerFx = !coarsePointer && !reduceMotion && window.innerWidth > 760;
+  var hasFinePointerFx = false;
 
   var pointerX = window.innerWidth * 0.5;
   var pointerY = window.innerHeight * 0.5;
