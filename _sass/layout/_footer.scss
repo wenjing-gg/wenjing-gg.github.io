@@ -14,10 +14,13 @@
   clear: both;
 
   /* sticky footer fix start */
-  position: relative;
-  bottom: auto;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 35;
   height: auto;
-  margin-top: auto;
+  margin-top: 0;
   flex-shrink: 0;
   /* sticky footer fix end */
 

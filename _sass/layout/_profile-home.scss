@@ -2121,8 +2121,7 @@ body::after {
   transform: scale(1.015);
 }
 
-#main,
-.page__footer {
+#main {
   position: relative;
   z-index: 2;
 }
