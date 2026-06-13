@@ -13,16 +13,10 @@
   width: 100%;
   clear: both;
 
-  /* sticky footer fix start */
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 35;
+  position: relative;
   height: auto;
-  margin-top: 0;
+  margin-top: auto;
   flex-shrink: 0;
-  /* sticky footer fix end */
 
   -webkit-animation: intro 0.3s both;
           animation: intro 0.3s both;
