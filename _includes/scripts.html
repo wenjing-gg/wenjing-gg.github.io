@@ -1,3 +1,10 @@
+<script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.module.js"
+    }
+  }
+</script>
 <script>
   window.__musicTracks = [
     {% assign music_tracks = site.static_files | where_exp: "item", "item.path contains '/music/'" | sort: "path" %}
@@ -30,10 +37,11 @@
 </script>
 <script defer src="{{ base_path }}/assets/js/profile-core.js"></script>
 <script defer src="{{ base_path }}/assets/js/profile-render.js"></script>
+<script defer src="{{ base_path }}/assets/js/border-glow.js"></script>
 <script defer src="{{ base_path }}/assets/js/profile-publish.js"></script>
 <script defer src="{{ base_path }}/assets/js/profile-admin.js"></script>
 <script type="module" src="{{ base_path }}/assets/js/main.min.js"></script>
-<script defer src="{{ base_path }}/assets/js/profile-fluid-background.js"></script>
+<script defer src="{{ base_path }}/assets/js/pixel-blast-background.js"></script>
 <script defer src="{{ base_path }}/assets/js/cursor-effects.js"></script>
 
 {% include analytics.html %}
