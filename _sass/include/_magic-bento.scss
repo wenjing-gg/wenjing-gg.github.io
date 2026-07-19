@@ -9,9 +9,7 @@
 }
 
 .profile-section.achievements::before,
-.profile-section.achievements::after,
-.profile-section.achievements > .border-glow__mesh,
-.profile-section.achievements > .border-glow__edge {
+.profile-section.achievements::after {
   display: none;
 }
 
