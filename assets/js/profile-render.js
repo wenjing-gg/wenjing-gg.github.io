@@ -16,6 +16,8 @@
     if (/影像|肿瘤|医学/.test(value)) return "fa-solid fa-brain";
     if (/多任务|协作|智能体/.test(value)) return "fa-solid fa-diagram-project";
     if (/适应|鲁棒|测试/.test(value)) return "fa-solid fa-wave-square";
+    if (/弱监督|半监督|分割/.test(value)) return "fa-solid fa-layer-group";
+    if (/VQA|视觉问答/i.test(value)) return "fa-solid fa-comments";
     if (/投资|分析/.test(value)) return "fa-solid fa-chart-line";
     if (/羽毛球/.test(value)) return "fa-solid fa-medal";
     if (/紫微|斗数/.test(value)) return "fa-solid fa-star";
@@ -31,9 +33,30 @@
 
   function topicHtml(items) {
     if (!Array.isArray(items) || !items.length) return '<p class="profile-empty">暂无研究方向。</p>';
-    return '<div class="topic-grid">' + items.map(function (item) {
-      return '<span><i class="' + iconForText(item) + '" aria-hidden="true"></i>' + util.escapeHtml(item) + "</span>";
-    }).join("") + "</div>";
+    var selected = Math.min(1, items.length - 1);
+    var options = items.map(function (item, index) {
+      return [
+        '<button type="button" role="option" class="option-wheel__item',
+        index === selected ? " option-wheel__item--selected" : "",
+        '" aria-selected="', index === selected ? "true" : "false", '" data-option-index="', index, '">',
+        '<i class="', iconForText(item), '" aria-hidden="true"></i>',
+        '<span>', util.escapeHtml(item), "</span>",
+        "</button>"
+      ].join("");
+    }).join("");
+
+    return [
+      '<div class="research-wheel">',
+      '<div class="option-wheel" role="listbox" tabindex="0" aria-label="研究方向" data-default-selected="', selected, '">',
+      options,
+      '<span class="option-wheel__guide" aria-hidden="true"></span>',
+      "</div>",
+      '<div class="research-wheel__selection" aria-live="polite">',
+      '<span class="research-wheel__meta">RESEARCH FOCUS <b data-option-count>', String(selected + 1).padStart(2, "0"), " / ", String(items.length).padStart(2, "0"), "</b></span>",
+      '<strong data-option-value>', util.escapeHtml(items[selected]), "</strong>",
+      "</div>",
+      "</div>"
+    ].join("");
   }
 
   function photoHtml(images) {
@@ -43,44 +66,62 @@
     }).join("") + "</div>";
   }
 
-  function paperItem(item) {
-    var html = ['<article class="paper-item">'];
-    if (util.trim(item.note)) html.push('<span class="paper-note">' + util.escapeHtml(item.note) + "</span>");
-    html.push("<h3>" + util.escapeHtml(util.trim(item.title) || "未命名成果") + "</h3>");
-    if (util.trim(item.authors)) {
-      html.push('<p class="paper-authors"><strong>Authors:</strong> ' + util.hiAuthor(item.authors, site.state.meta && site.state.meta.selfAuthorName) + "</p>");
-    }
-    if (util.trim(item.linkText) && util.cleanUrl(item.linkUrl)) {
-      html.push('<a class="paper-link" href="' + util.escapeHtml(util.cleanUrl(item.linkUrl)) + '" target="_blank" rel="noopener noreferrer">' + util.escapeHtml(item.linkText) + '<i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>');
-    } else if (util.trim(item.linkText)) {
-      html.push('<p class="paper-meta">' + util.escapeHtml(item.linkText) + "</p>");
-    }
-    html.push("</article>");
-    return html.join("");
-  }
-
-  function paperBucket(title, items, kind) {
+  function bentoPaper(item, status, index) {
+    var link = util.cleanUrl(item.linkUrl);
     return [
-      '<div class="paper-bucket paper-bucket--' + kind + '">',
-      '<h4 class="paper-group-subtitle">' + util.escapeHtml(title) + "</h4>",
-      items && items.length ? '<div class="paper-list">' + items.map(paperItem).join("") + "</div>" : '<p class="profile-empty">暂无论文。</p>',
-      "</div>"
+      '<article class="magic-bento-card magic-bento-card--paper magic-bento-card--', status, ' magic-bento-card--slot-', index + 1, '" data-magic-bento-card>',
+      '<header class="magic-bento-card__header">',
+      '<span class="magic-bento-card__label">', status === "published" ? "PUBLISHED" : "UNDER REVIEW", "</span>",
+      util.trim(item.note) ? '<span class="magic-bento-card__note">' + util.escapeHtml(item.note) + "</span>" : "",
+      "</header>",
+      '<div class="magic-bento-card__content">',
+      '<h3 class="magic-bento-card__title">', util.escapeHtml(util.trim(item.title) || "未命名成果"), "</h3>",
+      util.trim(item.authors) ? '<p class="magic-bento-card__authors"><strong>Authors:</strong> ' + util.hiAuthor(item.authors, site.state.meta && site.state.meta.selfAuthorName) + "</p>" : "",
+      link && util.trim(item.linkText) ? '<a class="magic-bento-card__link" href="' + util.escapeHtml(link) + '" target="_blank" rel="noopener noreferrer">' + util.escapeHtml(item.linkText) + '<i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>' : "",
+      "</div>",
+      "</article>"
     ].join("");
   }
 
-  function patentHtml(items) {
-    if (!Array.isArray(items) || !items.length) return '<p class="profile-empty">暂无专利。</p>';
-    return '<ul class="profile-list">' + items.map(function (item) {
-      return "<li>" + util.escapeHtml(util.trim(item.title) || "未命名专利") + (util.trim(item.note) ? "（" + util.escapeHtml(item.note) + "）" : "") + "</li>";
-    }).join("") + "</ul>";
+  function bentoPatent(item, index) {
+    return [
+      '<article class="magic-bento-card magic-bento-card--patent magic-bento-card--slot-', index + 1, '" data-magic-bento-card>',
+      '<header class="magic-bento-card__header">',
+      '<span class="magic-bento-card__label">PATENT</span>',
+      util.trim(item.note) ? '<span class="magic-bento-card__note">' + util.escapeHtml(item.note) + "</span>" : "",
+      "</header>",
+      '<div class="magic-bento-card__content">',
+      '<h3 class="magic-bento-card__title">', util.escapeHtml(util.trim(item.title) || "未命名专利"), "</h3>",
+      "</div>",
+      "</article>"
+    ].join("");
+  }
+
+  function achievementsHtml(achievements) {
+    var papers = achievements && achievements.papers ? achievements.papers : {};
+    var cards = [];
+    (papers.published || []).forEach(function (item) {
+      cards.push(bentoPaper(item, "published", cards.length));
+    });
+    (papers.review || []).forEach(function (item) {
+      cards.push(bentoPaper(item, "review", cards.length));
+    });
+    (achievements && achievements.patents || []).forEach(function (item) {
+      cards.push(bentoPatent(item, cards.length));
+    });
+    if (!cards.length) return '<p class="profile-empty">暂无成果。</p>';
+    return '<div class="magic-bento-grid" data-magic-bento-grid>' + cards.join("") + "</div>";
   }
 
   function loveHtml(love, preview) {
     var start = util.dateStr(love && love.startDate, "2024-12-24");
     var images = Array.isArray(love && love.images) ? love.images : [];
-    var track = images.concat(images).map(function (item, idx) {
-      var ghost = idx >= images.length;
-      return '<figure class="love-card"' + (ghost ? ' aria-hidden="true"' : "") + '><img src="' + util.escapeHtml(item.src) + '" alt="' + (ghost ? "" : util.escapeHtml(util.trim(item.alt) || ("恋爱小窗照片 " + (idx + 1)))) + '" loading="lazy"></figure>';
+    var galleryItems = images.map(function (item, idx) {
+      return [
+        '<figure class="dome-gallery__fallback-item" data-dome-item data-dome-image="', util.escapeHtml(item.src), '" data-dome-alt="', util.escapeHtml(util.trim(item.alt) || ("恋爱小窗照片 " + (idx + 1))), '">',
+        '<img src="', util.escapeHtml(item.src), '" alt="', util.escapeHtml(util.trim(item.alt) || ("恋爱小窗照片 " + (idx + 1))), '" loading="lazy">',
+        "</figure>"
+      ].join("");
     }).join("");
     return [
       '<section class="love-window" aria-labelledby="love-window-title' + (preview ? "-preview" : "") + '">',
@@ -88,7 +129,17 @@
       '<h2 id="love-window-title' + (preview ? "-preview" : "") + '">恋爱小窗</h2>',
       '<p class="love-days" aria-live="polite"><span class="love-days__text">' + util.escapeHtml(util.cnDate(start)) + '至今相恋已</span><span class="love-days__calendar" data-love-days data-love-start="' + util.escapeHtml(start) + '">--</span><span class="love-days__text">天</span></p>',
       "</div>",
-      images.length ? '<div class="love-marquee" role="region" aria-label="恋爱图片滚动展示"><div class="love-track">' + track + "</div></div>" : '<p class="love-empty">`love/` 目录暂无图片。</p>',
+      images.length ? [
+        '<div class="dome-gallery" tabindex="0" role="region" aria-label="恋爱图片穹顶画廊，可拖拽旋转并点击照片放大" data-dome-gallery>',
+        '<div class="dome-gallery__main" data-dome-main>',
+        '<div class="dome-gallery__stage"><div class="dome-gallery__sphere" data-dome-sphere></div></div>',
+        '<div class="dome-gallery__overlay"></div><div class="dome-gallery__overlay dome-gallery__overlay--blur"></div>',
+        '<div class="dome-gallery__edge dome-gallery__edge--top"></div><div class="dome-gallery__edge dome-gallery__edge--bottom"></div>',
+        '<div class="dome-gallery__viewer" data-dome-viewer><div class="dome-gallery__scrim" data-dome-scrim></div><div class="dome-gallery__frame"></div></div>',
+        "</div>",
+        '<div class="dome-gallery__fallback">', galleryItems, "</div>",
+        "</div>"
+      ].join("") : '<p class="love-empty">`love/` 目录暂无图片。</p>',
       "</section>"
     ].join("");
   }
@@ -125,7 +176,7 @@
       "</div>",
       '<article class="journal-profile">',
       '<section class="profile-section profile-section--research"' + idAttr("research", preview) + '><div class="profile-section__heading"><span>01</span><h2>研究方向</h2></div>' + topicHtml(data.research) + "</section>",
-      '<section' + idAttr("publications", preview) + ' class="profile-section achievements"><div class="profile-section__heading"><span>02</span><h2>成果</h2></div><div class="achievements-composition"><section class="achievement-card achievement-card--paper"><h3 class="achievement-card__title"><i class="fa-solid fa-file-lines" aria-hidden="true"></i>论文</h3>' + paperBucket("Published", data.achievements.papers.published, "published") + paperBucket("Under Review", data.achievements.papers.review, "review") + '</section><section class="achievement-card achievement-card--patent"><h3 class="achievement-card__title"><i class="fa-solid fa-certificate" aria-hidden="true"></i>专利</h3>' + patentHtml(data.achievements.patents) + "</section></div></section>",
+      '<section' + idAttr("publications", preview) + ' class="profile-section achievements"><div class="profile-section__heading"><span>02</span><h2>成果</h2></div>' + achievementsHtml(data.achievements) + "</section>",
       '<section class="profile-section profile-section--honors"><div class="profile-section__heading"><span>03</span><h2>项目与荣誉</h2></div>' + listHtml(data.honors) + "</section>",
       '<section class="profile-section profile-section--hobbies"' + idAttr("hobbies", preview) + '><div class="profile-section__heading"><span>04</span><h2>爱好</h2></div>' + listHtml(data.hobbies.items) + photoHtml(data.hobbies.images) + "</section>",
       "</article>",

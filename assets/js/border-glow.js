@@ -1,5 +1,5 @@
 (function () {
-  var selector = ".profile-hero, .profile-section, .love-window, .sidebar.sticky";
+  var selector = ".profile-hero, .profile-section:not(.achievements), .love-window, .sidebar.sticky";
   var finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -73,7 +73,9 @@
   }
 
   function init() {
-    Array.prototype.forEach.call(document.querySelectorAll(selector), enhance);
+    var cards = document.querySelectorAll(selector);
+    if (cards.length) document.documentElement.classList.add("border-glow-page");
+    Array.prototype.forEach.call(cards, enhance);
   }
 
   document.addEventListener("profile:rendered", init);

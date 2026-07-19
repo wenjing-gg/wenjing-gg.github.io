@@ -1,0 +1,62 @@
+<script>document.documentElement.classList.add("resource-loading");</script>
+<div class="resource-loader" data-resource-loader role="status" aria-live="polite" aria-label="资源加载中">
+  <div class="resource-loader__content">
+    <div class="wheel-and-hamster" aria-hidden="true">
+      <div class="wheel"></div>
+      <div class="hamster">
+        <div class="hamster__body">
+          <div class="hamster__head">
+            <div class="hamster__ear"></div>
+            <div class="hamster__eye"></div>
+            <div class="hamster__nose"></div>
+          </div>
+          <div class="hamster__limb hamster__limb--fr"></div>
+          <div class="hamster__limb hamster__limb--fl"></div>
+          <div class="hamster__limb hamster__limb--br"></div>
+          <div class="hamster__limb hamster__limb--bl"></div>
+          <div class="hamster__tail"></div>
+        </div>
+      </div>
+      <div class="spoke"></div>
+    </div>
+    <span class="resource-loader__label">LOADING</span>
+  </div>
+</div>
+<script>
+  (function () {
+    var loader = document.querySelector("[data-resource-loader]");
+    var started = window.performance && performance.now ? performance.now() : Date.now();
+    var reducedMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var finished = false;
+
+    function finish() {
+      if (finished || !loader) return;
+      var app = document.getElementById("profile-app");
+      if (app && !app.firstElementChild) {
+        window.setTimeout(finish, 60);
+        return;
+      }
+      var background = document.querySelector("[data-cinematic-background]");
+      if (background && !/^(playing|ready|paused|fallback)$/.test(background.dataset.state || "")) {
+        window.setTimeout(finish, 60);
+        return;
+      }
+      var now = window.performance && performance.now ? performance.now() : Date.now();
+      var wait = reducedMotion ? 0 : Math.max(0, 520 - (now - started));
+      finished = true;
+      window.setTimeout(function () {
+        loader.classList.add("resource-loader--leaving");
+        document.documentElement.classList.remove("resource-loading");
+        window.setTimeout(function () {
+          loader.hidden = true;
+          loader.setAttribute("aria-hidden", "true");
+          document.dispatchEvent(new Event("resource-loader:hidden"));
+        }, reducedMotion ? 0 : 360);
+      }, wait);
+    }
+
+    if (document.readyState === "complete") finish();
+    else window.addEventListener("load", finish, { once: true });
+    window.setTimeout(finish, 7000);
+  })();
+</script>
