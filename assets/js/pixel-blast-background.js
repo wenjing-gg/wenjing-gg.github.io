@@ -2,7 +2,8 @@
   var homeRoot = document.getElementById("profile-app");
   if (!homeRoot) return;
 
-  var videoUrl = "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260405_170732_8a9ccda6-5cff-4628-b164-059c500a2b41.mp4";
+  var videoUrl = "/assets/media/cinematic-background.mp4";
+  var posterUrl = "/assets/media/cinematic-background-poster.jpg";
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var saveData = Boolean(navigator.connection && navigator.connection.saveData);
   var stage = document.createElement("div");
@@ -20,6 +21,7 @@
   video.loop = true;
   video.playsInline = true;
   video.preload = "auto";
+  video.poster = posterUrl;
   video.setAttribute("muted", "");
   video.setAttribute("playsinline", "");
   stage.appendChild(video);
