@@ -1,0 +1,117 @@
+.target-cursor-enabled,
+.target-cursor-enabled * {
+  cursor: none !important;
+}
+
+.target-cursor-wrapper {
+  --target-cursor-color: #fff;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10050;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  pointer-events: none;
+  mix-blend-mode: difference;
+  will-change: transform, opacity;
+  transition: opacity 120ms ease, scale 180ms ease;
+}
+
+.target-cursor-wrapper.is-visible {
+  opacity: 1;
+}
+
+.target-cursor-frame {
+  position: absolute;
+  inset: 0;
+  animation: target-cursor-spin 2s linear infinite;
+}
+
+.target-cursor-wrapper.is-targeting .target-cursor-frame {
+  animation: none;
+}
+
+.target-cursor-dot {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--target-cursor-color);
+  transform: translate(-50%, -50%);
+  transition: transform 180ms ease;
+}
+
+.target-cursor-corner {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 12px;
+  height: 12px;
+  border: 3px solid var(--target-cursor-color);
+  will-change: transform;
+  transition: transform 200ms cubic-bezier(0.2, 0.7, 0.2, 1), border-color 150ms ease;
+}
+
+.target-cursor-corner--tl {
+  border-right: 0;
+  border-bottom: 0;
+  transform: translate(-150%, -150%);
+}
+
+.target-cursor-corner--tr {
+  border-left: 0;
+  border-bottom: 0;
+  transform: translate(50%, -150%);
+}
+
+.target-cursor-corner--br {
+  border-left: 0;
+  border-top: 0;
+  transform: translate(50%, 50%);
+}
+
+.target-cursor-corner--bl {
+  border-right: 0;
+  border-top: 0;
+  transform: translate(-150%, 50%);
+}
+
+.target-cursor-wrapper.is-pressed {
+  scale: 0.9;
+}
+
+.target-cursor-wrapper.is-pressed .target-cursor-dot {
+  transform: translate(-50%, -50%) scale(0.7);
+}
+
+@keyframes target-cursor-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .target-cursor-frame {
+    animation: none;
+  }
+
+  .target-cursor-wrapper,
+  .target-cursor-dot,
+  .target-cursor-corner {
+    transition: none;
+  }
+}
+
+@media (pointer: coarse), (max-width: 768px) {
+  .target-cursor-enabled,
+  .target-cursor-enabled * {
+    cursor: auto !important;
+  }
+
+  .target-cursor-wrapper {
+    display: none;
+  }
+}

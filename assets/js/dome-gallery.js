@@ -4,7 +4,7 @@
   var SEGMENTS = 24;
   var MAX_VERTICAL_ROTATION = 5;
   var DRAG_SENSITIVITY = 20;
-  var AUTO_SPEED = 1.1;
+  var AUTO_SPEED = 1.65;
   var RESUME_DELAY = 2400;
 
   function clamp(value, min, max) {
@@ -56,8 +56,8 @@
     this.onPointerUp = this.pointerUp.bind(this);
     this.onClick = this.click.bind(this);
     this.onKeyDown = this.keyDown.bind(this);
-    this.onPointerEnter = this.pointerEnter.bind(this);
-    this.onPointerLeave = this.pointerLeave.bind(this);
+    this.onPointerOver = this.pointerOver.bind(this);
+    this.onPointerOut = this.pointerOut.bind(this);
     this.onFocusIn = this.focusIn.bind(this);
     this.onFocusOut = this.focusOut.bind(this);
     this.onScrimClick = this.close.bind(this);
@@ -109,8 +109,8 @@
     this.main.addEventListener("pointercancel", this.onPointerUp);
     this.main.addEventListener("click", this.onClick);
     this.root.addEventListener("keydown", this.onKeyDown);
-    this.root.addEventListener("pointerenter", this.onPointerEnter);
-    this.root.addEventListener("pointerleave", this.onPointerLeave);
+    this.main.addEventListener("pointerover", this.onPointerOver);
+    this.main.addEventListener("pointerout", this.onPointerOut);
     this.root.addEventListener("focusin", this.onFocusIn);
     this.root.addEventListener("focusout", this.onFocusOut);
     this.scrim.addEventListener("click", this.onScrimClick);
@@ -251,12 +251,16 @@
     this.scheduleResume();
   };
 
-  DomeGallery.prototype.pointerEnter = function () {
+  DomeGallery.prototype.pointerOver = function (event) {
+    var image = event.target.closest && event.target.closest(".dome-gallery__image");
+    if (!image || this.hovering) return;
     this.hovering = true;
     this.pause();
   };
 
-  DomeGallery.prototype.pointerLeave = function () {
+  DomeGallery.prototype.pointerOut = function (event) {
+    var nextImage = event.relatedTarget && event.relatedTarget.closest && event.relatedTarget.closest(".dome-gallery__image");
+    if (nextImage && this.main.contains(nextImage)) return;
     this.hovering = false;
     if (!this.drag && !this.focused && !this.enlarged) this.scheduleResume();
   };
@@ -389,8 +393,8 @@
     this.main.removeEventListener("pointercancel", this.onPointerUp);
     this.main.removeEventListener("click", this.onClick);
     this.root.removeEventListener("keydown", this.onKeyDown);
-    this.root.removeEventListener("pointerenter", this.onPointerEnter);
-    this.root.removeEventListener("pointerleave", this.onPointerLeave);
+    this.main.removeEventListener("pointerover", this.onPointerOver);
+    this.main.removeEventListener("pointerout", this.onPointerOut);
     this.root.removeEventListener("focusin", this.onFocusIn);
     this.root.removeEventListener("focusout", this.onFocusOut);
     this.scrim.removeEventListener("click", this.onScrimClick);

@@ -1,0 +1,165 @@
+(function () {
+  var finePointer = window.matchMedia("(pointer: fine)").matches;
+  var coarsePointer = window.matchMedia("(pointer: coarse)").matches;
+  var mobile = window.matchMedia("(max-width: 768px)").matches;
+  if (!finePointer || coarsePointer || mobile) return;
+
+  var TARGET_SELECTOR = [
+    ".cursor-target",
+    "a[href]",
+    "button:not([disabled])",
+    "[role='button']",
+    "input:not([type='hidden']):not([disabled])",
+    "textarea:not([disabled])",
+    "select:not([disabled])",
+    "summary",
+    ".magic-bento-card",
+    ".topic-grid span",
+    ".profile-list li",
+    ".paper-bucket",
+    ".love-days__calendar"
+  ].join(",");
+  var CORNER_SIZE = 12;
+  var BORDER_WIDTH = 3;
+
+  var cursor = document.createElement("div");
+  var dot = document.createElement("span");
+  var frame = document.createElement("span");
+  var corners = ["tl", "tr", "br", "bl"].map(function (position) {
+    var corner = document.createElement("span");
+    corner.className = "target-cursor-corner target-cursor-corner--" + position;
+    frame.appendChild(corner);
+    return corner;
+  });
+
+  cursor.className = "target-cursor-wrapper";
+  cursor.setAttribute("aria-hidden", "true");
+  cursor.dataset.targetCursorReady = "true";
+  dot.className = "target-cursor-dot";
+  frame.className = "target-cursor-frame";
+  cursor.appendChild(dot);
+  cursor.appendChild(frame);
+  document.body.appendChild(cursor);
+  document.body.classList.add("target-cursor-enabled");
+
+  var pointerX = window.innerWidth / 2;
+  var pointerY = window.innerHeight / 2;
+  var cursorX = pointerX;
+  var cursorY = pointerY;
+  var activeTarget = null;
+  var activeRect = null;
+  var frameId = 0;
+  var syncFrameId = 0;
+  var measureTimer = 0;
+  var visible = false;
+
+  function findTarget(node) {
+    if (!node || node.nodeType !== 1 || !node.closest) return null;
+    return node.closest(TARGET_SELECTOR);
+  }
+
+  function measureTarget() {
+    if (!activeTarget || !activeTarget.isConnected) {
+      setTarget(null);
+      return;
+    }
+    activeRect = activeTarget.getBoundingClientRect();
+    scheduleFrame();
+  }
+
+  function scheduleMeasure() {
+    window.clearTimeout(measureTimer);
+    measureTimer = window.setTimeout(measureTarget, 220);
+  }
+
+  function setTarget(target) {
+    if (target === activeTarget) return;
+    window.clearTimeout(measureTimer);
+    measureTimer = 0;
+    activeTarget = target;
+    activeRect = target ? target.getBoundingClientRect() : null;
+    cursor.classList.toggle("is-targeting", Boolean(target));
+    if (target) {
+      cursor.dataset.targeting = target.className || target.tagName.toLowerCase();
+      scheduleMeasure();
+    } else {
+      cursor.removeAttribute("data-targeting");
+      corners.forEach(function (corner) { corner.style.transform = ""; });
+    }
+    scheduleFrame();
+  }
+
+  function applyTargetCorners() {
+    if (!activeRect) return;
+    var points = [
+      { x: activeRect.left - BORDER_WIDTH, y: activeRect.top - BORDER_WIDTH },
+      { x: activeRect.right + BORDER_WIDTH - CORNER_SIZE, y: activeRect.top - BORDER_WIDTH },
+      { x: activeRect.right + BORDER_WIDTH - CORNER_SIZE, y: activeRect.bottom + BORDER_WIDTH - CORNER_SIZE },
+      { x: activeRect.left - BORDER_WIDTH, y: activeRect.bottom + BORDER_WIDTH - CORNER_SIZE }
+    ];
+    corners.forEach(function (corner, index) {
+      corner.style.transform = "translate3d(" + (points[index].x - cursorX).toFixed(2) + "px," + (points[index].y - cursorY).toFixed(2) + "px,0)";
+    });
+  }
+
+  function render() {
+    frameId = 0;
+    var easing = activeTarget ? 0.58 : 0.42;
+    cursorX += (pointerX - cursorX) * easing;
+    cursorY += (pointerY - cursorY) * easing;
+    cursor.style.transform = "translate3d(" + cursorX.toFixed(2) + "px," + cursorY.toFixed(2) + "px,0)";
+    if (activeTarget) applyTargetCorners();
+    if (Math.abs(pointerX - cursorX) > 0.08 || Math.abs(pointerY - cursorY) > 0.08) scheduleFrame();
+  }
+
+  function scheduleFrame() {
+    if (!frameId) frameId = window.requestAnimationFrame(render);
+  }
+
+  function syncTargetUnderPointer() {
+    syncFrameId = 0;
+    var node = document.elementFromPoint(pointerX, pointerY);
+    var target = findTarget(node);
+    if (target === activeTarget) {
+      if (activeTarget) measureTarget();
+      return;
+    }
+    setTarget(target);
+  }
+
+  function scheduleSync() {
+    if (!syncFrameId) syncFrameId = window.requestAnimationFrame(syncTargetUnderPointer);
+  }
+
+  function handlePointerMove(event) {
+    pointerX = event.clientX;
+    pointerY = event.clientY;
+    if (!visible) {
+      visible = true;
+      cursor.classList.add("is-visible");
+    }
+    setTarget(findTarget(event.target));
+    scheduleFrame();
+  }
+
+  function handlePointerLeave() {
+    if (syncFrameId) window.cancelAnimationFrame(syncFrameId);
+    syncFrameId = 0;
+    visible = false;
+    cursor.classList.remove("is-visible", "is-pressed");
+    setTarget(null);
+  }
+
+  function handleScroll() {
+    scheduleSync();
+  }
+
+  window.addEventListener("pointermove", handlePointerMove, { passive: true });
+  window.addEventListener("pointerdown", function () { cursor.classList.add("is-pressed"); }, { passive: true });
+  window.addEventListener("pointerup", function () { cursor.classList.remove("is-pressed"); }, { passive: true });
+  window.addEventListener("blur", handlePointerLeave);
+  document.documentElement.addEventListener("mouseleave", handlePointerLeave, { passive: true });
+  window.addEventListener("scroll", handleScroll, { passive: true });
+  window.addEventListener("resize", scheduleSync, { passive: true });
+  document.addEventListener("profile:rendered", scheduleSync);
+})();
