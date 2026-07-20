@@ -161,7 +161,7 @@
   };
 
   DomeGallery.prototype.shouldAutoRotate = function (now) {
-    return !reduceMotion && this.visible && !this.drag && !this.focused && !this.enlarged && now >= this.resumeAt && Math.abs(this.velocity.x) < 0.0005 && Math.abs(this.velocity.y) < 0.0005;
+    return !reduceMotion && this.visible && !this.drag && !this.focused && now >= this.resumeAt && Math.abs(this.velocity.x) < 0.0005 && Math.abs(this.velocity.y) < 0.0005;
   };
 
   DomeGallery.prototype.start = function () {
@@ -174,7 +174,7 @@
     var elapsed = Math.min(Math.max(now - this.lastFrame, 0), 50);
     this.lastFrame = now;
     var moving = false;
-    if (!this.drag && !this.enlarged && (Math.abs(this.velocity.x) >= 0.0005 || Math.abs(this.velocity.y) >= 0.0005)) {
+    if (!this.drag && (Math.abs(this.velocity.x) >= 0.0005 || Math.abs(this.velocity.y) >= 0.0005)) {
       this.rotation.x = clamp(this.rotation.x + this.velocity.x * elapsed, -MAX_VERTICAL_ROTATION, MAX_VERTICAL_ROTATION);
       this.rotation.y = wrapAngle(this.rotation.y + this.velocity.y * elapsed);
       var friction = Math.pow(0.94, elapsed / 16.667);
@@ -208,7 +208,6 @@
       lastTime: performance.now()
     };
     this.moved = false;
-    this.pause();
   };
 
   DomeGallery.prototype.pointerMove = function (event) {
@@ -219,6 +218,7 @@
       this.moved = true;
       this.root.classList.add("dome-gallery--dragging");
       this.main.setPointerCapture(event.pointerId);
+      this.pause();
     }
     if (!this.moved) return;
     var now = performance.now();
@@ -235,27 +235,28 @@
 
   DomeGallery.prototype.pointerUp = function (event) {
     if (!this.drag || event.pointerId !== this.drag.id) return;
+    var dragged = this.moved;
     if (this.main.hasPointerCapture(event.pointerId)) this.main.releasePointerCapture(event.pointerId);
-    if (this.moved) this.lastDragEnd = performance.now();
+    if (dragged) this.lastDragEnd = performance.now();
     else {
       this.velocity.x = 0;
       this.velocity.y = 0;
     }
     this.drag = null;
     this.root.classList.remove("dome-gallery--dragging");
-    this.scheduleResume();
+    if (dragged) this.scheduleResume();
   };
 
-  DomeGallery.prototype.focusIn = function () {
-    this.focused = true;
-    this.pause();
+  DomeGallery.prototype.focusIn = function (event) {
+    this.focused = Boolean(event.target.matches && event.target.matches(":focus-visible"));
+    if (this.focused) this.pause();
   };
 
   DomeGallery.prototype.focusOut = function () {
     var self = this;
     window.requestAnimationFrame(function () {
-      self.focused = self.root.contains(document.activeElement);
-      if (!self.focused && !self.enlarged) self.scheduleResume();
+      self.focused = self.root.matches(":focus-visible") || Boolean(self.root.querySelector(":focus-visible"));
+      if (!self.focused && !self.enlarged && self.resumeAt === Infinity) self.scheduleResume();
     });
   };
 
@@ -321,8 +322,8 @@
     this.enlarged = { tile: imageButton, overlay: overlay };
     this.root.dataset.enlarging = "true";
     this.root.dataset.openedTile = imageButton.parentElement.dataset.tileIndex;
+    this.root.dispatchEvent(new CustomEvent("domegallery:modalchange", { bubbles: true, detail: { open: true } }));
     document.body.classList.add("dg-scroll-lock");
-    this.pause();
     void overlay.offsetWidth;
     window.requestAnimationFrame(function () {
       overlay.style.left = targetLeft + "px";
@@ -354,13 +355,14 @@
       cleaned = true;
       if (current.overlay.parentNode) current.overlay.parentNode.removeChild(current.overlay);
       current.tile.style.visibility = "";
+      self.root.dispatchEvent(new CustomEvent("domegallery:modalchange", { bubbles: true, detail: { open: false } }));
       if (shouldBlur) {
         if (typeof current.tile.blur === "function") current.tile.blur();
         if (typeof self.root.blur === "function") self.root.blur();
         self.focused = false;
       }
       document.body.classList.remove("dg-scroll-lock");
-      if (!self.focused) self.scheduleResume();
+      if (!self.focused && self.resumeAt === Infinity) self.scheduleResume();
     }
     current.overlay.addEventListener("transitionend", cleanup, { once: true });
     window.setTimeout(cleanup, 420);

@@ -46,6 +46,12 @@
     return target && target.closest(SCOPE_SELECTOR) ? target : null;
   }
 
+  function isScopeAvailable(node) {
+    if (!node || node.nodeType !== 1 || !node.closest) return false;
+    var scope = node.closest(SCOPE_SELECTOR);
+    return Boolean(scope && !scope.querySelector("[data-dome-gallery][data-enlarging='true'], .dome-gallery__enlarge"));
+  }
+
   function measureTarget() {
     if (!activeTarget || !activeTarget.isConnected) {
       setTarget(null);
@@ -99,7 +105,7 @@
   function syncTargetUnderPointer() {
     syncFrameId = 0;
     var node = document.elementFromPoint(pointerX, pointerY);
-    var insideScope = Boolean(node && node.closest && node.closest(SCOPE_SELECTOR));
+    var insideScope = isScopeAvailable(node);
     setScopeActive(insideScope);
     if (!insideScope) return;
     var target = findTarget(node);
@@ -143,7 +149,7 @@
   function handlePointerMove(event) {
     pointerX = event.clientX;
     pointerY = event.clientY;
-    var insideScope = Boolean(event.target.closest && event.target.closest(SCOPE_SELECTOR));
+    var insideScope = isScopeAvailable(event.target);
     setScopeActive(insideScope);
     if (!insideScope) return;
     setTarget(findTarget(event.target));
@@ -170,4 +176,11 @@
   window.addEventListener("scroll", handleScroll, { passive: true });
   window.addEventListener("resize", scheduleSync, { passive: true });
   document.addEventListener("profile:rendered", scheduleSync);
+  document.addEventListener("domegallery:modalchange", function (event) {
+    if (event.detail && event.detail.open) {
+      setScopeActive(false);
+      return;
+    }
+    scheduleSync();
+  });
 })();
