@@ -53,7 +53,6 @@ body::after {
   height: 100%;
   object-fit: cover;
   opacity: 0;
-  filter: brightness(0.64) saturate(0.86) contrast(1.08);
   transform: scale(1.015);
   transition: opacity 0.8s ease;
 }
@@ -68,7 +67,6 @@ body::after {
 
 @media (max-width: 760px) {
   .cinematic-video {
-    filter: brightness(0.56) saturate(0.82) contrast(1.1);
     transform: scale(1.035);
   }
 

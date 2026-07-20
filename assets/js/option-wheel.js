@@ -33,6 +33,7 @@
     this.onPointerEnd = this.handlePointerEnd.bind(this);
     this.onKeyDown = this.handleKeyDown.bind(this);
     this.onClick = this.handleClick.bind(this);
+    this.onFrame = this.runFrame.bind(this);
 
     root.addEventListener("wheel", this.onWheel, { passive: false });
     root.addEventListener("pointerdown", this.onPointerDown);
@@ -67,7 +68,6 @@
       var rotation = angle * 180 / Math.PI;
       item.style.transform = "translate(" + x.toFixed(2) + "px, calc(" + y.toFixed(2) + "px - 50%)) rotate(" + rotation.toFixed(3) + "deg)";
       item.style.opacity = String(Math.max(0.08, 1 - distance * 0.23));
-      item.style.filter = "blur(" + (distance * 0.72).toFixed(2) + "px)";
       item.style.setProperty("--ow-p", Math.max(0, 1 - Math.min(distance, 1)).toFixed(4));
     });
   };
@@ -82,13 +82,13 @@
     var settled = Math.abs(this.target - next) < 0.001;
     this.position = settled ? this.target : next;
     this.layout();
-    if (!settled) this.frameId = window.requestAnimationFrame(this.runFrame.bind(this));
+    if (!settled) this.frameId = window.requestAnimationFrame(this.onFrame);
   };
 
   OptionWheel.prototype.start = function () {
     if (this.frameId) return;
     this.lastFrame = performance.now();
-    this.frameId = window.requestAnimationFrame(this.runFrame.bind(this));
+    this.frameId = window.requestAnimationFrame(this.onFrame);
   };
 
   OptionWheel.prototype.updateSelection = function (index) {

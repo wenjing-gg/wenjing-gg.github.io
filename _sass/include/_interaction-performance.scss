@@ -1,0 +1,125 @@
+/* Late overrides for smooth interaction over the full-screen video backdrop. */
+.masthead,
+.sidebar.sticky {
+  backdrop-filter: blur(8px) saturate(1.08);
+  -webkit-backdrop-filter: blur(8px) saturate(1.08);
+}
+
+.profile-hero,
+.profile-section,
+.love-window {
+  contain: paint;
+  backdrop-filter: blur(8px) saturate(1.08);
+  -webkit-backdrop-filter: blur(8px) saturate(1.08);
+}
+
+.achievement-card {
+  backdrop-filter: blur(6px) saturate(1.06);
+  -webkit-backdrop-filter: blur(6px) saturate(1.06);
+}
+
+.profile-section.achievements {
+  contain: none;
+}
+
+.profile-hero::before,
+.love-window::before,
+.profile-hero__shine {
+  animation: none;
+}
+
+.profile-hero::before,
+.love-window::before {
+  transform: none;
+}
+
+.profile-hero__shine {
+  display: none;
+}
+
+.profile-section,
+.love-window,
+.profile-hero {
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.profile-section:hover,
+.love-window:hover,
+.profile-hero:hover,
+.profile-hero.profile-motion-item.is-visible:hover,
+.profile-section.profile-motion-item.is-visible:hover,
+.love-window.profile-motion-item.is-visible:hover {
+  transform: translate3d(0, 0, 0) scale(1);
+  border-color: rgba(255, 255, 255, 0.78);
+  box-shadow: 0 22px 52px rgba(3, 34, 57, 0.14);
+}
+
+.topic-grid span::after,
+.profile-list li::after,
+.paper-bucket::after,
+.achievement-card::after {
+  transform: none;
+  transition: opacity 160ms ease;
+}
+
+.topic-grid span:hover::after,
+.profile-list li:hover::after,
+.paper-bucket:hover::after,
+.achievement-card:hover::after {
+  transform: none;
+}
+
+.achievement-card.profile-motion-item.is-visible:hover,
+.paper-bucket.profile-motion-item.is-visible:hover,
+.profile-list li.profile-motion-item.is-visible:hover,
+.topic-grid span.profile-motion-item.is-visible:hover {
+  transform: translate3d(0, -1px, 0) scale(1);
+  box-shadow: 0 16px 34px rgba(12, 40, 58, 0.12);
+}
+
+.profile-hero__contact,
+.paper-link,
+.music-hub,
+.music-toggle,
+.music-next,
+.admin-entry {
+  transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease, background 160ms ease, opacity 160ms ease;
+}
+
+.paper-link:hover,
+.music-hub:hover,
+.music-toggle:hover,
+.music-next:hover,
+.admin-entry:hover,
+.admin-entry--active,
+.paper-link.profile-motion-item.is-visible:hover {
+  transform: translate3d(0, -1px, 0) scale(1);
+}
+
+.photo-grid img,
+.love-card img {
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.photo-grid img:hover,
+.love-card img:hover,
+.photo-grid img.profile-motion-item.is-visible:hover,
+.love-card img.profile-motion-item.is-visible:hover {
+  filter: none;
+  transform: translate3d(0, -1px, 0) scale(1.008);
+  box-shadow: 0 18px 38px rgba(8, 45, 70, 0.16);
+}
+
+@media (prefers-reduced-motion: reduce), (pointer: coarse), (max-width: 760px) {
+  .profile-hero,
+  .profile-section,
+  .love-window,
+  .achievement-card,
+  .paper-bucket,
+  .profile-list li,
+  .topic-grid span,
+  .photo-grid img,
+  .love-card img {
+    transition: none;
+  }
+}

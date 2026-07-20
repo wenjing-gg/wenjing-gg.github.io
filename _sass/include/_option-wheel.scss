@@ -54,7 +54,7 @@
   white-space: nowrap;
   transform-origin: left center;
   cursor: pointer;
-  will-change: transform, opacity, filter;
+  will-change: transform, opacity;
 }
 
 .option-wheel__item:focus {

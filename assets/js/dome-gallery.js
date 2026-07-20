@@ -1,7 +1,7 @@
 (function () {
   var instances = [];
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var SEGMENTS = 35;
+  var SEGMENTS = 24;
   var MAX_VERTICAL_ROTATION = 5;
   var DRAG_SENSITIVITY = 20;
   var AUTO_SPEED = 1.1;
@@ -19,7 +19,7 @@
   function buildItems(images) {
     var coordinates = [];
     for (var column = 0; column < SEGMENTS; column += 1) {
-      var x = -37 + column * 2;
+      var x = -(SEGMENTS - 1) + column * 2;
       var ys = column % 2 === 0 ? [-4, -2, 0, 2, 4] : [-3, -1, 1, 3, 5];
       ys.forEach(function (y) { coordinates.push({ x: x, y: y }); });
     }
@@ -61,6 +61,7 @@
     this.onFocusIn = this.focusIn.bind(this);
     this.onFocusOut = this.focusOut.bind(this);
     this.onScrimClick = this.close.bind(this);
+    this.onDocumentKeyDown = this.documentKeyDown.bind(this);
     this.onFrame = this.frame.bind(this);
 
     this.init();
@@ -113,6 +114,7 @@
     this.root.addEventListener("focusin", this.onFocusIn);
     this.root.addEventListener("focusout", this.onFocusOut);
     this.scrim.addEventListener("click", this.onScrimClick);
+    document.addEventListener("keydown", this.onDocumentKeyDown);
 
     if ("ResizeObserver" in window) {
       this.resizeObserver = new ResizeObserver(this.onResize);
@@ -150,8 +152,6 @@
 
   DomeGallery.prototype.applyTransform = function () {
     this.sphere.style.transform = "translateZ(calc(var(--dome-radius) * -1)) rotateX(" + this.rotation.x.toFixed(4) + "deg) rotateY(" + this.rotation.y.toFixed(4) + "deg)";
-    this.root.dataset.rotationX = this.rotation.x.toFixed(3);
-    this.root.dataset.rotationY = this.rotation.y.toFixed(3);
   };
 
   DomeGallery.prototype.pause = function () {
@@ -306,6 +306,12 @@
     this.scheduleResume();
   };
 
+  DomeGallery.prototype.documentKeyDown = function (event) {
+    if (event.key !== "Escape" || !this.enlarged) return;
+    event.preventDefault();
+    this.close();
+  };
+
   DomeGallery.prototype.open = function (imageButton) {
     if (this.enlarged) return;
     var tileRect = imageButton.getBoundingClientRect();
@@ -388,6 +394,7 @@
     this.root.removeEventListener("focusin", this.onFocusIn);
     this.root.removeEventListener("focusout", this.onFocusOut);
     this.scrim.removeEventListener("click", this.onScrimClick);
+    document.removeEventListener("keydown", this.onDocumentKeyDown);
     if (this.resizeObserver) this.resizeObserver.disconnect();
     else window.removeEventListener("resize", this.onResize);
     if (this.visibilityObserver) this.visibilityObserver.disconnect();
