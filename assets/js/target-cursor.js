@@ -4,21 +4,8 @@
   var mobile = window.matchMedia("(max-width: 768px)").matches;
   if (!finePointer || coarsePointer || mobile) return;
 
-  var TARGET_SELECTOR = [
-    ".cursor-target",
-    "a[href]",
-    "button:not([disabled])",
-    "[role='button']",
-    "input:not([type='hidden']):not([disabled])",
-    "textarea:not([disabled])",
-    "select:not([disabled])",
-    "summary",
-    ".magic-bento-card",
-    ".topic-grid span",
-    ".profile-list li",
-    ".paper-bucket",
-    ".love-days__calendar"
-  ].join(",");
+  var SCOPE_SELECTOR = ".love-window";
+  var TARGET_SELECTOR = ".dome-gallery__image, .love-days__calendar";
   var CORNER_SIZE = 12;
   var BORDER_WIDTH = 3;
 
@@ -35,12 +22,12 @@
   cursor.className = "target-cursor-wrapper";
   cursor.setAttribute("aria-hidden", "true");
   cursor.dataset.targetCursorReady = "true";
+  cursor.dataset.targetCursorScope = "love-window";
   dot.className = "target-cursor-dot";
   frame.className = "target-cursor-frame";
   cursor.appendChild(dot);
   cursor.appendChild(frame);
   document.body.appendChild(cursor);
-  document.body.classList.add("target-cursor-enabled");
 
   var pointerX = window.innerWidth / 2;
   var pointerY = window.innerHeight / 2;
@@ -50,12 +37,13 @@
   var activeRect = null;
   var frameId = 0;
   var syncFrameId = 0;
-  var measureTimer = 0;
-  var visible = false;
+  var scopeTimer = 0;
+  var scopeActive = false;
 
   function findTarget(node) {
     if (!node || node.nodeType !== 1 || !node.closest) return null;
-    return node.closest(TARGET_SELECTOR);
+    var target = node.closest(TARGET_SELECTOR);
+    return target && target.closest(SCOPE_SELECTOR) ? target : null;
   }
 
   function measureTarget() {
@@ -67,21 +55,13 @@
     scheduleFrame();
   }
 
-  function scheduleMeasure() {
-    window.clearTimeout(measureTimer);
-    measureTimer = window.setTimeout(measureTarget, 220);
-  }
-
   function setTarget(target) {
     if (target === activeTarget) return;
-    window.clearTimeout(measureTimer);
-    measureTimer = 0;
     activeTarget = target;
     activeRect = target ? target.getBoundingClientRect() : null;
     cursor.classList.toggle("is-targeting", Boolean(target));
     if (target) {
       cursor.dataset.targeting = target.className || target.tagName.toLowerCase();
-      scheduleMeasure();
     } else {
       cursor.removeAttribute("data-targeting");
       corners.forEach(function (corner) { corner.style.transform = ""; });
@@ -119,6 +99,9 @@
   function syncTargetUnderPointer() {
     syncFrameId = 0;
     var node = document.elementFromPoint(pointerX, pointerY);
+    var insideScope = Boolean(node && node.closest && node.closest(SCOPE_SELECTOR));
+    setScopeActive(insideScope);
+    if (!insideScope) return;
     var target = findTarget(node);
     if (target === activeTarget) {
       if (activeTarget) measureTarget();
@@ -131,13 +114,38 @@
     if (!syncFrameId) syncFrameId = window.requestAnimationFrame(syncTargetUnderPointer);
   }
 
+  function scheduleScopeSync() {
+    if (!scopeActive || scopeTimer) return;
+    scopeTimer = window.setTimeout(function () {
+      scopeTimer = 0;
+      if (!scopeActive) return;
+      syncTargetUnderPointer();
+      scheduleScopeSync();
+    }, 90);
+  }
+
+  function setScopeActive(active) {
+    if (active === scopeActive) return;
+    scopeActive = active;
+    document.body.classList.toggle("target-cursor-enabled", active);
+    cursor.classList.toggle("is-visible", active);
+    if (active) {
+      scheduleFrame();
+      scheduleScopeSync();
+      return;
+    }
+    window.clearTimeout(scopeTimer);
+    scopeTimer = 0;
+    cursor.classList.remove("is-pressed");
+    setTarget(null);
+  }
+
   function handlePointerMove(event) {
     pointerX = event.clientX;
     pointerY = event.clientY;
-    if (!visible) {
-      visible = true;
-      cursor.classList.add("is-visible");
-    }
+    var insideScope = Boolean(event.target.closest && event.target.closest(SCOPE_SELECTOR));
+    setScopeActive(insideScope);
+    if (!insideScope) return;
     setTarget(findTarget(event.target));
     scheduleFrame();
   }
@@ -145,9 +153,7 @@
   function handlePointerLeave() {
     if (syncFrameId) window.cancelAnimationFrame(syncFrameId);
     syncFrameId = 0;
-    visible = false;
-    cursor.classList.remove("is-visible", "is-pressed");
-    setTarget(null);
+    setScopeActive(false);
   }
 
   function handleScroll() {
@@ -155,7 +161,9 @@
   }
 
   window.addEventListener("pointermove", handlePointerMove, { passive: true });
-  window.addEventListener("pointerdown", function () { cursor.classList.add("is-pressed"); }, { passive: true });
+  window.addEventListener("pointerdown", function () {
+    if (scopeActive) cursor.classList.add("is-pressed");
+  }, { passive: true });
   window.addEventListener("pointerup", function () { cursor.classList.remove("is-pressed"); }, { passive: true });
   window.addEventListener("blur", handlePointerLeave);
   document.documentElement.addEventListener("mouseleave", handlePointerLeave, { passive: true });
