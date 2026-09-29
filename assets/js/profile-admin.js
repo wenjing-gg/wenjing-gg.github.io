@@ -92,7 +92,7 @@
 
   function modalTemplate(kind) {
     if (kind === "patent") return { title: "", note: "" };
-    return { note: "", title: "", authors: "", linkText: "", linkUrl: "" };
+    return { note: "", title: "", authors: "", linkText: "", linkUrl: "", figure: "" };
   }
 
   function openModal(kind, path, title) {

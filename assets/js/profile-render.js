@@ -68,14 +68,20 @@
 
   function bentoPaper(item, status, index) {
     var link = util.cleanUrl(item.linkUrl);
+    var figure = util.cleanUrl(item.figure);
+    var title = util.trim(item.title);
+    var titleHtml = util.escapeHtml(title || "未命名成果");
     return [
       '<article class="magic-bento-card magic-bento-card--paper magic-bento-card--', status, ' magic-bento-card--slot-', index + 1, '" data-magic-bento-card>',
       '<header class="magic-bento-card__header">',
       '<span class="magic-bento-card__label">', status === "published" ? "PUBLISHED" : "UNDER REVIEW", "</span>",
       util.trim(item.note) ? '<span class="magic-bento-card__note">' + util.escapeHtml(item.note) + "</span>" : "",
       "</header>",
+      figure
+        ? '<div class="magic-bento-card__figure"><button type="button" class="magic-bento-card__figure-btn" data-figure-zoom data-figure-src="' + util.escapeHtml(figure) + '" data-figure-title="' + util.escapeHtml(title) + '" aria-label="放大查看论文框架图"><img src="' + util.escapeHtml(figure) + '" alt="' + titleHtml + ' 框架图" loading="lazy" decoding="async"></button></div>'
+        : "",
       '<div class="magic-bento-card__content">',
-      '<h3 class="magic-bento-card__title">', util.escapeHtml(util.trim(item.title) || "未命名成果"), "</h3>",
+      '<h3 class="magic-bento-card__title">', titleHtml, "</h3>",
       util.trim(item.authors) ? '<p class="magic-bento-card__authors"><strong>Authors:</strong> ' + util.hiAuthor(item.authors, site.state.meta && site.state.meta.selfAuthorName) + "</p>" : "",
       link && util.trim(item.linkText) ? '<a class="magic-bento-card__link" href="' + util.escapeHtml(link) + '" target="_blank" rel="noopener noreferrer">' + util.escapeHtml(item.linkText) + '<i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>' : "",
       "</div>",
@@ -219,6 +225,60 @@
       renderAll();
     });
   };
+
+  /* ---- paper figure lightbox (shared by home page and admin preview) ---- */
+  var lightboxNode = null;
+
+  function ensureLightbox() {
+    if (lightboxNode) return lightboxNode;
+    lightboxNode = document.createElement("div");
+    lightboxNode.className = "figure-lightbox";
+    lightboxNode.setAttribute("role", "dialog");
+    lightboxNode.setAttribute("aria-modal", "true");
+    lightboxNode.setAttribute("aria-label", "论文框架图放大查看");
+    lightboxNode.innerHTML = [
+      '<div class="figure-lightbox__backdrop" data-figure-close></div>',
+      '<figure class="figure-lightbox__stage">',
+      "<img alt=\"\">",
+      "<figcaption></figcaption>",
+      "</figure>",
+      '<button type="button" class="figure-lightbox__close" data-figure-close aria-label="关闭">✕</button>'
+    ].join("");
+    document.body.appendChild(lightboxNode);
+    return lightboxNode;
+  }
+
+  function openLightbox(src, title) {
+    var box = ensureLightbox();
+    var img = box.querySelector("img");
+    img.src = src;
+    img.alt = (title ? title + " " : "") + "框架图";
+    box.querySelector("figcaption").textContent = title || "";
+    box.classList.add("is-open");
+    document.body.classList.add("figure-lightbox-open");
+    box.querySelector(".figure-lightbox__close").focus();
+  }
+
+  function closeLightbox() {
+    if (!lightboxNode || !lightboxNode.classList.contains("is-open")) return;
+    lightboxNode.classList.remove("is-open");
+    document.body.classList.remove("figure-lightbox-open");
+  }
+
+  document.addEventListener("click", function (event) {
+    if (!(event.target && event.target.closest)) return;
+    var trigger = event.target.closest("[data-figure-zoom]");
+    if (trigger) {
+      event.preventDefault();
+      openLightbox(trigger.getAttribute("data-figure-src"), util.trim(trigger.getAttribute("data-figure-title")));
+      return;
+    }
+    if (event.target.closest("[data-figure-close]")) closeLightbox();
+  });
+
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape") closeLightbox();
+  });
 
   ensureAdminEntry();
   if (homeRoot) renderAll();

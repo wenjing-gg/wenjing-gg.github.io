@@ -68,10 +68,35 @@
             title: text(item && item.title),
             authors: text(item && item.authors),
             linkText: text(item && item.linkText),
-            linkUrl: text(item && item.linkUrl)
+            linkUrl: text(item && item.linkUrl),
+            figure: text(item && item.figure)
           };
         })
       : [];
+  }
+
+  function defaultFigures(kind) {
+    var papers = defaults && defaults.achievements && defaults.achievements.papers;
+    if (!papers) return [];
+    return Array.isArray(papers[kind]) ? papers[kind] : [];
+  }
+
+  /* Visitors who edited content before the figure field existed carry a
+     localStorage copy whose paper arrays replace the defaults wholesale —
+     restore each missing figure by title so framework figures still show. */
+  function backfillFigures(list, kind) {
+    if (!Array.isArray(list)) return;
+    var source = defaultFigures(kind);
+    list.forEach(function (item) {
+      if (trim(item.figure)) return;
+      source.some(function (entry) {
+        if (trim(entry.title) && trim(entry.title) === trim(item.title)) {
+          item.figure = trim(entry.figure);
+          return true;
+        }
+        return false;
+      });
+    });
   }
 
   function patentArr(v) {
@@ -106,6 +131,8 @@
 
   function normalize(source) {
     var merged = merge(defaults, source || {});
+    backfillFigures(merged.achievements && merged.achievements.papers && merged.achievements.papers.published, "published");
+    backfillFigures(merged.achievements && merged.achievements.papers && merged.achievements.papers.review, "review");
     return {
       meta: {
         selfAuthorName: trim(merged.meta && merged.meta.selfAuthorName) || trim(defaults.meta && defaults.meta.selfAuthorName)
@@ -225,7 +252,7 @@
   }
 
   function template(kind) {
-    if (kind === "paper") return { note: "", title: "", authors: "", linkText: "", linkUrl: "" };
+    if (kind === "paper") return { note: "", title: "", authors: "", linkText: "", linkUrl: "", figure: "" };
     if (kind === "patent") return { title: "", note: "" };
     if (kind === "image") return { src: "", alt: "", repoPath: "", uploadName: "" };
     return "";

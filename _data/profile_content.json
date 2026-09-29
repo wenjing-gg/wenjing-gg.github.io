@@ -30,14 +30,16 @@
           "title": "MT-WilmsNet: A Multi-level Transformer Fusion Network for Wilms’ Tumor Segmentation and Metastasis Prediction",
           "authors": "Zhu Zhu, Wenjing Yu, Xiaohui Ma, Shuai Liu, Jie Dong, Yuxin Du, Changmiao Wang, Gang Yu",
           "linkText": "DOI: 10.1007/978-3-032-04965-0_31",
-          "linkUrl": "https://doi.org/10.1007/978-3-032-04965-0_31"
+          "linkUrl": "https://doi.org/10.1007/978-3-032-04965-0_31",
+          "figure": "/images/pubs/mtwilmsnet.jpg"
         },
         {
           "note": "BIBM 2025（CCF-B）",
           "title": "DR-TTA: Dynamic and Robust Test-Time Adaptation Under Low-Quality MRI Conditions for Brain Tumor Segmentation",
           "authors": "Yuanhan Wang, Yifei Chen, Shuo Jiang, Wenjing Yu, Mingxuan Liu, Beining Wu, Shenghao Zhu, Feiwei Qin, Jin Fan, Changmiao Wang",
           "linkText": "DOI: 10.1109/BIBM66473.2025.11356381",
-          "linkUrl": "https://doi.org/10.1109/BIBM66473.2025.11356381"
+          "linkUrl": "https://doi.org/10.1109/BIBM66473.2025.11356381",
+          "figure": "/images/pubs/drtta.jpg"
         }
       ],
       "review": [
@@ -46,21 +48,24 @@
           "title": "A Large Scale Benchmark for Test Time Adaptation Methods in Medical Image Segmentation",
           "authors": "Wenjing Yu, Shuo Jiang, Yifei Chen, Shuo Chang, Yuanhan Wang, Beining Wu, Jie Dong, Mingxuan Liu, Shenghao Zhu, Feiwei Qin, Changmiao Wang, Qiyuan Tian",
           "linkText": "arXiv: 2512.02497",
-          "linkUrl": "https://arxiv.org/abs/2512.02497"
+          "linkUrl": "https://arxiv.org/abs/2512.02497",
+          "figure": "/images/pubs/tta-benchmark.jpg"
         },
         {
           "note": "Under Review",
           "title": "MTC-WTNet: A Multitask Collaboration Framework for Wilms’ Tumor Segmentation and Preoperative Metastasis Prediction",
           "authors": "Zhu Zhu, Wenjing Yu, Wenxu Qi, Yuxin Du, Xiaohui Ma, Shuai Liu, Jie Dong, Changmiao Wang, Feiwei Qin and Gang Yu",
           "linkText": "",
-          "linkUrl": ""
+          "linkUrl": "",
+          "figure": "/images/pubs/mtc-wtnet.jpg"
         },
         {
           "note": "Under Review",
           "title": "SmaRT: Style-Modulated Robust Test-Time Adaptation for Cross-Domain Brain Tumor Segmentation in MRI",
           "authors": "Yuanhan Wang, Yifei Chen, Shuo Jiang, Wenjing Yu, Mingxuan Liu, Beining Wu, Jinying Zong, Feiwei Qin, Changmiao Wang, Qiyuan Tian",
           "linkText": "arXiv: 2509.17925",
-          "linkUrl": "https://arxiv.org/abs/2509.17925"
+          "linkUrl": "https://arxiv.org/abs/2509.17925",
+          "figure": "/images/pubs/smart.jpg"
         }
       ]
     },
