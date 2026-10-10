@@ -16,11 +16,23 @@ def make_snapshot(author):
             'citedby': count, 'updated': datetime.now(timezone.utc).isoformat(), 'source': 'Google Scholar'}
 
 
+def fetch_author():
+    author = scholarly.search_author_id(os.environ.get('GOOGLE_SCHOLAR_ID', 'xeFx7LQAAAAJ'))
+    return scholarly.fill(author, sections=['basics', 'indices', 'counts'])
+
+
 def main():
     scholarly.set_timeout(30)
     scholarly.set_retries(2)
-    author = scholarly.search_author_id(os.environ.get('GOOGLE_SCHOLAR_ID', 'xeFx7LQAAAAJ'))
-    author = scholarly.fill(author, sections=['basics', 'indices', 'counts'])
+    try:
+        author = fetch_author()
+    except Exception:
+        # Google rate-limits datacenter IPs; retry through free proxies.
+        from scholarly import ProxyGenerator
+        pg = ProxyGenerator()
+        if pg.FreeProxies():
+            scholarly.use_proxy(pg)
+        author = fetch_author()
     snapshot = make_snapshot(author)
     output = Path(os.environ.get('OUTPUT_DIR', 'results'))
     output.mkdir(parents=True, exist_ok=True)
