@@ -10,7 +10,7 @@
 locale                   : "zh-CN"
 site_theme               : "default" # Currently available options are "default", "air"
 title                    : "余文敬"
-title_separator          : "-"
+title_separator          : "|"
 name                     : &name "余文敬"
 description              : &description "余文敬的个人学术主页"
 url                      : https://wenjing-gg.github.io # the base hostname & protocol for your site e.g. "https://[your GitHub username].github.io" or if you already have some other page hosted on Github then use "https://[your GitHub username].github.io/[Your Repo Name]"

@@ -46,6 +46,7 @@
       {% endif %}      
       {% if author.googlescholar %}
         <li><a href="{{ author.googlescholar }}"><i class="ai ai-google-scholar ai-fw icon-pad-right"></i>Google Scholar</a></li>
+        <li class="citation-entry"><a class="citation-link" href="{{ author.googlescholar }}" target="_blank" rel="noopener noreferrer" title="Google Scholar total citations"><i class="fas fa-fw fa-quote-right icon-pad-right" aria-hidden="true"></i>Citations <span id="citation-total">…</span></a><span class="citation-updated" id="citation-updated"></span></li>
       {% endif %}
       {% if author.semantic %}
         <li><a href="{{ author.semantic }}"><i class="ai ai-semantic-scholar ai-fw icon-pad-right"></i>Semantic Scholar</a></li>

@@ -1,6 +1,6 @@
 ---
 permalink: /
-title: "个人介绍"
+title: "Wenjing Yu"
 author_profile: true
 redirect_from:
   - /about/

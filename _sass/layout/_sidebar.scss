@@ -262,3 +262,18 @@
     }
   }
 }
+
+/* Google Scholar citation badge */
+.citation-entry {
+  .citation-link {
+    font-weight: 600;
+  }
+
+  .citation-updated {
+    display: block;
+    padding-left: 2.25em;
+    color: var(--global-text-color-light);
+    font-size: 0.72em;
+    letter-spacing: 0.04em;
+  }
+}
