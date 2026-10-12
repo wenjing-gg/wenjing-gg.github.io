@@ -164,7 +164,10 @@
     if (util.trim(intro.phone)) contacts.push("电话：" + util.escapeHtml(util.trim(intro.phone)));
     if (emails.length) contacts.push("邮箱：" + emails.join(" / "));
     if (mentor) {
-      mentorHtml = "师从 " + (mentorUrl ? '<a href="' + util.escapeHtml(mentorUrl) + '" target="_blank" rel="noopener noreferrer">' + util.escapeHtml(mentor) + "</a>" : util.escapeHtml(mentor));
+      var mentorLabel = util.escapeHtml(mentor) +
+        (util.trim(intro.mentorEn) ? "（" + util.escapeHtml(util.trim(intro.mentorEn)) + "）" : "") +
+        (util.trim(intro.mentorTitle) ? util.escapeHtml(util.trim(intro.mentorTitle)) : "");
+      mentorHtml = "师从 " + (mentorUrl ? '<a href="' + util.escapeHtml(mentorUrl) + '" target="_blank" rel="noopener noreferrer">' + mentorLabel + "</a>" : mentorLabel);
       if (util.trim(intro.mentorSummary)) mentorHtml += "，" + util.escapeHtml(util.trim(intro.mentorSummary));
     } else if (util.trim(intro.mentorSummary)) {
       mentorHtml = util.escapeHtml(util.trim(intro.mentorSummary));
@@ -182,7 +185,11 @@
         var linked = util.cleanUrl(item.url)
           ? '<a href="' + util.escapeHtml(util.cleanUrl(item.url)) + '" target="_blank" rel="noopener noreferrer">' + name + "</a>"
           : name;
-        return "在" + util.escapeHtml(util.trim(item.org)) + util.escapeHtml(util.trim(item.verb) || "接受联合科研训练") + "，合作导师为" + linked;
+        var orgText = util.escapeHtml(util.trim(item.org));
+        var orgLinked = util.cleanUrl(item.orgUrl)
+          ? '<a href="' + util.escapeHtml(util.cleanUrl(item.orgUrl)) + '" target="_blank" rel="noopener noreferrer">' + orgText + "</a>"
+          : orgText;
+        return "在" + orgLinked + util.escapeHtml(util.trim(item.verb) || "接受联合科研训练") + "，合作导师为" + linked;
       });
       jointHtml = '<p class="profile-hero__joint">' + clauses.join("；同时") + "。</p>";
     }

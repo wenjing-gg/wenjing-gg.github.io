@@ -134,6 +134,7 @@
       ? v.map(function (item) {
           return {
             org: text(item && item.org),
+            orgUrl: text(item && item.orgUrl),
             verb: text(item && item.verb),
             name: text(item && item.name),
             en: text(item && item.en),
@@ -155,6 +156,8 @@
       intro: {
         lead: text(merged.intro && merged.intro.lead),
         mentorName: text(merged.intro && merged.intro.mentorName),
+        mentorEn: text(merged.intro && merged.intro.mentorEn),
+        mentorTitle: text(merged.intro && merged.intro.mentorTitle),
         mentorUrl: text(merged.intro && merged.intro.mentorUrl),
         mentorSummary: text(merged.intro && merged.intro.mentorSummary),
         phone: text(merged.intro && merged.intro.phone),

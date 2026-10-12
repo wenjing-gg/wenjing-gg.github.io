@@ -4,7 +4,7 @@
   },
   "intro": {
     "lead": "余文敬，男，汉族，中共党员，现为杭州电子科技大学 3DV Lab、清华大学 BIRTH Lab 及香港中文大学（深圳）SRIBD Lab 三方联合实验室联合培养博士研究生。",
-    "mentorName": "秦飞巍教授",
+    "mentorName": "秦飞巍",
     "mentorUrl": "https://faculty.hdu.edu.cn/jsjxy/qfw/main.htm",
     "mentorSummary": "研究方向聚焦医学影像分析、医学多任务学习与垂域多智能体，兼具理论研究与工程实践经验。",
     "phone": "18268000432",
@@ -18,7 +18,9 @@
         "verb": "接受联合科研训练",
         "name": "田启源",
         "en": "Qiyuan Tian",
-        "title": "教授"
+        "title": "教授",
+        "url": "https://www.med.tsinghua.edu.cn/info/1143/2126.htm",
+        "orgUrl": "https://birthlab.github.io/"
       },
       {
         "org": "香港中文大学（深圳）SRIBD（深圳市大数据研究院）",
@@ -26,18 +28,20 @@
         "name": "王昌淼",
         "en": "Changmiao Wang",
         "title": "副教授",
-        "url": "https://jiandanjinxin.github.io/changmiaowang/"
+        "url": "https://jiandanjinxin.github.io/changmiaowang/",
+        "orgUrl": "https://www.sribd.cn/"
       }
-    ]
+    ],
+    "mentorEn": "Feiwei Qin",
+    "mentorTitle": "教授"
   },
   "research": [
     "医学影像分析",
     "医学多任务学习",
     "测试时域适应",
     "垂域多智能体",
-    "弱监督分割",
-    "半监督分割",
-    "VQA"
+    "弱监督学习",
+    "医疗多模态大模型"
   ],
   "achievements": {
     "papers": {
