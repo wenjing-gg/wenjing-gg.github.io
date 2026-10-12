@@ -170,14 +170,31 @@
       mentorHtml = util.escapeHtml(util.trim(intro.mentorSummary));
     }
 
+    var joint = (intro.jointTraining || []).filter(function (item) {
+      return util.trim(item.org) && util.trim(item.name);
+    });
+    var jointHtml = "";
+    if (joint.length) {
+      var clauses = joint.map(function (item) {
+        var name = util.escapeHtml(util.trim(item.name)) +
+          (util.trim(item.en) ? "（" + util.escapeHtml(util.trim(item.en)) + "）" : "") +
+          (util.trim(item.title) ? util.escapeHtml(util.trim(item.title)) : "");
+        var linked = util.cleanUrl(item.url)
+          ? '<a href="' + util.escapeHtml(util.cleanUrl(item.url)) + '" target="_blank" rel="noopener noreferrer">' + name + "</a>"
+          : name;
+        return "在" + util.escapeHtml(util.trim(item.org)) + util.escapeHtml(util.trim(item.verb) || "接受联合科研训练") + "，合作导师为" + linked;
+      });
+      jointHtml = '<p class="profile-hero__joint">' + clauses.join("；同时") + "。</p>";
+    }
+
     return [
       '<div class="profile-shell">',
       '<div class="profile-hero"' + idAttr("intro", preview) + '>',
       '<div class="profile-hero__shine" aria-hidden="true"></div>',
-      '<p class="profile-hero__eyebrow">Medical Imaging · Multitask Learning · Domain Adaptation</p>',
       '<h2 class="profile-hero__title">余文敬</h2>',
       '<p class="profile-hero__lead">' + util.escapeHtml(intro.lead) + "</p>",
       mentorHtml ? "<p>" + mentorHtml + "</p>" : "",
+      jointHtml,
       contacts.length ? '<p class="profile-hero__contact"><strong>联系方式：</strong>' + contacts.join(" ｜ ") + "</p>" : "",
       "</div>",
       '<article class="journal-profile">',

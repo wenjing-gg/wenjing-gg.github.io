@@ -64,7 +64,7 @@ a:hover {
 }
 
 .journal-profile {
-  max-width: 980px;
+  max-width: 1040px;
   margin: 0 auto;
   color: var(--journal-ink);
   line-height: 1.85;
@@ -85,7 +85,7 @@ a:hover {
 }
 
 .profile-hero {
-  max-width: 980px;
+  max-width: 1040px;
   margin: 0 auto 1.8rem auto;
   padding: 1.2rem 1.35rem;
   border: 1px solid var(--journal-rule);
@@ -1489,15 +1489,6 @@ body::after {
   pointer-events: none;
 }
 
-.profile-hero__eyebrow {
-  margin: 0 0 0.58rem 0;
-  color: var(--glass-teal);
-  font-size: 0.76rem;
-  font-weight: 800;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
 .profile-hero__title {
   margin: 0 0 0.8rem 0;
   color: var(--glass-title);
@@ -1992,11 +1983,6 @@ body::after {
     padding: 1.1rem;
   }
 
-  .profile-hero__eyebrow {
-    font-size: 0.66rem;
-    line-height: 1.45;
-  }
-
   .profile-hero__title {
     font-size: 2rem;
   }
@@ -2251,11 +2237,6 @@ body::after {
   width: 34%;
   background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.68), rgba(39, 198, 180, 0.22), transparent);
   animation: profile-shine 9s var(--fluid-ease) infinite;
-}
-
-.profile-hero__eyebrow {
-  color: var(--glass-teal);
-  letter-spacing: 0.13em;
 }
 
 .profile-hero__title {
