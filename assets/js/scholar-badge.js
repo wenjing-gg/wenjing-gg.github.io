@@ -4,16 +4,13 @@
 (async function updateCitationBadge() {
   const badge = document.querySelector('.citation-link');
   const total = document.getElementById('citation-total');
-  const status = document.getElementById('citation-updated');
-  if (!badge || !total || !status) return;
+  if (!badge || !total) return;
   const base = 'https://cdn.jsdelivr.net/gh/wenjing-gg/wenjing-gg.github.io@google-scholar-stats/';
   const validate = data => data && data.scholar_id === 'xeFx7LQAAAAJ' &&
     Number.isSafeInteger(data.citedby) && data.citedby >= 0 && Number.isFinite(Date.parse(data.updated));
   function apply(data) {
     total.textContent = String(data.citedby);
-    const date = new Date(data.updated).toLocaleDateString('en-CA', { timeZone: 'Asia/Shanghai' }).replaceAll('-', '.');
-    status.textContent = `${data.source === 'User confirmed' ? 'Confirmed' : 'Updated'} · ${date}`;
-    badge.title = `${data.citedby} total citations · ${status.textContent}`;
+    badge.title = `${data.citedby} total citations (Google Scholar)`;
   }
   // 1) Seed snapshot shipped with the site.
   let seedTime = 0;
