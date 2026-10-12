@@ -263,17 +263,57 @@
   }
 }
 
-/* Google Scholar citation badge */
-.citation-entry {
-  .citation-link {
-    font-weight: 600;
+/* Google Scholar citation stat — frosted profile card */
+.citation-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  margin-top: 0.78rem;
+}
+
+.citation-stat .citation-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  max-width: 100%;
+  padding: 0.45rem 0.9rem;
+  border: 1px solid rgba(9, 45, 62, 0.14);
+  border-radius: 999px;
+  color: inherit;
+  text-decoration: none;
+  transition: border-color 180ms ease, box-shadow 180ms ease;
+
+  .ai-google-scholar {
+    font-size: 1.08em;
+    color: rgb(39, 198, 180);
   }
 
-  .citation-updated {
-    display: block;
-    padding-left: 2.25em;
-    color: var(--global-text-color-light);
-    font-size: 0.72em;
-    letter-spacing: 0.04em;
+  &:hover {
+    border-color: rgba(39, 198, 180, 0.55);
+    box-shadow: 0 8px 22px rgba(9, 45, 62, 0.14);
+    text-decoration: none;
   }
+}
+
+.citation-number {
+  font-size: 1.18rem;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--glass-title, #0c2743);
+  font-variant-numeric: tabular-nums;
+}
+
+.citation-caption {
+  font-size: 0.72rem;
+  font-weight: 650;
+  letter-spacing: 0.05em;
+  color: var(--glass-muted, #4d6377);
+}
+
+.citation-stat .citation-updated {
+  font-size: 0.62rem;
+  letter-spacing: 0.05em;
+  color: var(--glass-muted, #4d6377);
+  opacity: 0.75;
 }

@@ -46,7 +46,6 @@
       {% endif %}      
       {% if author.googlescholar %}
         <li><a href="{{ author.googlescholar }}"><i class="ai ai-google-scholar ai-fw icon-pad-right"></i>Google Scholar</a></li>
-        <li class="citation-entry"><a class="citation-link" href="{{ author.googlescholar }}" target="_blank" rel="noopener noreferrer" title="Google Scholar total citations"><i class="fas fa-fw fa-quote-right icon-pad-right" aria-hidden="true"></i>Citations <span id="citation-total">…</span></a><span class="citation-updated" id="citation-updated"></span></li>
       {% endif %}
       {% if author.semantic %}
         <li><a href="{{ author.semantic }}"><i class="ai ai-semantic-scholar ai-fw icon-pad-right"></i>Semantic Scholar</a></li>
@@ -167,5 +166,16 @@
       <li><a href="https://www.zhihu.com/people/{{ author.zhihu }}"><i class="fab fa-fw fa-zhihu icon-pad-right" aria-hidden="true"></i>Zhihu</a></li>
       {% endif %}      
     </ul>
+
+    {% if author.googlescholar %}
+    <div class="citation-stat">
+      <a class="citation-link" href="{{ author.googlescholar }}" target="_blank" rel="noopener noreferrer" title="Google Scholar 总引用数">
+        <i class="ai ai-google-scholar" aria-hidden="true"></i>
+        <span class="citation-number" id="citation-total">…</span>
+        <span class="citation-caption">Citations</span>
+      </a>
+      <span class="citation-updated" id="citation-updated"></span>
+    </div>
+    {% endif %}
   </div>
 </div>

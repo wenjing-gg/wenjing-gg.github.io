@@ -208,6 +208,8 @@
 .magic-bento-card__figure-btn {
   display: block;
   width: 100%;
+  /* fixed height keeps every card in the same grid row on one baseline */
+  height: 236px;
   padding: 0;
   overflow: hidden;
   border: 1px solid rgba(9, 45, 62, 0.12);
@@ -215,6 +217,12 @@
   background: #fff;
   cursor: zoom-in;
   transition: border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.magic-bento-card--slot-3 .magic-bento-card__figure-btn,
+.magic-bento-card--slot-4 .magic-bento-card__figure-btn,
+.magic-bento-card--slot-5 .magic-bento-card__figure-btn {
+  height: 190px;
 }
 
 .magic-bento-card__figure-btn:focus-visible {
@@ -229,10 +237,12 @@
 
 .magic-bento-card__figure img {
   display: block;
-  /* natural sizing: framework figures come in every aspect ratio — the
-     thumbnail tracks the image's own proportions, no fixed box / crop / bars */
+  /* contain (never cover) keeps each framework figure's own proportions;
+     the white matte matches the figures' background so letterboxing is invisible */
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: contain;
+  background: #fff;
 }
 
 .magic-bento-ripple {
@@ -363,6 +373,10 @@ body.figure-lightbox-open {
   .magic-bento-card--slot-5 {
     grid-column: span 6;
   }
+
+  .magic-bento-card .magic-bento-card__figure-btn {
+    height: 210px;
+  }
 }
 
 @media (max-width: 760px) {
@@ -399,5 +413,9 @@ body.figure-lightbox-open {
 
   .magic-bento-card__title {
     font-size: 1rem;
+  }
+
+  .magic-bento-card .magic-bento-card__figure-btn {
+    height: 200px;
   }
 }
