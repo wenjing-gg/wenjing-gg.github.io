@@ -163,6 +163,16 @@
   overflow-wrap: anywhere;
 }
 
+/* three-up row: reserve the tallest title's height (3 lines) so the
+   author rows start on one baseline even when titles wrap differently */
+@media (min-width: 1024px) {
+  .magic-bento-card--slot-3 .magic-bento-card__title,
+  .magic-bento-card--slot-4 .magic-bento-card__title,
+  .magic-bento-card--slot-5 .magic-bento-card__title {
+    min-height: 4.44em; /* 3 lines × 1.48 line-height */
+  }
+}
+
 .magic-bento-card__authors {
   margin: 0 0 0.7rem;
   color: var(--glass-muted);
