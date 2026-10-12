@@ -129,6 +129,21 @@
     return /^\d{4}-\d{2}-\d{2}$/.test(t) ? t : fallback;
   }
 
+  function jointArr(v) {
+    return Array.isArray(v)
+      ? v.map(function (item) {
+          return {
+            org: text(item && item.org),
+            verb: text(item && item.verb),
+            name: text(item && item.name),
+            en: text(item && item.en),
+            title: text(item && item.title),
+            url: text(item && item.url)
+          };
+        })
+      : [];
+  }
+
   function normalize(source) {
     var merged = merge(defaults, source || {});
     backfillFigures(merged.achievements && merged.achievements.papers && merged.achievements.papers.published, "published");
@@ -143,7 +158,8 @@
         mentorUrl: text(merged.intro && merged.intro.mentorUrl),
         mentorSummary: text(merged.intro && merged.intro.mentorSummary),
         phone: text(merged.intro && merged.intro.phone),
-        emails: arr(merged.intro && merged.intro.emails)
+        emails: arr(merged.intro && merged.intro.emails),
+        jointTraining: jointArr(merged.intro && merged.intro.jointTraining)
       },
       research: arr(merged.research),
       achievements: {
