@@ -14,22 +14,20 @@
     ],
     "jointTraining": [
       {
-        "org": "清华大学 BIRTH Lab（生物医学工程系）",
+        "org": "清华大学 BIRTH Lab",
         "verb": "接受联合科研训练",
         "name": "田启源",
         "en": "Qiyuan Tian",
         "title": "教授",
-        "url": "https://www.med.tsinghua.edu.cn/info/1143/2126.htm",
-        "orgUrl": "https://birthlab.github.io/"
+        "url": "https://www.med.tsinghua.edu.cn/info/1143/2126.htm"
       },
       {
-        "org": "香港中文大学（深圳）SRIBD（深圳市大数据研究院）",
+        "org": "香港中文大学（深圳）SRIBD",
         "verb": "开展联合研究",
         "name": "王昌淼",
         "en": "Changmiao Wang",
         "title": "副教授",
-        "url": "https://jiandanjinxin.github.io/changmiaowang/",
-        "orgUrl": "https://www.sribd.cn/"
+        "url": "https://jiandanjinxin.github.io/changmiaowang/"
       }
     ],
     "mentorEn": "Feiwei Qin",
