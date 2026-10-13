@@ -82,12 +82,14 @@
   background: radial-gradient(circle, rgba(var(--magic-glow-rgb), 0.1), transparent 70%);
   opacity: var(--magic-glow-intensity);
   transform: translate3d(calc(var(--magic-glow-x) - 50%), calc(var(--magic-glow-y) - 50%), 0);
+  /* promoted once, never toggled by .is-tracking: same layer-churn rule
+     that made sibling glass panels flicker on card enter/leave */
+  will-change: transform, opacity;
   transition: opacity 180ms ease;
   pointer-events: none;
 }
 
 .magic-bento-card.is-tracking::before {
-  will-change: transform, opacity;
   transition: opacity 90ms ease;
 }
 
