@@ -131,29 +131,29 @@
     max-height: calc(100vh - 6.4rem);
     overflow-y: auto;
     scrollbar-width: none;
+    padding: 0 0.9rem 1rem;
   }
 
   .sidebar.sticky::-webkit-scrollbar {
     display: none;
   }
 
-  /* portrait source photos must still render as a perfect circle;
-     borderless ring: hairline halo + teal ambient + deep drop, no hard edge */
+  /* square portrait bleeds edge-to-edge into the card: the card's own glass
+     border becomes the frame, so the avatar itself reads borderless */
+  .sidebar .author__avatar {
+    margin: 0 -0.9rem;
+  }
+
   .sidebar .author__avatar img {
     display: block;
-    width: 150px;
-    max-width: 100%;
+    width: 100%;
+    max-width: none;
     aspect-ratio: 1 / 1;
     object-fit: cover;
-    margin-right: auto;
-    margin-left: auto;
     padding: 0;
     border: 0;
-    box-shadow:
-      0 0 0 1px rgba(255, 255, 255, 0.6),
-      0 0 0 6px rgba(255, 255, 255, 0.12),
-      0 10px 30px rgba(24, 128, 118, 0.16),
-      0 22px 48px rgba(6, 44, 72, 0.22);
+    border-radius: var(--glass-radius, 8px) var(--glass-radius, 8px) 0 0;
+    box-shadow: none;
   }
 
   /* one alignment for the identity block: avatar, name and signature all centered */
@@ -175,13 +175,58 @@
 }
 
 @media screen and (max-width: 1023px) {
+  .sidebar.sticky {
+    padding: 0 0.9rem 1rem;
+  }
+
+  .sidebar .author__avatar {
+    margin: 0 -0.9rem;
+  }
+
   .sidebar .author__avatar img {
+    display: block;
+    width: 100%;
+    max-width: none;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    margin: 0;
     padding: 0;
     border: 0;
-    box-shadow:
-      0 0 0 1px rgba(255, 255, 255, 0.6),
-      0 0 0 5px rgba(255, 255, 255, 0.12),
-      0 8px 24px rgba(24, 128, 118, 0.14),
-      0 16px 36px rgba(6, 44, 72, 0.2);
+    border-radius: var(--glass-radius, 8px) var(--glass-radius, 8px) 0 0;
+    box-shadow: none;
   }
+
+  .sidebar .author__name {
+    margin-top: 0.9rem;
+    text-align: center;
+  }
+}
+
+@media (max-width: 760px) {
+  .sidebar.sticky {
+    padding: 0 0.74rem 0.85rem;
+  }
+
+  .sidebar .author__avatar {
+    margin: 0 -0.74rem;
+  }
+}
+
+/* ---- flicker round 2: the remaining hover lifts still toggle GPU layer
+   promotion over the looping video background; promote them once ---- */
+@media (hover: hover) and (pointer: fine) {
+.topic-grid span,
+.profile-list li,
+.paper-bucket,
+.achievement-card,
+.photo-grid img,
+.love-card img,
+.paper-link,
+.profile-hero__contact,
+.admin-entry,
+.music-hub,
+.music-toggle,
+.music-next {
+  will-change: transform;
+}
 }
