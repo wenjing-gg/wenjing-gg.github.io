@@ -140,7 +140,7 @@
 
   /* square portrait bleeds edge-to-edge into the card: the card's own glass
      border becomes the frame, so the avatar itself reads borderless */
-  .sidebar .author__avatar {
+  .sidebar .author__avatar:not(img) {
     margin: 0 -0.9rem;
   }
 
@@ -179,7 +179,7 @@
     padding: 0 0.9rem 1rem;
   }
 
-  .sidebar .author__avatar {
+  .sidebar .author__avatar:not(img) {
     margin: 0 -0.9rem;
   }
 
@@ -207,7 +207,7 @@
     padding: 0 0.74rem 0.85rem;
   }
 
-  .sidebar .author__avatar {
+  .sidebar .author__avatar:not(img) {
     margin: 0 -0.74rem;
   }
 }
