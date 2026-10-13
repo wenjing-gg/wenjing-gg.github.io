@@ -131,7 +131,11 @@
     max-height: calc(100vh - 6.4rem);
     overflow-y: auto;
     scrollbar-width: none;
-    padding: 0 0.9rem 1rem;
+    /* !important beats the inline padding-top that main.min.js updateNav()
+       copies from the masthead height — the card is already positioned
+       below the masthead via top: 5.2rem, that inline value only added a
+       dead glass strip above the square portrait */
+    padding: 0 0.9rem 1rem !important;
   }
 
   .sidebar.sticky::-webkit-scrollbar {
