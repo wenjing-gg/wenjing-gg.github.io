@@ -60,12 +60,13 @@
     radial-gradient(circle at 92% 4%, rgba(var(--magic-glow-rgb), 0.14), transparent 38%);
   box-shadow: 0 18px 42px rgba(9, 45, 62, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.62);
   transform: translate3d(var(--magic-magnet-x), var(--magic-magnet-y), 0) rotateX(var(--magic-rotate-x)) rotateY(var(--magic-rotate-y));
-  transform-style: preserve-3d;
+  /* stable layer promotion: toggling will-change per hover forces GPU layer
+     churn that makes the sibling backdrop-filter panels flicker */
+  will-change: transform;
   transition: border-color 180ms ease, box-shadow 180ms ease, transform 240ms cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
 .magic-bento-card.is-tracking {
-  will-change: transform;
   transition: border-color 160ms ease, box-shadow 160ms ease, transform 72ms linear;
 }
 
