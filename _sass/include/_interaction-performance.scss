@@ -137,7 +137,8 @@
     display: none;
   }
 
-  /* portrait source photos must still render as a perfect circle */
+  /* portrait source photos must still render as a perfect circle;
+     borderless ring: hairline halo + teal ambient + deep drop, no hard edge */
   .sidebar .author__avatar img {
     display: block;
     width: 150px;
@@ -146,6 +147,13 @@
     object-fit: cover;
     margin-right: auto;
     margin-left: auto;
+    padding: 0;
+    border: 0;
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, 0.6),
+      0 0 0 6px rgba(255, 255, 255, 0.12),
+      0 10px 30px rgba(24, 128, 118, 0.16),
+      0 22px 48px rgba(6, 44, 72, 0.22);
   }
 
   /* one alignment for the identity block: avatar, name and signature all centered */
@@ -163,5 +171,17 @@
     margin-top: 0.9rem;
     padding-top: 0.85rem;
     border-top: 1px solid rgba(30, 126, 144, 0.16);
+  }
+}
+
+@media screen and (max-width: 1023px) {
+  .sidebar .author__avatar img {
+    padding: 0;
+    border: 0;
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, 0.6),
+      0 0 0 5px rgba(255, 255, 255, 0.12),
+      0 8px 24px rgba(24, 128, 118, 0.14),
+      0 16px 36px rgba(6, 44, 72, 0.2);
   }
 }
