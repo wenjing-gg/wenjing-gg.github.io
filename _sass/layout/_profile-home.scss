@@ -1505,6 +1505,14 @@ body::after {
   font-weight: 650;
 }
 
+/* 句首姓名（“余文敬，男，…”）放大加粗，替代已移除的大标题 */
+.profile-hero__lead-name {
+  color: var(--glass-title);
+  font-size: 1.3em;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
 .profile-hero p {
   color: var(--glass-muted);
 }

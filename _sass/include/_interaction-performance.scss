@@ -160,14 +160,8 @@
     box-shadow: none;
   }
 
-  /* one alignment for the identity block: avatar, name and signature all centered */
-  .sidebar .author__name {
-    margin: 0.95rem 0 0.45rem;
-    text-align: center;
-  }
-
   .sidebar .author__bio--signature {
-    margin-top: 0;
+    margin-top: 0.95rem;
     margin-bottom: 0.85rem;
   }
 
@@ -200,10 +194,6 @@
     box-shadow: none;
   }
 
-  .sidebar .author__name {
-    margin-top: 0.9rem;
-    text-align: center;
-  }
 }
 
 @media (max-width: 760px) {

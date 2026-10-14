@@ -150,6 +150,14 @@
     ].join("");
   }
 
+  /* 放大加粗句首姓名：lead 以「余文敬，男，…」开头，首个逗号前的短片段视为姓名 */
+  function leadHtml(lead) {
+    return util.escapeHtml(util.trim(lead)).replace(
+      /^([^，,]{1,12})(?=[，,])/,
+      '<span class="profile-hero__lead-name">$1</span>'
+    );
+  }
+
   function markup(data, preview) {
     var intro = data.intro || {};
     var mentor = util.trim(intro.mentorName);
@@ -198,8 +206,7 @@
       '<div class="profile-shell">',
       '<div class="profile-hero"' + idAttr("intro", preview) + '>',
       '<div class="profile-hero__shine" aria-hidden="true"></div>',
-      '<h2 class="profile-hero__title">余文敬</h2>',
-      '<p class="profile-hero__lead">' + util.escapeHtml(intro.lead) + "</p>",
+      '<p class="profile-hero__lead">' + leadHtml(intro.lead) + "</p>",
       mentorHtml ? "<p>" + mentorHtml + "</p>" : "",
       jointHtml,
       contacts.length ? '<p class="profile-hero__contact"><strong>联系方式：</strong>' + contacts.join(" ｜ ") + "</p>" : "",
