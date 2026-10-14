@@ -263,12 +263,13 @@
   }
 }
 
-/* Google Scholar citation stat — frosted profile card */
+/* Scholar citation + GitHub stars stats — frosted profile card */
 .citation-stat {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
   align-items: center;
-  gap: 0.3rem;
+  gap: 0.45rem;
   margin-top: 0.78rem;
 }
 
@@ -287,6 +288,11 @@
   .ai-google-scholar {
     font-size: 1.08em;
     color: rgb(39, 198, 180);
+  }
+
+  .fa-github {
+    font-size: 1.12em;
+    color: var(--glass-title, #0c2743);
   }
 
   &:hover {
