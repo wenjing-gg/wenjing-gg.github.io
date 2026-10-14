@@ -212,10 +212,9 @@
       contacts.length ? '<p class="profile-hero__contact"><strong>联系方式：</strong>' + contacts.join(" ｜ ") + "</p>" : "",
       "</div>",
       '<article class="journal-profile">',
-      '<section class="profile-section profile-section--research"' + idAttr("research", preview) + '><div class="profile-section__heading"><span>01</span><h2>研究方向</h2></div>' + topicHtml(data.research) + "</section>",
-      '<section' + idAttr("publications", preview) + ' class="profile-section achievements"><div class="profile-section__heading"><span>02</span><h2>成果</h2></div>' + achievementsHtml(data.achievements) + "</section>",
-      '<section class="profile-section profile-section--honors"><div class="profile-section__heading"><span>03</span><h2>项目与荣誉</h2></div>' + listHtml(data.honors) + "</section>",
-      '<section class="profile-section profile-section--hobbies"' + idAttr("hobbies", preview) + '><div class="profile-section__heading"><span>04</span><h2>爱好</h2></div>' + listHtml(data.hobbies.items) + photoHtml(data.hobbies.images) + "</section>",
+      '<section' + idAttr("publications", preview) + ' class="profile-section achievements"><div class="profile-section__heading"><span>01</span><h2>成果</h2></div>' + achievementsHtml(data.achievements) + "</section>",
+      '<section class="profile-section profile-section--honors"><div class="profile-section__heading"><span>02</span><h2>项目与荣誉</h2></div>' + listHtml(data.honors) + "</section>",
+      '<section class="profile-section profile-section--hobbies"' + idAttr("hobbies", preview) + '><div class="profile-section__heading"><span>03</span><h2>爱好</h2></div>' + listHtml(data.hobbies.items) + photoHtml(data.hobbies.images) + "</section>",
       "</article>",
       loveHtml(data.love, preview),
       "</div>"
