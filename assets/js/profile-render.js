@@ -92,15 +92,17 @@
     ].join("");
   }
 
+  /* 专利行：标签「专利」在左上，标题与备注（第一发明人/参与人）同一行，
+     备注右端对齐 */
   function bentoPatent(item, index) {
     return [
       '<article class="magic-bento-card magic-bento-card--patent magic-bento-card--slot-', index + 1, '" data-magic-bento-card>',
       '<header class="magic-bento-card__header">',
-      '<span class="magic-bento-card__label">PATENT</span>',
-      util.trim(item.note) ? '<span class="magic-bento-card__note">' + util.escapeHtml(item.note) + "</span>" : "",
+      '<span class="magic-bento-card__label">专利</span>',
       "</header>",
       '<div class="magic-bento-card__content">',
       '<h3 class="magic-bento-card__title">', util.escapeHtml(util.trim(item.title) || "未命名专利"), "</h3>",
+      util.trim(item.note) ? '<span class="magic-bento-card__note">' + util.escapeHtml(util.trim(item.note)) + "</span>" : "",
       "</div>",
       "</article>"
     ].join("");

@@ -4,7 +4,7 @@
 
   var config = Object.assign(
     {
-      storageKey: "profileAdminContent.v1",
+      storageKey: "profileAdminContent.v2",
       sessionKey: "profileAdminUnlocked.v1",
       defaultPasswordHash: "",
       adminPath: "/admin/",

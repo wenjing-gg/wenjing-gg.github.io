@@ -143,10 +143,35 @@
 
 .magic-bento-card--patent {
   grid-column: span 12;
-  min-height: 165px;
+  /* 专利从 1 条增到多条：不再撑固定 165px 高，按内容收紧成行 */
+  min-height: 0;
   background:
     linear-gradient(112deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.4)),
     radial-gradient(circle at 92% 4%, rgba(233, 120, 86, 0.16), transparent 34%);
+}
+
+/* 标题行：左标题、右备注（第一发明人/参与人）右端对齐 */
+.magic-bento-card--patent .magic-bento-card__header {
+  margin-bottom: 0.62rem;
+}
+
+.magic-bento-card--patent .magic-bento-card__content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.magic-bento-card--patent .magic-bento-card__title {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0;
+}
+
+.magic-bento-card--patent .magic-bento-card__note {
+  flex: 0 0 auto;
+  max-width: none;
+  white-space: nowrap;
 }
 
 .magic-bento-card__header,
