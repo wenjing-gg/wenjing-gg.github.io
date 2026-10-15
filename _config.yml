@@ -33,6 +33,8 @@ author:
   phone            : "13822513943（微信同号）"
   uri              : # URL
   email            : "2506558723@qq.com"
+  email_life       : "2506558723@qq.com"      # 生活工作邮箱（侧栏邮箱弹层）
+  email_academic   : "yuwenjing@hdu.edu.cn"   # 学术交流邮箱（侧栏邮箱弹层）
 
   # Education timeline (sidebar)
   education:

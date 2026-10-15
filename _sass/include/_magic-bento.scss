@@ -98,18 +98,47 @@
   box-shadow: 0 20px 42px rgba(9, 45, 62, 0.13), 0 0 18px rgba(var(--magic-glow-rgb), 0.07);
 }
 
-.magic-bento-card--slot-1 {
-  grid-column: span 7;
+/* ---- paper rows: one paper per line — figure left, details right ---- */
+.magic-bento-card--paper {
+  grid-column: 1 / -1;
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: flex-start;
+  gap: 1rem;
+  min-height: 0;
 }
 
-.magic-bento-card--slot-2 {
-  grid-column: span 5;
+.magic-bento-card--paper .magic-bento-card__figure {
+  display: flex;
+  flex: 0 0 clamp(150px, 24%, 250px);
+  margin: 0;
 }
 
-.magic-bento-card--slot-3,
-.magic-bento-card--slot-4,
-.magic-bento-card--slot-5 {
-  grid-column: span 4;
+.magic-bento-card--paper .magic-bento-card__figure-btn {
+  flex: 1;
+  height: auto;
+  min-height: 150px;
+}
+
+.magic-bento-card--paper .magic-bento-card__side {
+  display: flex;
+  flex: 1 1 auto;
+  min-width: 0;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.magic-bento-card--paper .magic-bento-card__header {
+  margin-bottom: 0.7rem;
+}
+
+.magic-bento-card--paper .magic-bento-card__title {
+  margin: 0 0 0.5rem;
+  font-size: clamp(1.02rem, 1.4vw, 1.2rem);
+}
+
+.magic-bento-card--paper .magic-bento-card__authors {
+  margin: 0 0 0.45rem;
 }
 
 .magic-bento-card--patent {
@@ -166,16 +195,6 @@
   overflow-wrap: anywhere;
 }
 
-/* three-up row: reserve the tallest title's height (3 lines) so the
-   author rows start on one baseline even when titles wrap differently */
-@media (min-width: 1024px) {
-  .magic-bento-card--slot-3 .magic-bento-card__title,
-  .magic-bento-card--slot-4 .magic-bento-card__title,
-  .magic-bento-card--slot-5 .magic-bento-card__title {
-    min-height: 4.44em; /* 3 lines × 1.48 line-height */
-  }
-}
-
 .magic-bento-card__authors {
   margin: 0 0 0.7rem;
   color: var(--glass-muted);
@@ -230,12 +249,6 @@
   background: #fff;
   cursor: zoom-in;
   transition: border-color 180ms ease, box-shadow 180ms ease;
-}
-
-.magic-bento-card--slot-3 .magic-bento-card__figure-btn,
-.magic-bento-card--slot-4 .magic-bento-card__figure-btn,
-.magic-bento-card--slot-5 .magic-bento-card__figure-btn {
-  height: 190px;
 }
 
 .magic-bento-card__figure-btn:focus-visible {
@@ -375,23 +388,6 @@ body.figure-lightbox-open {
   }
 }
 
-@media (max-width: 1023px) {
-  .magic-bento-card--slot-1,
-  .magic-bento-card--slot-2 {
-    grid-column: span 6;
-  }
-
-  .magic-bento-card--slot-3,
-  .magic-bento-card--slot-4,
-  .magic-bento-card--slot-5 {
-    grid-column: span 6;
-  }
-
-  .magic-bento-card .magic-bento-card__figure-btn {
-    height: 210px;
-  }
-}
-
 @media (max-width: 760px) {
   .profile-section.achievements > .profile-section__heading {
     padding: 0;
@@ -403,11 +399,6 @@ body.figure-lightbox-open {
   }
 
   .magic-bento-card,
-  .magic-bento-card--slot-1,
-  .magic-bento-card--slot-2,
-  .magic-bento-card--slot-3,
-  .magic-bento-card--slot-4,
-  .magic-bento-card--slot-5,
   .magic-bento-card--patent {
     grid-column: 1;
     min-height: 0;
@@ -430,5 +421,19 @@ body.figure-lightbox-open {
 
   .magic-bento-card .magic-bento-card__figure-btn {
     height: 200px;
+  }
+
+  /* 行式论文卡在窄屏保持“图左文右”，只是缩成缩略图 */
+  .magic-bento-card--paper {
+    gap: 0.75rem;
+  }
+
+  .magic-bento-card--paper .magic-bento-card__figure {
+    flex-basis: 106px;
+  }
+
+  .magic-bento-card--paper .magic-bento-card__figure-btn {
+    height: auto;
+    min-height: 106px;
   }
 }

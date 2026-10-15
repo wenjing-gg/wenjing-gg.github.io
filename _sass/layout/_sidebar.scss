@@ -317,6 +317,164 @@
   color: var(--glass-muted, #4d6377);
 }
 
+/* 联系方式弹层：手机号→微信二维码、邮箱→双邮箱（触发按钮 + 弹层本体） */
+.sidebar .author__detail-trigger {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.sidebar-detail {
+  display: none;
+}
+
+.sidebar-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1.2rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 240ms ease, visibility 240ms ease;
+}
+
+.sidebar-lightbox.is-open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.sidebar-lightbox__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(9, 45, 62, 0.72);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.sidebar-lightbox__card {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 360px;
+  padding: 1.5rem 1.5rem 1.4rem;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 30px 80px rgba(4, 24, 33, 0.5);
+  text-align: center;
+  transform: scale(0.95);
+  transition: transform 280ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.sidebar-lightbox.is-open .sidebar-lightbox__card {
+  transform: none;
+}
+
+.sidebar-lightbox__title {
+  margin: 0 0 0.95rem;
+  color: var(--glass-title, #092233);
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.sidebar-lightbox__close {
+  position: absolute;
+  top: 0.7rem;
+  right: 0.8rem;
+  display: grid;
+  place-items: center;
+  width: 2.1rem;
+  height: 2.1rem;
+  border: 1px solid rgba(9, 45, 62, 0.18);
+  border-radius: 50%;
+  background: rgba(9, 45, 62, 0.05);
+  color: var(--glass-title, #092233);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background 200ms ease, transform 200ms ease;
+}
+
+.sidebar-lightbox__close:hover {
+  background: rgba(39, 198, 180, 0.2);
+  transform: rotate(90deg);
+}
+
+.sidebar-lightbox__body img {
+  display: block;
+  width: 100%;
+  border: 1px solid rgba(9, 45, 62, 0.08);
+  border-radius: 10px;
+}
+
+.sidebar-detail__qr-fallback {
+  margin: 0;
+  padding: 1.2rem 0.4rem;
+  border: 1px dashed rgba(9, 45, 62, 0.28);
+  border-radius: 10px;
+  color: var(--glass-muted, #4c5f6d);
+  font-size: 0.8rem;
+  line-height: 1.6;
+}
+
+.sidebar-detail__qr-fallback code {
+  font-size: 0.78rem;
+}
+
+.sidebar-detail__hint {
+  margin: 0.8rem 0 0;
+  color: var(--glass-muted, #4c5f6d);
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
+.sidebar-detail__row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.12rem;
+  margin: 0 0 0.85rem;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  a {
+    color: var(--glass-teal, #0a7d7b);
+    font-size: 0.92rem;
+    font-weight: 700;
+    text-decoration: none;
+    overflow-wrap: anywhere;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.sidebar-detail__label {
+  color: var(--glass-muted, #4d6377);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+body.sidebar-lightbox-open {
+  overflow: hidden;
+}
+
 /* Education timeline — compact rail with teal dots, sits between the
    signature and the link list */
 .author__education {

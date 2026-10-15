@@ -66,24 +66,27 @@
     }).join("") + "</div>";
   }
 
-  function bentoPaper(item, status, index) {
+  /* 论文行：一篇一行，图左文右（figure 缺省时右侧信息占满整行） */
+  function bentoPaper(item, status) {
     var link = util.cleanUrl(item.linkUrl);
     var figure = util.cleanUrl(item.figure);
     var title = util.trim(item.title);
     var titleHtml = util.escapeHtml(title || "未命名成果");
     return [
-      '<article class="magic-bento-card magic-bento-card--paper magic-bento-card--', status, ' magic-bento-card--slot-', index + 1, '" data-magic-bento-card>',
+      '<article class="magic-bento-card magic-bento-card--paper magic-bento-card--', status, '" data-magic-bento-card>',
+      figure
+        ? '<div class="magic-bento-card__figure"><button type="button" class="magic-bento-card__figure-btn" data-figure-zoom data-figure-src="' + util.escapeHtml(figure) + '" data-figure-title="' + util.escapeHtml(title) + '" aria-label="放大查看论文框架图"><img src="' + util.escapeHtml(figure) + '" alt="' + titleHtml + ' 框架图" loading="lazy" decoding="async"></button></div>'
+        : "",
+      '<div class="magic-bento-card__side">',
       '<header class="magic-bento-card__header">',
       '<span class="magic-bento-card__label">', status === "published" ? "PUBLISHED" : "UNDER REVIEW", "</span>",
       util.trim(item.note) ? '<span class="magic-bento-card__note">' + util.escapeHtml(item.note) + "</span>" : "",
       "</header>",
-      figure
-        ? '<div class="magic-bento-card__figure"><button type="button" class="magic-bento-card__figure-btn" data-figure-zoom data-figure-src="' + util.escapeHtml(figure) + '" data-figure-title="' + util.escapeHtml(title) + '" aria-label="放大查看论文框架图"><img src="' + util.escapeHtml(figure) + '" alt="' + titleHtml + ' 框架图" loading="lazy" decoding="async"></button></div>'
-        : "",
       '<div class="magic-bento-card__content">',
       '<h3 class="magic-bento-card__title">', titleHtml, "</h3>",
       util.trim(item.authors) ? '<p class="magic-bento-card__authors"><strong>Authors:</strong> ' + util.hiAuthor(item.authors, site.state.meta && site.state.meta.selfAuthorName) + "</p>" : "",
       link && util.trim(item.linkText) ? '<a class="magic-bento-card__link" href="' + util.escapeHtml(link) + '" target="_blank" rel="noopener noreferrer">' + util.escapeHtml(item.linkText) + '<i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>' : "",
+      "</div>",
       "</div>",
       "</article>"
     ].join("");
@@ -107,10 +110,10 @@
     var papers = achievements && achievements.papers ? achievements.papers : {};
     var cards = [];
     (papers.published || []).forEach(function (item) {
-      cards.push(bentoPaper(item, "published", cards.length));
+      cards.push(bentoPaper(item, "published"));
     });
     (papers.review || []).forEach(function (item) {
-      cards.push(bentoPaper(item, "review", cards.length));
+      cards.push(bentoPaper(item, "review"));
     });
     (achievements && achievements.patents || []).forEach(function (item) {
       cards.push(bentoPatent(item, cards.length));

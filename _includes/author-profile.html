@@ -45,12 +45,22 @@
         <li class="author__desktop"><i class="fas fa-fw fa-building-columns icon-pad-right" aria-hidden="true"></i>{{ author.employer }}</li>
       {% endif %}
       {% if author.phone %}
-        <li class="author__desktop"><i class="fas fa-fw fa-phone icon-pad-right" aria-hidden="true"></i>{{ author.phone }}</li>
+        <li class="author__desktop">
+          <button type="button" class="author__detail-trigger" data-sidebar-detail="wechat-qr-detail" data-detail-title="微信联系">
+            <i class="fas fa-fw fa-phone icon-pad-right" aria-hidden="true"></i>{{ author.phone }}
+          </button>
+        </li>
       {% endif %}
       {% if author.uri %}
         <li><a href="{{ author.uri }}"><i class="fas fa-fw fa-link icon-pad-right" aria-hidden="true"></i>{{ site.data.ui-text[site.locale].website_label | default: "Website" }}</a></li>
       {% endif %}
-      {% if author.email %}
+      {% if author.email_life or author.email_academic %}
+        <li>
+          <button type="button" class="author__detail-trigger" data-sidebar-detail="email-detail" data-detail-title="电子邮箱">
+            <i class="fas fa-fw fa-envelope icon-pad-right" aria-hidden="true"></i>电子邮箱
+          </button>
+        </li>
+      {% elsif author.email %}
         <li><a href="mailto:{{ author.email }}"><i class="fas fa-fw fa-envelope icon-pad-right" aria-hidden="true"></i>{{ site.data.ui-text[site.locale].email_label | default: "Email" }}</a></li>
       {% endif %}
 
@@ -183,6 +193,32 @@
       <li><a href="https://www.zhihu.com/people/{{ author.zhihu }}"><i class="fab fa-fw fa-zhihu icon-pad-right" aria-hidden="true"></i>Zhihu</a></li>
       {% endif %}      
     </ul>
+
+    <!-- 联系方式弹层内容源：手机号→微信二维码，邮箱→双邮箱面板 -->
+    {% if author.phone %}
+    <div class="sidebar-detail" id="wechat-qr-detail" hidden>
+      <img src="/images/wechat-qr.png" alt="微信二维码" referrerpolicy="no-referrer"
+           onerror="this.style.display='none';this.parentNode.querySelector('.sidebar-detail__qr-fallback').style.display='block';">
+      <p class="sidebar-detail__qr-fallback" style="display:none">二维码图片待上传<br><code>images/wechat-qr.png</code></p>
+      <p class="sidebar-detail__hint">微信扫一扫，或搜索手机号添加好友</p>
+    </div>
+    {% endif %}
+    {% if author.email_life or author.email_academic %}
+    <div class="sidebar-detail" id="email-detail" hidden>
+      {% if author.email_life %}
+      <p class="sidebar-detail__row">
+        <span class="sidebar-detail__label">生活工作邮箱</span>
+        <a href="mailto:{{ author.email_life }}">{{ author.email_life }}</a>
+      </p>
+      {% endif %}
+      {% if author.email_academic %}
+      <p class="sidebar-detail__row">
+        <span class="sidebar-detail__label">学术交流邮箱</span>
+        <a href="mailto:{{ author.email_academic }}">{{ author.email_academic }}</a>
+      </p>
+      {% endif %}
+    </div>
+    {% endif %}
 
     {% if author.googlescholar %}
     <div class="citation-stat">
