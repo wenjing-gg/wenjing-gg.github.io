@@ -31,7 +31,17 @@ author:
   location         : "Hangzhou, China"
   employer         : "HDU · Tsinghua · CUHKSZ"
   uri              : # URL
-  email            : "2506558723@qq.com" 
+  email            : "2506558723@qq.com"
+
+  # Education timeline (sidebar)
+  education:
+    - dates          : "2021.9 – 2025.6"
+      school         : "杭州电子科技大学"
+      detail         : "本科 · 计算机科学与技术"
+    - dates          : "2025.9 – 至今"
+      school         : "杭州电子科技大学"
+      detail         : "博士研究生"
+
 
   # Academic websites
   academia         : # URL

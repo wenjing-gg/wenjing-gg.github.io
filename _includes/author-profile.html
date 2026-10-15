@@ -19,6 +19,21 @@
     {% if author.bio %}<p class="author__bio author__bio--signature">{{ author.bio }}</p>{% endif %}
   </div>
 
+  {% if author.education %}
+  <div class="author__education">
+    <h4 class="author__education-label">教育经历</h4>
+    <ol class="author__education-list">
+      {% for edu in author.education %}
+      <li>
+        <span class="edu-dates">{{ edu.dates }}</span>
+        <span class="edu-school">{{ edu.school }}</span>
+        {% if edu.detail %}<span class="edu-detail">{{ edu.detail }}</span>{% endif %}
+      </li>
+      {% endfor %}
+    </ol>
+  </div>
+  {% endif %}
+
   <div class="author__urls-wrapper">
     <button class="btn btn--inverse">Follow</button>
     <ul class="author__urls social-icons">
