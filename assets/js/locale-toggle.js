@@ -38,13 +38,15 @@
   };
 
   function squash(s) { return String(s).replace(/\s+/g, ""); }
+  /* 字典键也按 squash 建索引：键里的空格/换行与 DOM 文案两侧归一后匹配 */
+  var DICT_BY_KEY = {};
+  Object.keys(DICT).forEach(function (k) { DICT_BY_KEY[squash(k)] = DICT[k]; });
   function translate(value) {
     if (!value) return value;
-    /* 签名等多行文案带换行/内部空格，压缩所有空白后再精确匹配 */
     var key = squash(value);
     if (!key) return value;
     if (locale === "en") {
-      if (Object.prototype.hasOwnProperty.call(DICT, key)) return DICT[key];
+      if (Object.prototype.hasOwnProperty.call(DICT_BY_KEY, key)) return DICT_BY_KEY[key];
     } else {
       for (var k in DICT) if (squash(DICT[k]) === key) return k;
     }
