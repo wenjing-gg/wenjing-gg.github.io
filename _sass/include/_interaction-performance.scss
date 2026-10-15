@@ -9,8 +9,11 @@
 .profile-section,
 .love-window {
   contain: paint;
-  backdrop-filter: blur(8px) saturate(1.08);
-  -webkit-backdrop-filter: blur(8px) saturate(1.08);
+  /* 模糊不再放在面板元素上：面板内部的 hover 动画（论文卡 3D 倾斜、
+     条目上浮）会让引擎整块重栅格化 backdrop-filter，表现为毛玻璃
+     间歇性掉模糊闪烁。模糊移到静态 ::before 层（见下）。 */
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 
 .achievement-card {
@@ -35,6 +38,24 @@
 
 .profile-hero__shine {
   display: none;
+}
+
+/* ---- flicker round 3: blur lives on the static ::before sheen layer ----
+   ::before 本就是全尺寸 z-index:-1 的高光层，其 --hover-x/--hover-y 由 JS
+   一次性写入、不随指针变化，是真正的静态层；把 backdrop-filter 放这里后，
+   面板内部任何 transform/重绘都无法使模糊层失效。 */
+.profile-hero::before,
+.profile-section::before,
+.love-window::before {
+  transform: none;
+  /* opacity<1 会把 backdrop-filter 的输出一并压淡（Chromium 行为），
+     提到 1 后将高光梯度手动乘回 0.64，保持原观感 */
+  opacity: 1;
+  background:
+    conic-gradient(from 120deg at var(--hover-x, 70%) var(--hover-y, 20%), rgba(39, 198, 180, 0.14), rgba(233, 120, 86, 0.083), rgba(120, 107, 214, 0.1), rgba(39, 198, 180, 0.14)),
+    linear-gradient(115deg, rgba(255, 255, 255, 0.56), transparent 42%);
+  backdrop-filter: blur(8px) saturate(1.08);
+  -webkit-backdrop-filter: blur(8px) saturate(1.08);
 }
 
 .profile-section,
