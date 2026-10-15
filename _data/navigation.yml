@@ -11,9 +11,6 @@ main:
   - title: "个人介绍"
     url: /#intro
 
-  - title: "研究方向"
-    url: /#research
-
   - title: "成果"
     url: /#publications
 
