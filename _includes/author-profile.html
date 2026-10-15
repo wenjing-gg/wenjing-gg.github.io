@@ -46,9 +46,9 @@
       {% endif %}
       {% if author.phone %}
         <li class="author__desktop">
-          <button type="button" class="author__detail-trigger" data-sidebar-detail="wechat-qr-detail" data-detail-title="微信联系">
+          <a role="button" tabindex="0" class="author__detail-trigger" data-sidebar-detail="wechat-qr-detail" data-detail-title="微信联系">
             <i class="fas fa-fw fa-phone icon-pad-right" aria-hidden="true"></i>{{ author.phone }}
-          </button>
+          </a>
         </li>
       {% endif %}
       {% if author.uri %}
@@ -56,9 +56,9 @@
       {% endif %}
       {% if author.email_life or author.email_academic %}
         <li>
-          <button type="button" class="author__detail-trigger" data-sidebar-detail="email-detail" data-detail-title="电子邮箱">
+          <a role="button" tabindex="0" class="author__detail-trigger" data-sidebar-detail="email-detail" data-detail-title="电子邮箱">
             <i class="fas fa-fw fa-envelope icon-pad-right" aria-hidden="true"></i>电子邮箱
-          </button>
+          </a>
         </li>
       {% elsif author.email %}
         <li><a href="mailto:{{ author.email }}"><i class="fas fa-fw fa-envelope icon-pad-right" aria-hidden="true"></i>{{ site.data.ui-text[site.locale].email_label | default: "Email" }}</a></li>

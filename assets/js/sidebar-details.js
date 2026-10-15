@@ -58,4 +58,17 @@
     event.preventDefault();
     open(source, trigger);
   });
+
+  /* 触发器是 role="button" 的 <a>（不能用 <button>：主题的 main.min.js 会对
+     .author__urls-wrapper 内所有 button 绑 fadeToggle 折叠信息列表），
+     所以键盘回车/空格在这里手动补上 */
+  document.addEventListener("keydown", function (event) {
+    if (event.key !== "Enter" && event.key !== " ") return;
+    var trigger = event.target.closest && event.target.closest("[data-sidebar-detail]");
+    if (!trigger) return;
+    var source = document.getElementById(trigger.getAttribute("data-sidebar-detail"));
+    if (!source) return;
+    event.preventDefault();
+    open(source, trigger);
+  });
 })();

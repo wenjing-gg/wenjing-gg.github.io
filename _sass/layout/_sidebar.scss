@@ -317,21 +317,15 @@
   color: var(--glass-muted, #4d6377);
 }
 
-/* 联系方式弹层：手机号→微信二维码、邮箱→双邮箱（触发按钮 + 弹层本体） */
+/* 联系方式弹层：手机号→微信二维码、邮箱→双邮箱（触发器 + 弹层本体）。
+   触发器用 role="button" 的 <a> 而非 <button>：主题 JS 会把 wrapper 里
+   所有 button 当成 Follow 折叠开关，点了会隐藏整个信息列表 */
 .sidebar .author__detail-trigger {
-  display: block;
-  width: 100%;
-  padding: 0;
-  border: 0;
-  background: none;
-  color: inherit;
-  font: inherit;
-  text-align: left;
-  text-decoration: none;
   cursor: pointer;
 
-  &:hover {
-    text-decoration: underline;
+  &:focus-visible {
+    outline: 2px solid rgb(39, 198, 180);
+    outline-offset: 2px;
   }
 }
 
