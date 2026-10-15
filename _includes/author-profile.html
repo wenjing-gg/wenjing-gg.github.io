@@ -197,9 +197,9 @@
     <!-- 联系方式弹层内容源：手机号→微信二维码，邮箱→双邮箱面板 -->
     {% if author.phone %}
     <div class="sidebar-detail" id="wechat-qr-detail" hidden>
-      <img src="/images/wechat-qr.png" alt="微信二维码" referrerpolicy="no-referrer"
+      <img src="/images/wechat-qr.jpg" alt="微信二维码" referrerpolicy="no-referrer"
            onerror="this.style.display='none';this.parentNode.querySelector('.sidebar-detail__qr-fallback').style.display='block';">
-      <p class="sidebar-detail__qr-fallback" style="display:none">二维码图片待上传<br><code>images/wechat-qr.png</code></p>
+      <p class="sidebar-detail__qr-fallback" style="display:none">二维码图片待上传<br><code>images/wechat-qr.jpg</code></p>
       <p class="sidebar-detail__hint">微信扫一扫，或搜索手机号添加好友</p>
     </div>
     {% endif %}
