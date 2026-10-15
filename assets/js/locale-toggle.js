@@ -54,7 +54,9 @@
   var ATTRS = ["title", "alt", "aria-label", "data-detail-title"];
 
   function inSkippedRegion(node) {
-    for (var el = node; el && el !== document.body; el = el.parentElement) {
+    /* TreeWalker 给的是文本节点，先跳到它的元素父级再查属性 */
+    var el = node.nodeType === 1 ? node : node.parentElement;
+    for (; el && el !== document.body; el = el.parentElement) {
       if (el.id === "profile-app" || el.hasAttribute("data-resource-loader") ||
           el.classList && el.classList.contains("figure-lightbox")) return true;
     }

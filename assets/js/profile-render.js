@@ -236,11 +236,15 @@
 
   /* 放大加粗句首姓名：中文取首个逗号前的短片段；英文取「<Name> is/was」 */
   function leadHtml(lead) {
-    var re = LOCALE === "en"
-      ? /^([A-Z][A-Za-z .'-]{1,38}?)\s+(is|was)\b/
-      : /^([^，,]{1,12})(?=[，,])/;
-    return util.escapeHtml(util.trim(lead)).replace(
-      re,
+    var raw = util.escapeHtml(util.trim(lead));
+    if (LOCALE === "en") {
+      return raw.replace(
+        /^([A-Z][A-Za-z .'-]{1,38}?)\s+(is|was)\b/,
+        '<span class="profile-hero__lead-name">$1</span> $2'
+      );
+    }
+    return raw.replace(
+      /^([^，,]{1,12})(?=[，,])/,
       '<span class="profile-hero__lead-name">$1</span>'
     );
   }
