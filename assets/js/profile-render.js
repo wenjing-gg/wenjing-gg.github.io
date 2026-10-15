@@ -92,18 +92,25 @@
     ].join("");
   }
 
-  /* 专利行：标签「专利」在左上，标题与备注（第一发明人/参与人）同一行，
-     备注右端对齐 */
-  function bentoPatent(item, index) {
+  /* 专利卡：所有专利合并在同一张卡里，每行「标题左、备注
+     （第一发明人/参与人）右」同行右端对齐 */
+  function bentoPatents(items) {
+    var rows = items.map(function (item) {
+      return [
+        '<li class="magic-bento-card__patent-row">',
+        '<span class="magic-bento-card__title">', util.escapeHtml(util.trim(item.title) || "未命名专利"), "</span>",
+        util.trim(item.note) ? '<span class="magic-bento-card__note">' + util.escapeHtml(util.trim(item.note)) + "</span>" : "",
+        "</li>"
+      ].join("");
+    });
     return [
-      '<article class="magic-bento-card magic-bento-card--patent magic-bento-card--slot-', index + 1, '" data-magic-bento-card>',
+      '<article class="magic-bento-card magic-bento-card--patent" data-magic-bento-card>',
       '<header class="magic-bento-card__header">',
       '<span class="magic-bento-card__label">专利</span>',
       "</header>",
-      '<div class="magic-bento-card__content">',
-      '<h3 class="magic-bento-card__title">', util.escapeHtml(util.trim(item.title) || "未命名专利"), "</h3>",
-      util.trim(item.note) ? '<span class="magic-bento-card__note">' + util.escapeHtml(util.trim(item.note)) + "</span>" : "",
-      "</div>",
+      '<ul class="magic-bento-card__patent-list">',
+      rows.join(""),
+      "</ul>",
       "</article>"
     ].join("");
   }
@@ -117,9 +124,8 @@
     (papers.review || []).forEach(function (item) {
       cards.push(bentoPaper(item, "review"));
     });
-    (achievements && achievements.patents || []).forEach(function (item) {
-      cards.push(bentoPatent(item, cards.length));
-    });
+    var patents = (achievements && achievements.patents) || [];
+    if (patents.length) cards.push(bentoPatents(patents));
     if (!cards.length) return '<p class="profile-empty">暂无成果。</p>';
     return '<div class="magic-bento-grid" data-magic-bento-grid>' + cards.join("") + "</div>";
   }

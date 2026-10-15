@@ -143,39 +143,53 @@
 
 .magic-bento-card--patent {
   grid-column: span 12;
-  /* 专利从 1 条增到多条：不再撑固定 165px 高，按内容收紧成行 */
+  /* 一张卡装下全部专利行，按内容收紧 */
   min-height: 0;
   background:
     linear-gradient(112deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.4)),
     radial-gradient(circle at 92% 4%, rgba(233, 120, 86, 0.16), transparent 34%);
 }
 
-/* 标题行：左标题、右备注（第一发明人/参与人）右端对齐 */
 .magic-bento-card--patent .magic-bento-card__header {
-  margin-bottom: 0.62rem;
+  margin-bottom: 0.5rem;
 }
 
-.magic-bento-card--patent .magic-bento-card__content {
+/* 专利行列表：每行左标题、右备注（第一发明人/参与人）右端对齐 */
+.magic-bento-card__patent-list {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.magic-bento-card__patent-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 0.75rem;
+  padding: 0.46rem 0;
 }
 
-.magic-bento-card--patent .magic-bento-card__title {
+.magic-bento-card__patent-row + .magic-bento-card__patent-row {
+  border-top: 1px solid rgba(9, 45, 62, 0.08);
+}
+
+.magic-bento-card__patent-row .magic-bento-card__title {
   flex: 1 1 auto;
   min-width: 0;
   margin: 0;
 }
 
-.magic-bento-card--patent .magic-bento-card__note {
+.magic-bento-card__patent-row .magic-bento-card__note {
   flex: 0 0 auto;
   max-width: none;
   white-space: nowrap;
 }
 
 .magic-bento-card__header,
-.magic-bento-card__content {
+.magic-bento-card__content,
+.magic-bento-card__patent-list {
   position: relative;
   z-index: 2;
 }
