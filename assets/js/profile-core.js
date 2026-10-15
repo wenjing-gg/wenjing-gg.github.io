@@ -1,5 +1,17 @@
 (function () {
-  var defaults = window.__profileDefaultData;
+  /* 站点语言：默认英文（profileLocale 持久化用户选择）。中文 locale 才应用
+     /admin/ 后台的 localStorage 快照 —— 英文内容完全来自
+     _data/profile_content_en.json（改英文内容直接编辑该文件）。 */
+  var LOCALE_KEY = "profileLocale.v1";
+  var locale = "en";
+  try {
+    var savedLocale = window.localStorage.getItem(LOCALE_KEY);
+    if (savedLocale === "zh" || savedLocale === "en") locale = savedLocale;
+  } catch (e) {}
+
+  var defaults = locale === "zh" || !window.__profileDefaultDataEn
+    ? window.__profileDefaultData
+    : window.__profileDefaultDataEn;
   if (!defaults) return;
 
   var config = Object.assign(
@@ -280,7 +292,11 @@
   var api = window.ProfileSite || {};
   api.config = config;
   api.defaults = normalize(defaults);
+  api.locale = locale;
+  api.localeKey = LOCALE_KEY;
   api.state = normalize((function () {
+    /* 后台快照只作用于中文内容 */
+    if (locale !== "zh") return defaults;
     var raw = getStore(window.localStorage, config.storageKey);
     if (!raw) return defaults;
     try {

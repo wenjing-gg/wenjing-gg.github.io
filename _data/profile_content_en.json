@@ -1,0 +1,267 @@
+{
+  "meta": {
+    "selfAuthorName": "Wenjing Yu"
+  },
+  "intro": {
+    "lead": "Wenjing Yu is a Ph.D. student jointly supervised by the 3DV Lab at Hangzhou Dianzi University, the BIRTH Lab at Tsinghua University, and the SRIBD Lab at the Chinese University of Hong Kong (Shenzhen).",
+    "mentorName": "Feiwei Qin",
+    "mentorUrl": "https://faculty.hdu.edu.cn/jsjxy/qfw/main.htm",
+    "mentorSummary": "His research focuses on medical image analysis, test-time adaptation, and medical multimodal large models, combining theoretical research with engineering practice.",
+    "phone": "18268000432",
+    "emails": [
+      "yuwenjing@hdu.edu.cn",
+      "yuwenjing259@gmail.com"
+    ],
+    "jointTraining": [
+      {
+        "org": "the BIRTH Lab, Tsinghua University",
+        "verb": "receiving joint research training",
+        "name": "Qiyuan Tian",
+        "en": "田启源",
+        "title": "Professor",
+        "url": "https://www.med.tsinghua.edu.cn/info/1143/2126.htm"
+      },
+      {
+        "org": "SRIBD, the Chinese University of Hong Kong (Shenzhen)",
+        "verb": "conducting joint research",
+        "name": "Changmiao Wang",
+        "en": "王昌淼",
+        "title": "Associate Professor",
+        "url": "https://jiandanjinxin.github.io/changmiaowang/"
+      }
+    ],
+    "mentorEn": "秦飞巍",
+    "mentorTitle": "Professor"
+  },
+  "research": [
+    "Medical Image Analysis",
+    "Medical Multitask Learning",
+    "Test-Time Adaptation",
+    "Vertical-Domain Agents",
+    "Weakly Supervised Learning",
+    "Medical Multimodal LLMs"
+  ],
+  "achievements": {
+    "papers": {
+      "published": [
+        {
+          "note": "First author (student) · MICCAI 2025 Early Accept",
+          "title": "MT-WilmsNet: A Multi-level Transformer Fusion Network for Wilms’ Tumor Segmentation and Metastasis Prediction",
+          "authors": "Zhu Zhu, Wenjing Yu, Xiaohui Ma, Shuai Liu, Jie Dong, Yuxin Du, Changmiao Wang, Gang Yu",
+          "linkText": "DOI: 10.1007/978-3-032-04965-0_31",
+          "linkUrl": "https://doi.org/10.1007/978-3-032-04965-0_31",
+          "figure": "/images/pubs/mtwilmsnet.jpg"
+        },
+        {
+          "note": "BIBM 2025 (CCF-B)",
+          "title": "DR-TTA: Dynamic and Robust Test-Time Adaptation Under Low-Quality MRI Conditions for Brain Tumor Segmentation",
+          "authors": "Yuanhan Wang, Yifei Chen, Shuo Jiang, Wenjing Yu, Mingxuan Liu, Beining Wu, Shenghao Zhu, Feiwei Qin, Jin Fan, Changmiao Wang",
+          "linkText": "DOI: 10.1109/BIBM66473.2025.11356381",
+          "linkUrl": "https://doi.org/10.1109/BIBM66473.2025.11356381",
+          "figure": "/images/pubs/drtta.jpg"
+        }
+      ],
+      "review": [
+        {
+          "note": "",
+          "title": "A Large Scale Benchmark for Test Time Adaptation Methods in Medical Image Segmentation",
+          "authors": "Wenjing Yu, Shuo Jiang, Yifei Chen, Shuo Chang, Yuanhan Wang, Beining Wu, Jie Dong, Mingxuan Liu, Shenghao Zhu, Feiwei Qin, Changmiao Wang, Qiyuan Tian",
+          "linkText": "arXiv: 2512.02497",
+          "linkUrl": "https://arxiv.org/abs/2512.02497",
+          "figure": "/images/pubs/tta-benchmark.jpg"
+        },
+        {
+          "note": "",
+          "title": "MTC-WTNet: A Multitask Collaboration Framework for Wilms’ Tumor Segmentation and Preoperative Metastasis Prediction",
+          "authors": "Zhu Zhu, Wenjing Yu, Wenxu Qi, Yuxin Du, Xiaohui Ma, Shuai Liu, Jie Dong, Changmiao Wang, Feiwei Qin and Gang Yu",
+          "linkText": "",
+          "linkUrl": "",
+          "figure": "/images/pubs/mtc-wtnet.jpg"
+        },
+        {
+          "note": "",
+          "title": "SmaRT: Style-Modulated Robust Test-Time Adaptation for Cross-Domain Brain Tumor Segmentation in MRI",
+          "authors": "Yuanhan Wang, Yifei Chen, Shuo Jiang, Wenjing Yu, Mingxuan Liu, Beining Wu, Jinying Zong, Feiwei Qin, Changmiao Wang, Qiyuan Tian",
+          "linkText": "arXiv: 2509.17925",
+          "linkUrl": "https://arxiv.org/abs/2509.17925",
+          "figure": "/images/pubs/smart.jpg"
+        }
+      ]
+    },
+    "patents": [
+      {
+        "title": "Test-time adaptation method for glioma segmentation based on a DR-TTA neural network",
+        "note": "First Inventor"
+      },
+      {
+        "title": "Pseudo-twin adaptive aortic dissection segmentation method and system for cross-center CTA",
+        "note": "Co-inventor"
+      },
+      {
+        "title": "Semi-supervised maxillary sinus segmentation method based on an APPR neural network",
+        "note": "Co-inventor"
+      },
+      {
+        "title": "Intelligent risk early-warning system and method based on multi-dimensional information fusion",
+        "note": "Co-inventor"
+      },
+      {
+        "title": "Source-free domain image segmentation method based on style encoding and structural priors",
+        "note": "Co-inventor"
+      },
+      {
+        "title": "Fitness quality assessment method and system based on EMG and images",
+        "note": "Co-inventor"
+      }
+    ]
+  },
+  "honors": [
+    "Participated in a National Undergraduate Innovation and Entrepreneurship Program project",
+    "Participated in the Zhejiang Provincial \"Xinmiao Talents\" Program",
+    "Recipient of the National Encouragement Scholarship, university Academic Excellence Scholarships, and Outstanding Class Cadre awards"
+  ],
+  "hobbies": {
+    "items": [
+      "Badminton (member of the HDU varsity team)",
+      "Investment analysis (beginner)",
+      "Zi Wei Dou Shu (Chinese astrology, beginner)"
+    ],
+    "images": [
+      {
+        "src": "/images/yuwenjing-hobby-1.jpeg",
+        "repoPath": "images/yuwenjing-hobby-1.jpeg",
+        "alt": "Badminton training photo 1"
+      },
+      {
+        "src": "/images/yuwenjing-hobby-2.jpeg",
+        "repoPath": "images/yuwenjing-hobby-2.jpeg",
+        "alt": "Badminton training photo 2"
+      },
+      {
+        "src": "/images/yuwenjing-hobby-3.jpeg",
+        "repoPath": "images/yuwenjing-hobby-3.jpeg",
+        "alt": "Badminton training photo 3"
+      },
+      {
+        "src": "/images/yuwenjing-hobby-4.jpeg",
+        "repoPath": "images/yuwenjing-hobby-4.jpeg",
+        "alt": "Badminton training photo 4"
+      }
+    ]
+  },
+  "love": {
+    "startDate": "2024-12-24",
+    "images": [
+      {
+        "src": "/love/微信图片_20260222170243_80_307.jpg",
+        "repoPath": "love/微信图片_20260222170243_80_307.jpg",
+        "alt": "微信图片_20260222170243_80_307"
+      },
+      {
+        "src": "/love/微信图片_20260222170355_81_307.jpg",
+        "repoPath": "love/微信图片_20260222170355_81_307.jpg",
+        "alt": "微信图片_20260222170355_81_307"
+      },
+      {
+        "src": "/love/微信图片_20260222170438_82_307.jpg",
+        "repoPath": "love/微信图片_20260222170438_82_307.jpg",
+        "alt": "微信图片_20260222170438_82_307"
+      },
+      {
+        "src": "/love/微信图片_20260222170505_83_307.jpg",
+        "repoPath": "love/微信图片_20260222170505_83_307.jpg",
+        "alt": "微信图片_20260222170505_83_307"
+      },
+      {
+        "src": "/love/微信图片_20260222170552_84_307.jpg",
+        "repoPath": "love/微信图片_20260222170552_84_307.jpg",
+        "alt": "微信图片_20260222170552_84_307"
+      },
+      {
+        "src": "/love/微信图片_20260222170628_85_307.jpg",
+        "repoPath": "love/微信图片_20260222170628_85_307.jpg",
+        "alt": "微信图片_20260222170628_85_307"
+      },
+      {
+        "src": "/love/微信图片_20260222170645_86_307.jpg",
+        "repoPath": "love/微信图片_20260222170645_86_307.jpg",
+        "alt": "微信图片_20260222170645_86_307"
+      },
+      {
+        "src": "/love/微信图片_20260222170744_87_307.jpg",
+        "repoPath": "love/微信图片_20260222170744_87_307.jpg",
+        "alt": "微信图片_20260222170744_87_307"
+      },
+      {
+        "src": "/love/微信图片_20260222170942_88_307.jpg",
+        "repoPath": "love/微信图片_20260222170942_88_307.jpg",
+        "alt": "微信图片_20260222170942_88_307"
+      },
+      {
+        "src": "/love/微信图片_20260222170956_89_307.jpg",
+        "repoPath": "love/微信图片_20260222170956_89_307.jpg",
+        "alt": "微信图片_20260222170956_89_307"
+      },
+      {
+        "src": "/love/微信图片_20260222171030_90_307.jpg",
+        "repoPath": "love/微信图片_20260222171030_90_307.jpg",
+        "alt": "微信图片_20260222171030_90_307"
+      },
+      {
+        "src": "/love/微信图片_20260224213300_92_307.jpg",
+        "repoPath": "love/微信图片_20260224213300_92_307.jpg",
+        "alt": "微信图片_20260224213300_92_307"
+      },
+      {
+        "src": "/love/微信图片_20260224213445_93_307.jpg",
+        "repoPath": "love/微信图片_20260224213445_93_307.jpg",
+        "alt": "微信图片_20260224213445_93_307"
+      },
+      {
+        "src": "/love/微信图片_20260224213609_94_307.jpg",
+        "repoPath": "love/微信图片_20260224213609_94_307.jpg",
+        "alt": "微信图片_20260224213609_94_307"
+      },
+      {
+        "src": "/love/微信图片_20260719164711_11_152.jpg",
+        "repoPath": "love/微信图片_20260719164711_11_152.jpg",
+        "alt": "Night photo at the Bird's Nest"
+      },
+      {
+        "src": "/love/微信图片_20260719164715_12_152.jpg",
+        "repoPath": "love/微信图片_20260719164715_12_152.jpg",
+        "alt": "Night photo at the Water Cube"
+      },
+      {
+        "src": "/love/微信图片_20260719164718_13_152.jpg",
+        "repoPath": "love/微信图片_20260719164718_13_152.jpg",
+        "alt": "Date photo in red"
+      },
+      {
+        "src": "/love/微信图片_20260719164719_14_152.jpg",
+        "repoPath": "love/微信图片_20260719164719_14_152.jpg",
+        "alt": "Outdoor selfie together"
+      },
+      {
+        "src": "/love/微信图片_20260719164726_15_152.jpg",
+        "repoPath": "love/微信图片_20260719164726_15_152.jpg",
+        "alt": "Indoor date selfie"
+      },
+      {
+        "src": "/love/微信图片_20260719164732_16_152.jpg",
+        "repoPath": "love/微信图片_20260719164732_16_152.jpg",
+        "alt": "Orchard picking selfie"
+      },
+      {
+        "src": "/love/微信图片_20260719164733_17_152.jpg",
+        "repoPath": "love/微信图片_20260719164733_17_152.jpg",
+        "alt": "Park couple selfie"
+      },
+      {
+        "src": "/love/微信图片_20260719164735_18_152.jpg",
+        "repoPath": "love/微信图片_20260719164735_18_152.jpg",
+        "alt": "Anniversary photo with flowers"
+      }
+    ]
+  }
+}

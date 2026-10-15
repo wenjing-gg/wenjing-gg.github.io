@@ -34,9 +34,11 @@
     }
   };
   window.__profileDefaultData = {{ site.data.profile_content | jsonify }};
+  window.__profileDefaultDataEn = {{ site.data.profile_content_en | jsonify }};
 </script>
 <script defer src="{{ base_path }}/assets/js/profile-core.js"></script>
 <script defer src="{{ base_path }}/assets/js/profile-render.js"></script>
+<script defer src="{{ base_path }}/assets/js/locale-toggle.js"></script>
 <script defer src="{{ base_path }}/assets/js/scholar-badge.js"></script>
 <script defer src="{{ base_path }}/assets/js/github-stars-badge.js"></script>
 <script defer src="{{ base_path }}/assets/js/sidebar-details.js"></script>
