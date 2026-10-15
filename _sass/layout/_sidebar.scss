@@ -349,6 +349,9 @@
   padding: 2rem 1.2rem;
   opacity: 0;
   visibility: hidden;
+  /* 开/关时全屏 backdrop-filter 层会强制重建合成树，旁边的玻璃卡片
+     （backdrop-filter）可能掉模糊——一次性提升本层避免抖动 */
+  will-change: opacity;
   transition: opacity 240ms ease, visibility 240ms ease;
 }
 

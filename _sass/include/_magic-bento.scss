@@ -1,28 +1,6 @@
-.profile-section.achievements {
-  overflow: visible;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  box-shadow: none;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-}
-
-.profile-section.achievements::before,
-.profile-section.achievements::after {
-  display: none;
-}
-
-.profile-section.achievements:hover,
-.profile-section.achievements.profile-motion-item.is-visible:hover {
-  border: 0;
-  box-shadow: none;
-  transform: translate3d(0, 0, 0) scale(1);
-}
-
+/* 成果区恢复标准玻璃卡样式（行式论文卡在卡片内排版，不再需要出血） */
 .profile-section.achievements > .profile-section__heading {
-  margin: 0 0 0.85rem;
-  padding: 0 0.2rem;
+  margin: 0 0 0.9rem;
 }
 
 .magic-bento-grid {
@@ -389,10 +367,6 @@ body.figure-lightbox-open {
 }
 
 @media (max-width: 760px) {
-  .profile-section.achievements > .profile-section__heading {
-    padding: 0;
-  }
-
   .magic-bento-grid {
     grid-template-columns: 1fr;
     gap: 0.62rem;
