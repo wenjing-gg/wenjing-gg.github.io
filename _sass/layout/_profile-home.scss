@@ -1472,7 +1472,7 @@ body::after {
 
 .profile-hero {
   margin: 0 auto 1.05rem auto;
-  padding: clamp(1.4rem, 3vw, 2.35rem);
+  padding: clamp(1.05rem, 2vw, 1.6rem);
   border-top: 1px solid var(--glass-line);
   transform: translateZ(0);
 }
@@ -2228,7 +2228,8 @@ body::after {
 }
 
 .profile-hero {
-  min-height: clamp(280px, 34vh, 390px);
+  /* 去掉旧版大标题时代的 min-height：联系方式行移进侧栏后内容变矮，
+     固定最小高度会在上下留出大片空白 */
   display: flex;
   flex-direction: column;
   justify-content: center;

@@ -80,7 +80,9 @@
 .magic-bento-card--paper {
   grid-column: 1 / -1;
   flex-direction: row;
-  align-items: stretch;
+  /* center（不用 stretch）：图不随文字行高拉伸，按自身比例贴合，
+     避免宽幅框架图上下被白边 letterbox */
+  align-items: center;
   justify-content: flex-start;
   gap: 1rem;
   min-height: 0;
@@ -95,7 +97,12 @@
 .magic-bento-card--paper .magic-bento-card__figure-btn {
   flex: 1;
   height: auto;
-  min-height: 150px;
+  min-height: 0;
+}
+
+.magic-bento-card--paper .magic-bento-card__figure img {
+  height: auto;
+  max-height: 240px;
 }
 
 .magic-bento-card--paper .magic-bento-card__side {
@@ -106,10 +113,6 @@
   justify-content: center;
 }
 
-.magic-bento-card--paper .magic-bento-card__header {
-  margin-bottom: 0.7rem;
-}
-
 .magic-bento-card--paper .magic-bento-card__title {
   margin: 0 0 0.5rem;
   font-size: clamp(1.02rem, 1.4vw, 1.2rem);
@@ -117,6 +120,25 @@
 
 .magic-bento-card--paper .magic-bento-card__authors {
   margin: 0 0 0.45rem;
+}
+
+/* 状态徽章与 DOI 同行排在底部：DOI 链接 + PUBLISHED + 备注 */
+.magic-bento-card--paper .magic-bento-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.32rem 0.6rem;
+  margin-top: 0.5rem;
+}
+
+.magic-bento-card--paper .magic-bento-card__link {
+  margin: 0;
+  padding: 0;
+}
+
+.magic-bento-card--paper .magic-bento-card__note {
+  max-width: none;
+  text-align: left;
 }
 
 .magic-bento-card--patent {
@@ -408,6 +430,10 @@ body.figure-lightbox-open {
 
   .magic-bento-card--paper .magic-bento-card__figure-btn {
     height: auto;
-    min-height: 106px;
+    min-height: 0;
+  }
+
+  .magic-bento-card--paper .magic-bento-card__figure img {
+    max-height: 150px;
   }
 }
