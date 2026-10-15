@@ -37,17 +37,18 @@
       "Not all those who wander are lost. — J.R.R. Tolkien, The Fellowship of the Ring"
   };
 
-  function toEn(zh) { return DICT[zh]; }
-  function toZh(en) {
-    for (var k in DICT) if (DICT[k] === en) return k;
-    return undefined;
-  }
+  function squash(s) { return String(s).replace(/\s+/g, ""); }
   function translate(value) {
     if (!value) return value;
-    var key = value.split("\n").map(function (s) { return s.trim(); }).filter(Boolean).join("");
+    /* 签名等多行文案带换行/内部空格，压缩所有空白后再精确匹配 */
+    var key = squash(value);
     if (!key) return value;
-    var hit = locale === "en" ? toEn(key) : toZh(key);
-    return hit === undefined ? value : hit;
+    if (locale === "en") {
+      if (Object.prototype.hasOwnProperty.call(DICT, key)) return DICT[key];
+    } else {
+      for (var k in DICT) if (squash(DICT[k]) === key) return k;
+    }
+    return value;
   }
 
   var SKIP_TAGS = { SCRIPT: 1, STYLE: 1, NOSCRIPT: 1, TEMPLATE: 1, CODE: 1 };
