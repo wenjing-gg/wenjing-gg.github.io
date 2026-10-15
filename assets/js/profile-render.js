@@ -163,14 +163,6 @@
     var mentor = util.trim(intro.mentorName);
     var mentorUrl = util.cleanUrl(intro.mentorUrl);
     var mentorHtml = "";
-    var contacts = [];
-    var emails = (intro.emails || []).filter(function (item) { return util.trim(item); }).map(function (mail) {
-      var value = util.trim(mail);
-      return '<a href="mailto:' + util.escapeHtml(value) + '">' + util.escapeHtml(value) + "</a>";
-    });
-
-    if (util.trim(intro.phone)) contacts.push("电话：" + util.escapeHtml(util.trim(intro.phone)));
-    if (emails.length) contacts.push("邮箱：" + emails.join(" / "));
     if (mentor) {
       var mentorLabel = util.escapeHtml(mentor) +
         (util.trim(intro.mentorEn) ? "（" + util.escapeHtml(util.trim(intro.mentorEn)) + "）" : "") +
@@ -209,7 +201,6 @@
       '<p class="profile-hero__lead">' + leadHtml(intro.lead) + "</p>",
       mentorHtml ? "<p>" + mentorHtml + "</p>" : "",
       jointHtml,
-      contacts.length ? '<p class="profile-hero__contact"><strong>联系方式：</strong>' + contacts.join(" ｜ ") + "</p>" : "",
       "</div>",
       '<article class="journal-profile">',
       '<section' + idAttr("publications", preview) + ' class="profile-section achievements"><div class="profile-section__heading"><span>01</span><h2>成果</h2></div>' + achievementsHtml(data.achievements) + "</section>",
