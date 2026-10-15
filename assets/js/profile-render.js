@@ -255,10 +255,9 @@
     var mentorUrl = util.cleanUrl(intro.mentorUrl);
     var mentorHtml = "";
     if (mentor) {
-      /* zh：秦飞巍（Feiwei Qin）教授；en：Professor Feiwei Qin (秦飞巍) */
+      /* zh：秦飞巍（Feiwei Qin）教授；en：Professor Feiwei Qin（不带中文括注） */
       var mentorLabel = LOCALE === "en"
-        ? (util.trim(intro.mentorTitle) ? util.escapeHtml(util.trim(intro.mentorTitle)) + " " : "") + util.escapeHtml(mentor) +
-          (util.trim(intro.mentorEn) ? T.parenOpen + util.escapeHtml(util.trim(intro.mentorEn)) + T.parenClose : "")
+        ? (util.trim(intro.mentorTitle) ? util.escapeHtml(util.trim(intro.mentorTitle)) + " " : "") + util.escapeHtml(mentor)
         : util.escapeHtml(mentor) +
           (util.trim(intro.mentorEn) ? T.parenOpen + util.escapeHtml(util.trim(intro.mentorEn)) + T.parenClose : "") +
           (util.trim(intro.mentorTitle) ? util.escapeHtml(util.trim(intro.mentorTitle)) : "");
@@ -275,8 +274,7 @@
     if (joint.length) {
       var clauses = joint.map(function (item) {
         var name = LOCALE === "en"
-          ? (util.trim(item.title) ? util.escapeHtml(util.trim(item.title)) + " " : "") + util.escapeHtml(util.trim(item.name)) +
-            (util.trim(item.en) ? T.parenOpen + util.escapeHtml(util.trim(item.en)) + T.parenClose : "")
+          ? (util.trim(item.title) ? util.escapeHtml(util.trim(item.title)) + " " : "") + util.escapeHtml(util.trim(item.name))
           : util.escapeHtml(util.trim(item.name)) +
             (util.trim(item.en) ? T.parenOpen + util.escapeHtml(util.trim(item.en)) + T.parenClose : "") +
             (util.trim(item.title) ? util.escapeHtml(util.trim(item.title)) : "");

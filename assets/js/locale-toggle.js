@@ -34,7 +34,7 @@
     "Google Scholar 总引用数": "Total citations on Google Scholar",
     "GitHub 公开仓库 Stars": "Stars across public GitHub repos",
     "潜龙勿用、见龙在田、终日乾乾、或跃在渊、飞龙在天、亢龙有悔。":
-      "The dragon lies hid, appears in the field, stays vigilant all day, leaps from the deep, flies in the sky — and knows when to stop."
+      "Not all those who wander are lost. — J.R.R. Tolkien, The Fellowship of the Ring"
   };
 
   function toEn(zh) { return DICT[zh]; }
@@ -65,6 +65,9 @@
 
   function applyChrome() {
     document.documentElement.lang = locale === "zh" ? "zh-CN" : "en";
+    /* body 语言类：CSS 据此切换英文格言字体（衬线斜体）等 */
+    document.body.classList.add(locale === "zh" ? "locale-zh" : "locale-en");
+    document.body.classList.remove(locale === "zh" ? "locale-en" : "locale-zh");
     var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
     var node;
     while ((node = walker.nextNode())) {
@@ -106,8 +109,16 @@
       window.location.reload();
     });
     item.appendChild(btn);
-    var gear = links.querySelector("[data-admin-entry]");
-    if (gear) links.insertBefore(item, gear);
+    /* 放导航栏最左边：紧跟站点标题（--lg）之后、第一个导航项之前 */
+    var anchor = null;
+    var items = links.children;
+    for (var i = 0; i < items.length; i++) {
+      if (!items[i].classList.contains("masthead__menu-item--lg")) {
+        anchor = items[i];
+        break;
+      }
+    }
+    if (anchor) links.insertBefore(item, anchor);
     else links.appendChild(item);
   }
 

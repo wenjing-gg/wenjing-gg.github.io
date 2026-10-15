@@ -490,6 +490,12 @@
       body.appendChild(musicPanel);
     }
 
+    /* 设置齿轮挪进右上角音乐面板，与音乐按钮挨在一起 */
+    var gearEntry = document.querySelector(".masthead .visible-links [data-admin-entry]");
+    if (gearEntry && musicPanel) {
+      musicPanel.insertBefore(gearEntry, musicPanel.firstChild);
+    }
+
     document.addEventListener(
       "pointerdown",
       function (event) {

@@ -227,21 +227,6 @@
   }
 }
 
-/* ---- flicker round 2: the remaining hover lifts still toggle GPU layer
-   promotion over the looping video background; promote them once ---- */
-@media (hover: hover) and (pointer: fine) {
-.topic-grid span,
-.profile-list li,
-.paper-bucket,
-.achievement-card,
-.photo-grid img,
-.love-card img,
-.paper-link,
-.profile-hero__contact,
-.admin-entry,
-.music-hub,
-.music-toggle,
-.music-next {
-  will-change: transform;
-}
-}
+/* round 2 的批量 will-change 提升已移除：round 3 把模糊移到静态 ::before 层后，
+   频闪根因不复存在，这批常驻 GPU 层只剩内存与合成开销，是滚动卡顿来源。
+   仅 .magic-bento-card 自身保留提升（3D 倾斜需要）。 */
