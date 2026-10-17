@@ -59,7 +59,9 @@
       done = true;
       try { window.sessionStorage.setItem(AUTO, value); } catch (e) {}
       window.__localeSettled = true;
-      document.dispatchEvent(new CustomEvent("locale:settled", { detail: { locale: value } }));
+      /* 消费者（profile-core/render/admin/publish、locale-toggle）都监听在
+         window 上——必须由 window 派发（bubbles:false 时 document 派发到不了 window） */
+      window.dispatchEvent(new CustomEvent("locale:settled", { detail: { locale: value } }));
     }
     var fails = 0;
     function probe(url) {
