@@ -156,7 +156,7 @@
        copies from the masthead height — the card is already positioned
        below the masthead via top: 5.2rem, that inline value only added a
        dead glass strip above the square portrait */
-    padding: 0 0.9rem 1rem !important;
+    padding: 0 0.9rem 0.8rem !important;
   }
 
   .sidebar.sticky::-webkit-scrollbar {
@@ -184,13 +184,13 @@
   }
 
   .sidebar .author__bio--signature {
-    margin-top: 0.95rem;
-    margin-bottom: 0.85rem;
+    margin-top: 0.72rem;
+    margin-bottom: 0.6rem;
   }
 
   .sidebar .citation-stat {
-    margin-top: 0.9rem;
-    padding-top: 0.85rem;
+    margin-top: 0.66rem;
+    padding-top: 0.58rem;
     border-top: 1px solid rgba(30, 126, 144, 0.16);
   }
 }

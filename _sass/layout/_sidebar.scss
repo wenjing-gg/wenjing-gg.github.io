@@ -249,10 +249,10 @@
 
   a {
     display: block;
-    margin-bottom: 5px;
+    margin-bottom: 3px;
     padding-right: 5px;
-    padding-top: 2px;
-    padding-bottom: 2px;
+    padding-top: 1px;
+    padding-bottom: 1px;
     color: inherit;
     font-size: $type-size-5;
     text-decoration: none;
@@ -475,11 +475,11 @@ body.sidebar-lightbox-open {
 /* Education timeline — compact rail with teal dots, sits between the
    signature and the link list */
 .author__education {
-  margin: 0 0 0.95rem;
+  margin: 0 0 0.7rem;
 }
 
 .author__education-label {
-  margin: 0 0 0.55rem;
+  margin: 0 0 0.42rem;
   color: var(--glass-muted, #4d6377);
   font-family: $sans-serif;
   font-size: 0.72rem;
@@ -505,10 +505,10 @@ body.sidebar-lightbox-open {
 
   li {
     position: relative;
-    padding: 0 0 0.6rem;
+    padding: 0 0 0.44rem;
 
     &:last-child {
-      padding-bottom: 0.1rem;
+      padding-bottom: 0.08rem;
     }
 
     &::before {

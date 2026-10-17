@@ -50,14 +50,14 @@ a:hover {
 }
 
 .author__bio--signature {
-  margin-top: 0.35rem;
-  margin-bottom: 1rem;
-  padding: 0.5rem 0.15rem 0.25rem 0.15rem;
+  margin-top: 0.3rem;
+  margin-bottom: 0.72rem;
+  padding: 0.36rem 0.15rem 0.16rem 0.15rem;
   border-bottom: 1px solid var(--journal-rule);
   color: var(--journal-accent);
   font-family: "STKaiti", "KaiTi", "Kaiti SC", "Noto Serif SC", serif;
-  font-size: 0.96rem;
-  line-height: 1.75;
+  font-size: 0.87rem;
+  line-height: 1.62;
   letter-spacing: 0.08em;
   white-space: pre-line;
   text-align: center;
@@ -72,7 +72,7 @@ a:hover {
 }
 
 .journal-profile section {
-  margin: 0 0 1.8rem 0;
+  margin: 0 0 1.35rem 0;
 }
 
 .journal-profile h2 {
@@ -86,8 +86,8 @@ a:hover {
 
 .profile-hero {
   max-width: 1040px;
-  margin: 0 auto 1.8rem auto;
-  padding: 1.2rem 1.35rem;
+  margin: 0 auto 1.35rem auto;
+  padding: 1.02rem 1.16rem;
   border: 1px solid var(--journal-rule);
   border-top: 3px solid var(--journal-accent);
   border-radius: 0.18rem;
@@ -847,31 +847,103 @@ a:hover {
   align-items: center;
 }
 
-/* 导航里的 <button> 会被主题两处误伤，都要显式复位：
-   1) .greedy-nav button{position:absolute;right:0} 把按钮钉到导航右端还改底色；
+/* 语言切换：分段滑块开关（中 | EN）。玻璃轨道内一枚白色滑块，
+   当前语言落在滑块上、另一侧半透明，切换时滑块带微弹滑动。 */
+.locale-switch {
+  position: relative;
+  display: inline-flex;
+  align-items: stretch;
+  height: 1.66rem;
+  padding: 0.19rem;
+  border: 1px solid rgba(255, 255, 255, 0.62);
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.38), rgba(224, 243, 246, 0.2));
+  box-shadow: inset 0 1px 3px rgba(6, 40, 61, 0.1);
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.locale-switch:hover {
+  border-color: rgba(255, 255, 255, 0.85);
+  box-shadow: inset 0 1px 3px rgba(6, 40, 61, 0.07), 0 6px 16px rgba(8, 52, 78, 0.1);
+}
+
+/* 滑块：宽度 = 半轨道 - 内边距，translateX(100%) 恰好落到另一半 */
+.locale-switch::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  top: 0.19rem;
+  left: 0.19rem;
+  width: calc(50% - 0.19rem);
+  height: calc(100% - 0.38rem);
+  border-radius: 999px;
+  background: linear-gradient(135deg, #ffffff 18%, #edf8fa);
+  box-shadow: 0 2px 7px rgba(8, 52, 78, 0.26), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+  transform: translateX(0);
+  transition: transform 0.34s cubic-bezier(0.32, 1.28, 0.55, 1);
+}
+
+.locale-switch--en::before {
+  transform: translateX(100%);
+}
+
+/* 导航里的 <button> 会被主题/魔改层多处误伤，选项样式全放在这条
+   高特异性规则里一并复位 + 造型：
+   1) .greedy-nav button 把按钮钉到导航右端、深底色、2.2rem 见方（汉堡意图）；
    2) greedy-nav 的 jQuery 给 nav 里所有 <button> 统一 addClass("hidden")
       （本意控制折叠汉堡显隐）——.hidden 工具类带 visibility:hidden，
-      display 被本规则更高特异性压掉，visibility 却没人管，按钮就“消失”了。 */
-.greedy-nav .visible-links [data-locale-toggle] button.locale-toggle {
+      display 被本规则更高特异性压掉、visibility 却没人管，按钮就“消失”了。 */
+.greedy-nav .visible-links [data-locale-toggle] button.locale-switch__opt {
   position: relative;
+  z-index: 1;
   top: auto;
   right: auto;
   left: auto;
   transform: none;
-  z-index: auto;
   display: inline-flex;
+  align-items: center;
+  justify-content: center;
   visibility: visible;
-  background: rgba(255, 255, 255, 0.78);
+  width: auto;
+  height: auto;
+  min-width: 1.94rem;
+  padding: 0 0.5rem;
+  border: 0;
+  border-radius: 999px;
+  background: none;
+  box-shadow: none;
   color: var(--journal-title);
+  font-family: inherit;
+  font-size: 0.71rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  opacity: 0.55;
+  transition: opacity 0.18s ease, color 0.18s ease;
 }
 
-/* 语言切换按钮：复用 admin-entry 圆形外观，文字版 */
-.locale-toggle {
-  cursor: pointer;
-  font-family: inherit;
-  font-size: 0.72rem;
-  font-weight: 800;
-  letter-spacing: 0.02em;
+.locale-switch button[aria-pressed="true"] {
+  opacity: 1;
+}
+
+.locale-switch__opt:hover {
+  opacity: 0.82;
+}
+
+.locale-switch button[aria-pressed="true"]:hover {
+  opacity: 1;
+}
+
+.locale-switch__opt:focus-visible {
+  outline: 2px solid rgba(39, 198, 180, 0.65);
+  outline-offset: 1px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .locale-switch::before {
+    transition: none;
+  }
 }
 
 /* 英文格言：衬线斜体，区别于中文楷体签名 */
@@ -1969,6 +2041,25 @@ body::after {
   .admin-entry {
     width: 1.92rem;
     height: 1.92rem;
+  }
+
+  /* 移动端语言开关同步缩小（几何联动：轨道内边距 ×2 = 滑块让位） */
+  .locale-switch {
+    height: 1.5rem;
+    padding: 0.17rem;
+  }
+
+  .locale-switch::before {
+    top: 0.17rem;
+    left: 0.17rem;
+    width: calc(50% - 0.17rem);
+    height: calc(100% - 0.34rem);
+  }
+
+  .greedy-nav .visible-links [data-locale-toggle] button.locale-switch__opt {
+    min-width: 1.64rem;
+    padding: 0 0.42rem;
+    font-size: 0.64rem;
   }
 
   #main {

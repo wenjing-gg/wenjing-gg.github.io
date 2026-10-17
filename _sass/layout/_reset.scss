@@ -8,11 +8,9 @@ html {
   /* apply a natural box layout model to all elements */
   box-sizing: border-box;
   background-color: var(--global-bg-color);
+  /* 模板原装在 ≥medium 断点抬到 18px，100% 缩放下内容显得过大过空，
+     统一回到 16px：全部 rem 尺寸（字体/间距）随之缩小一档 */
   font-size: 16px;
-
-  @include breakpoint($medium) {
-    font-size: 18px;
-  }
 
   -webkit-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
