@@ -175,6 +175,8 @@
     max-width: none;
     aspect-ratio: 1 / 1;
     object-fit: cover;
+    /* 顶对齐：竖版照片裁正方形时只裁下不裁上，头顶不再被切 */
+    object-position: center top;
     padding: 0;
     border: 0;
     border-radius: var(--glass-radius, 8px) var(--glass-radius, 8px) 0 0;
@@ -208,6 +210,8 @@
     max-width: none;
     aspect-ratio: 1 / 1;
     object-fit: cover;
+    /* 顶对齐：竖版照片裁正方形时只裁下不裁上，头顶不再被切 */
+    object-position: center top;
     margin: 0;
     padding: 0;
     border: 0;
