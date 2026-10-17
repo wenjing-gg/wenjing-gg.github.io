@@ -37,9 +37,13 @@
   window.__profileDefaultDataEn = {{ site.data.profile_content_en | jsonify }};
 </script>
 <script>
-  /* 首次访问（无手动语言选择）时探测外网连通性：通=有代理 → 默认英文，
-     不通 → 默认中文。结果只进 sessionStorage（每个会话重测，跟着当前
-     网络环境走）；手动切换写入 profileLocale.v1，永远优先于探测。
+  /* 首次访问（无手动语言选择）时判断默认语言：看「网络是否来自国外」。
+     主判据：IP 归属地——geojs / ipwho.is 双接口并发，先答的算数，
+     中国大陆（CN）→ 中文，其他 → 英文；
+     辅判据：两个 geo 接口都不可用时，退回 google/gstatic generate_204
+     连通性探测（能通说明网络在墙外 → 英文）；全部失败 3.2s 兜底中文。
+     结果只进 sessionStorage（每个会话重测，跟着当前网络环境走）；
+     手动切换写入 profileLocale.v1，永远优先于探测。
      探测在加载遮罩期间完成，页面渲染会等 __localeSettled，无闪变。 */
   (function () {
     var KEY = "profileLocale.v1";
@@ -63,7 +67,53 @@
          window 上——必须由 window 派发（bubbles:false 时 document 派发到不了 window） */
       window.dispatchEvent(new CustomEvent("locale:settled", { detail: { locale: value } }));
     }
-    var fails = 0;
+    var geoPending = 0;   /* 还没给出结论的 geo 接口数 */
+    var googleOk = false; /* 辅判据：墙外连通性 */
+    var googleFails = 0;
+    /* geo 全挂时才启用辅判据：google 通 → en；google 也全挂 → zh */
+    function geoFallback() {
+      if (done || geoPending > 0) return;
+      if (googleOk) finish("en");
+      else if (googleFails >= 2) finish("zh");
+      /* 其余情况等 3.2s 兜底 */
+    }
+    function geo(url, pick) {
+      geoPending += 1;
+      var settled = false;
+      var ctrl = typeof AbortController !== "undefined" ? new AbortController() : null;
+      var timer = window.setTimeout(function () {
+        if (settled) return;
+        settled = true;
+        if (ctrl) ctrl.abort();
+        if (--geoPending === 0) geoFallback();
+      }, 2600);
+      try {
+        fetch(url, { cache: "no-store", signal: ctrl ? ctrl.signal : undefined })
+          .then(function (r) { return r.json(); })
+          .then(function (j) {
+            if (settled || done) return;
+            settled = true; window.clearTimeout(timer);
+            var cc = pick(j);
+            if (cc) finish(cc === "CN" ? "zh" : "en");
+            else if (--geoPending === 0) geoFallback();
+          })
+          .catch(function () {
+            if (settled) return;
+            settled = true; window.clearTimeout(timer);
+            if (--geoPending === 0) geoFallback();
+          });
+      } catch (e) {
+        window.clearTimeout(timer);
+        if (--geoPending === 0) geoFallback();
+      }
+    }
+    geo("https://get.geojs.io/v1/ip/country.json", function (j) {
+      j = Array.isArray(j) ? j[0] : j;
+      return j && (j.country_code || j.country);
+    });
+    geo("https://ipwho.is/", function (j) {
+      return j && (j.country_code || j.country);
+    });
     function probe(url) {
       var settled = false;
       var ctrl = typeof AbortController !== "undefined" ? new AbortController() : null;
@@ -71,19 +121,19 @@
         if (settled) return;
         settled = true;
         if (ctrl) ctrl.abort();
-        if (++fails >= 2) finish("zh");
+        if (++googleFails >= 2) geoFallback();
       }, 2600);
       try {
         fetch(url, { mode: "no-cors", cache: "no-store", signal: ctrl ? ctrl.signal : undefined })
-          .then(function () { settled = true; window.clearTimeout(timer); finish("en"); })
+          .then(function () { settled = true; window.clearTimeout(timer); googleOk = true; geoFallback(); })
           .catch(function () {
             if (settled) return;
             settled = true; window.clearTimeout(timer);
-            if (++fails >= 2) finish("zh");
+            if (++googleFails >= 2) geoFallback();
           });
       } catch (e) {
         window.clearTimeout(timer);
-        if (++fails >= 2) finish("zh");
+        if (++googleFails >= 2) geoFallback();
       }
     }
     probe("https://www.google.com/generate_204?ts=" + Math.floor(Math.random() * 1e9));

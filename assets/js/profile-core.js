@@ -1,6 +1,6 @@
 (function boot() {
-  /* 等网络探测给出默认语言（scripts.html 内联，遮罩期间完成）。手动选择
-     已存在时探测根本不会启动，这里立即执行。 */
+  /* 等网络判断给出默认语言（scripts.html 内联：IP 归属地为主判据，
+     遮罩期间完成）。手动选择已存在时判断不会启动，这里立即执行。 */
   if (window.__localeDetectPending && !window.__localeSettled) {
     window.addEventListener("locale:settled", boot, { once: true });
     return;
