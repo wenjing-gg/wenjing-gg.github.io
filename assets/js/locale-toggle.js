@@ -1,4 +1,4 @@
-/* 语言切换：masthead 里的 中/EN 圆形按钮。
+/* 语言切换：masthead 里的 中|EN 分段滑块开关（玻璃轨道 + 白色滑块）。
    locale 优先级：手动选择（profileLocale.v1）> 本会话网络判断结果
    （profileLocaleAuto.v1，网络来自国外 → en，国内 → zh）> 兜底 en。
    手动切换后整页重载。本文件同时负责把 Jekyll 静态渲染的部分（导航、
@@ -111,20 +111,28 @@
     var item = document.createElement("li");
     item.className = "masthead__menu-item persist";
     item.setAttribute("data-locale-toggle", "true");
-    var btn = document.createElement("button");
-    btn.type = "button";
-    btn.className = "admin-entry locale-toggle";
-    /* 按钮上显示「要切换到的语言」：中文界面显示 EN，英文界面显示 中 */
-    btn.textContent = locale === "zh" ? "EN" : "中";
-    btn.setAttribute("aria-label", locale === "zh" ? "Switch to English" : "切换到中文");
-    btn.setAttribute("title", locale === "zh" ? "Switch to English" : "切换到中文");
-    btn.addEventListener("click", function () {
-      try {
-        window.localStorage.setItem(LOCALE_KEY, locale === "zh" ? "en" : "zh");
-      } catch (e) {}
-      window.location.reload();
+    /* 分段滑块开关：中 | EN 双语常显，当前语言落在白色滑块上 */
+    var box = document.createElement("div");
+    box.className = "locale-switch" + (locale === "en" ? " locale-switch--en" : "");
+    box.setAttribute("role", "group");
+    box.setAttribute("aria-label", "语言 / Language");
+    ["zh", "en"].forEach(function (code) {
+      var opt = document.createElement("button");
+      opt.type = "button";
+      opt.className = "locale-switch__opt";
+      opt.setAttribute("data-loc", code);
+      opt.textContent = code === "zh" ? "中" : "EN";
+      opt.setAttribute("aria-pressed", locale === code ? "true" : "false");
+      opt.addEventListener("click", function () {
+        if (locale === code) return;
+        try {
+          window.localStorage.setItem(LOCALE_KEY, code);
+        } catch (e) {}
+        window.location.reload();
+      });
+      box.appendChild(opt);
     });
-    item.appendChild(btn);
+    item.appendChild(box);
     /* 放导航栏最左边：紧跟站点标题（--lg）之后、第一个导航项之前 */
     var anchor = null;
     var items = links.children;
