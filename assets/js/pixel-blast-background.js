@@ -2,7 +2,8 @@
   var homeRoot = document.getElementById("profile-app");
   if (!homeRoot) return;
 
-  var videoUrl = "/assets/media/cinematic-background.mp4";
+  /* ?v= 压码率重编码后强制刷过 CDN/浏览器缓存 */
+  var videoUrl = "/assets/media/cinematic-background.mp4?v=2";
   var posterUrl = "/assets/media/cinematic-background-poster.jpg";
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var saveData = Boolean(navigator.connection && navigator.connection.saveData);

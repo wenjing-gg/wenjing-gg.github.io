@@ -36,6 +36,11 @@
         window.setTimeout(finish, 60);
         return;
       }
+      /* 首访语言探测（遮罩期间进行）：落定前不掀遮罩，避免先闪一种语言 */
+      if (window.__localeDetectPending && !window.__localeSettled) {
+        window.setTimeout(finish, 60);
+        return;
+      }
       var background = document.querySelector("[data-cinematic-background]");
       if (background && !/^(playing|ready|paused|fallback)$/.test(background.dataset.state || "")) {
         window.setTimeout(finish, 60);

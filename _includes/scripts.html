@@ -36,6 +36,60 @@
   window.__profileDefaultData = {{ site.data.profile_content | jsonify }};
   window.__profileDefaultDataEn = {{ site.data.profile_content_en | jsonify }};
 </script>
+<script>
+  /* 首次访问（无手动语言选择）时探测外网连通性：通=有代理 → 默认英文，
+     不通 → 默认中文。结果只进 sessionStorage（每个会话重测，跟着当前
+     网络环境走）；手动切换写入 profileLocale.v1，永远优先于探测。
+     探测在加载遮罩期间完成，页面渲染会等 __localeSettled，无闪变。 */
+  (function () {
+    var KEY = "profileLocale.v1";
+    var AUTO = "profileLocaleAuto.v1";
+    try {
+      var manual = window.localStorage.getItem(KEY);
+      if (manual === "zh" || manual === "en") {
+        window.__localeSettled = true;
+        return;
+      }
+    } catch (e) {}
+    /* 探测进行中：profile-core / locale-toggle 等监听 locale:settled 再启动 */
+    window.__localeDetectPending = true;
+    var done = false;
+    function finish(value) {
+      if (done) return;
+      done = true;
+      try { window.sessionStorage.setItem(AUTO, value); } catch (e) {}
+      window.__localeSettled = true;
+      document.dispatchEvent(new CustomEvent("locale:settled", { detail: { locale: value } }));
+    }
+    var fails = 0;
+    function probe(url) {
+      var settled = false;
+      var ctrl = typeof AbortController !== "undefined" ? new AbortController() : null;
+      var timer = window.setTimeout(function () {
+        if (settled) return;
+        settled = true;
+        if (ctrl) ctrl.abort();
+        if (++fails >= 2) finish("zh");
+      }, 2600);
+      try {
+        fetch(url, { mode: "no-cors", cache: "no-store", signal: ctrl ? ctrl.signal : undefined })
+          .then(function () { settled = true; window.clearTimeout(timer); finish("en"); })
+          .catch(function () {
+            if (settled) return;
+            settled = true; window.clearTimeout(timer);
+            if (++fails >= 2) finish("zh");
+          });
+      } catch (e) {
+        window.clearTimeout(timer);
+        if (++fails >= 2) finish("zh");
+      }
+    }
+    probe("https://www.google.com/generate_204?ts=" + Math.floor(Math.random() * 1e9));
+    probe("https://www.gstatic.com/generate_204?ts=" + Math.floor(Math.random() * 1e9));
+    /* 双保险：无论上面卡成什么样，3.2s 内必有结论（默认 zh） */
+    window.setTimeout(function () { finish("zh"); }, 3200);
+  })();
+</script>
 <script defer src="{{ base_path }}/assets/js/profile-core.js"></script>
 <script defer src="{{ base_path }}/assets/js/profile-render.js"></script>
 <script defer src="{{ base_path }}/assets/js/locale-toggle.js"></script>

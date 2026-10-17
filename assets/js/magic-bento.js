@@ -82,10 +82,6 @@
     this.activeCard.style.setProperty("--magic-glow-x", x.toFixed(2) + "px");
     this.activeCard.style.setProperty("--magic-glow-y", y.toFixed(2) + "px");
     this.activeCard.style.setProperty("--magic-glow-intensity", "1");
-    this.activeCard.style.setProperty("--magic-rotate-x", ((yRatio - 0.5) * -2.4).toFixed(3) + "deg");
-    this.activeCard.style.setProperty("--magic-rotate-y", ((xRatio - 0.5) * 2.4).toFixed(3) + "deg");
-    this.activeCard.style.setProperty("--magic-magnet-x", ((x - rect.width / 2) * 0.012).toFixed(2) + "px");
-    this.activeCard.style.setProperty("--magic-magnet-y", ((y - rect.height / 2) * 0.012).toFixed(2) + "px");
   };
 
   MagicBento.prototype.handleLeave = function () {

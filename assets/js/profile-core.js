@@ -1,12 +1,24 @@
-(function () {
-  /* 站点语言：默认英文（profileLocale 持久化用户选择）。中文 locale 才应用
-     /admin/ 后台的 localStorage 快照 —— 英文内容完全来自
-     _data/profile_content_en.json（改英文内容直接编辑该文件）。 */
+(function boot() {
+  /* 等网络探测给出默认语言（scripts.html 内联，遮罩期间完成）。手动选择
+     已存在时探测根本不会启动，这里立即执行。 */
+  if (window.__localeDetectPending && !window.__localeSettled) {
+    window.addEventListener("locale:settled", boot, { once: true });
+    return;
+  }
+
+  /* 站点语言：手动选择（profileLocale.v1）> 本会话探测结果（有外网=代理
+     → en，无 → zh）> 兜底 en。中文 locale 才应用 /admin/ 后台的
+     localStorage 快照 —— 英文内容完全来自 _data/profile_content_en.json。 */
   var LOCALE_KEY = "profileLocale.v1";
+  var AUTO_KEY = "profileLocaleAuto.v1";
   var locale = "en";
   try {
     var savedLocale = window.localStorage.getItem(LOCALE_KEY);
     if (savedLocale === "zh" || savedLocale === "en") locale = savedLocale;
+    else {
+      var autoLocale = window.sessionStorage.getItem(AUTO_KEY);
+      if (autoLocale === "zh" || autoLocale === "en") locale = autoLocale;
+    }
   } catch (e) {}
 
   var defaults = locale === "zh" || !window.__profileDefaultDataEn

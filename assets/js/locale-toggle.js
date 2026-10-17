@@ -1,15 +1,28 @@
 /* 语言切换：masthead 里的 中/EN 圆形按钮。
-   locale 存 localStorage（profileLocale.v1，默认 en），切换后整页重载。
-   本文件同时负责把 Jekyll 静态渲染的部分（导航、侧栏、弹层）按字典换成
-   当前语言；#profile-app 由 profile-render.js 按 locale 自行渲染，跳过。 */
-(function () {
+   locale 优先级：手动选择（profileLocale.v1）> 本会话网络探测结果
+   （profileLocaleAuto.v1，有外网=代理 → en，无 → zh）> 兜底 en。
+   手动切换后整页重载。本文件同时负责把 Jekyll 静态渲染的部分（导航、
+   侧栏、弹层）按字典换成当前语言；#profile-app 由 profile-render.js 按
+   locale 自行渲染，跳过。 */
+(function boot() {
   "use strict";
 
+  /* 等网络探测落定：探测决定首次访问的默认语言（有外网=代理 → en） */
+  if (window.__localeDetectPending && !window.__localeSettled) {
+    window.addEventListener("locale:settled", boot, { once: true });
+    return;
+  }
+
   var LOCALE_KEY = "profileLocale.v1";
+  var AUTO_KEY = "profileLocaleAuto.v1";
   var locale = "en";
   try {
     var saved = window.localStorage.getItem(LOCALE_KEY);
     if (saved === "zh" || saved === "en") locale = saved;
+    else {
+      var auto = window.sessionStorage.getItem(AUTO_KEY);
+      if (auto === "zh" || auto === "en") locale = auto;
+    }
   } catch (e) {}
 
   /* 双向字典：键值互为译文，两方向切换都能用 */
@@ -34,7 +47,7 @@
     "Google Scholar 总引用数": "Total citations on Google Scholar",
     "GitHub 公开仓库 Stars": "Stars across public GitHub repos",
     "潜龙勿用、见龙在田、终日乾乾、或跃在渊、飞龙在天、亢龙有悔。":
-      "Not all those who wander are lost. — J.R.R. Tolkien, The Fellowship of the Ring"
+      "Hope is a good thing, maybe the best of things, and no good thing ever dies. — The Shawshank Redemption"
   };
 
   function squash(s) { return String(s).replace(/\s+/g, ""); }

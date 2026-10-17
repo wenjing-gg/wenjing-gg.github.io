@@ -1,4 +1,9 @@
-(function () {
+(function boot() {
+  /* 等网络探测落定（profile-core 届时才创建 ProfileSite） */
+  if (window.__localeDetectPending && !window.__localeSettled) {
+    window.addEventListener("locale:settled", boot, { once: true });
+    return;
+  }
   var site = window.ProfileSite;
   if (!site) return;
 
