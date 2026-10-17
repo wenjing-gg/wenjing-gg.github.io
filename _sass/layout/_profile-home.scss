@@ -847,9 +847,11 @@ a:hover {
   align-items: center;
 }
 
-/* 主题的折叠菜单按钮规则 .greedy-nav button{position:absolute;right:0}
-   会误伤切换按钮（它也是 <button>），把它钉到导航右端还改了底色——
-   这里显式还原成正常文档流里的圆形小按钮。 */
+/* 导航里的 <button> 会被主题两处误伤，都要显式复位：
+   1) .greedy-nav button{position:absolute;right:0} 把按钮钉到导航右端还改底色；
+   2) greedy-nav 的 jQuery 给 nav 里所有 <button> 统一 addClass("hidden")
+      （本意控制折叠汉堡显隐）——.hidden 工具类带 visibility:hidden，
+      display 被本规则更高特异性压掉，visibility 却没人管，按钮就“消失”了。 */
 .greedy-nav .visible-links [data-locale-toggle] button.locale-toggle {
   position: relative;
   top: auto;
@@ -858,6 +860,7 @@ a:hover {
   transform: none;
   z-index: auto;
   display: inline-flex;
+  visibility: visible;
   background: rgba(255, 255, 255, 0.78);
   color: var(--journal-title);
 }
