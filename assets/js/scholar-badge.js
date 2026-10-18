@@ -2,8 +2,9 @@
    Snapshots are produced by the scheduled GitHub Action and fetched via CDN,
    never scraped from the visitor's browser. */
 (async function updateCitationBadge() {
-  const badge = document.querySelector('.citation-link');
   const total = document.getElementById('citation-total');
+  /* 数字已并入 Google Scholar 链接行（span.link-stat），链接本身即徽章 */
+  const badge = total && total.closest('a');
   if (!badge || !total) return;
   const base = 'https://cdn.jsdelivr.net/gh/wenjing-gg/wenjing-gg.github.io@google-scholar-stats/';
   const validate = data => data && data.scholar_id === 'xeFx7LQAAAAJ' &&

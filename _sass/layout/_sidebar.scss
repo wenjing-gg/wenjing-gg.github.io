@@ -475,16 +475,22 @@ body.sidebar-lightbox-open {
 /* Education timeline — compact rail with teal dots, sits between the
    signature and the link list */
 .author__education {
-  margin: 0 0 0.7rem;
+  margin: 0 0 0.5rem;
 }
 
-.author__education-label {
-  margin: 0 0 0.42rem;
-  color: var(--glass-muted, #4d6377);
-  font-family: $sans-serif;
-  font-size: 0.72rem;
-  font-weight: 750;
-  letter-spacing: 0.08em;
+/* 链接行内的小数字徽章：引用数跟在 Google Scholar 后、星数跟在 GitHub 后 */
+.author__urls .link-stat {
+  display: inline-block;
+  margin-left: 0.3rem;
+  padding: 0 0.36rem;
+  border-radius: 999px;
+  background: rgba(39, 198, 180, 0.13);
+  color: var(--glass-teal, #0a7d7b);
+  font-size: 0.68rem;
+  font-weight: 700;
+  line-height: 1.35;
+  font-variant-numeric: tabular-nums;
+  vertical-align: 1px;
 }
 
 .author__education-list {
@@ -505,10 +511,10 @@ body.sidebar-lightbox-open {
 
   li {
     position: relative;
-    padding: 0 0 0.44rem;
+    padding: 0 0 0.3rem;
 
     &:last-child {
-      padding-bottom: 0.08rem;
+      padding-bottom: 0.06rem;
     }
 
     &::before {

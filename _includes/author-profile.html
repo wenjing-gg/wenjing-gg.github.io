@@ -21,7 +21,6 @@
 
   {% if author.education %}
   <div class="author__education">
-    <h4 class="author__education-label">教育经历</h4>
     <ol class="author__education-list">
       {% for edu in author.education %}
       <li>
@@ -72,7 +71,7 @@
         <li><a href="{{ author.arxiv }}"><i class="ai ai-arxiv ai-fw icon-pad-right"></i>arXiv</a></li>
       {% endif %}      
       {% if author.googlescholar %}
-        <li><a href="{{ author.googlescholar }}"><i class="ai ai-google-scholar ai-fw icon-pad-right"></i>Google Scholar</a></li>
+        <li><a href="{{ author.googlescholar }}" title="Google Scholar 总引用数"><i class="ai ai-google-scholar ai-fw icon-pad-right"></i>Google Scholar <span class="link-stat" id="citation-total">…</span></a></li>
       {% endif %}
       {% if author.semantic %}
         <li><a href="{{ author.semantic }}"><i class="ai ai-semantic-scholar ai-fw icon-pad-right"></i>Semantic Scholar</a></li>
@@ -107,7 +106,7 @@
         <li><a href="https://dribbble.com/{{ author.dribbble }}"><i class="fab fa-fw fa-dribbble icon-pad-right" aria-hidden="true"></i>Dribbble</a></li>
       {% endif %}      
       {% if author.github %}
-        <li><a href="https://github.com/{{ author.github }}"><i class="fab fa-fw fa-github icon-pad-right" aria-hidden="true"></i>GitHub</a></li>
+        <li><a href="https://github.com/{{ author.github }}" data-github-user="{{ author.github }}" title="GitHub 公开仓库 Stars"><i class="fab fa-fw fa-github icon-pad-right" aria-hidden="true"></i>GitHub <span class="link-stat" id="github-stars">…</span></a></li>
       {% endif %}
       {% if author.kaggle %}
         <li><a href="https://kaggle.com/{{ author.kaggle }}"><i class="fab fa-fw fa-kaggle icon-pad-right" aria-hidden="true"></i>Kaggle</a></li>
@@ -216,23 +215,6 @@
         <span class="sidebar-detail__label">学术交流邮箱</span>
         <a href="mailto:{{ author.email_academic }}">{{ author.email_academic }}</a>
       </p>
-      {% endif %}
-    </div>
-    {% endif %}
-
-    {% if author.googlescholar %}
-    <div class="citation-stat">
-      <a class="citation-link" href="{{ author.googlescholar }}" target="_blank" rel="noopener noreferrer" title="Google Scholar 总引用数">
-        <i class="ai ai-google-scholar" aria-hidden="true"></i>
-        <span class="citation-number" id="citation-total">…</span>
-        <span class="citation-caption">Citations</span>
-      </a>
-      {% if author.github %}
-      <a class="citation-link citation-link--github" href="https://github.com/{{ author.github }}" target="_blank" rel="noopener noreferrer" data-github-user="{{ author.github }}" title="GitHub 公开仓库 Stars">
-        <i class="fab fa-github" aria-hidden="true"></i>
-        <span class="citation-number" id="github-stars">…</span>
-        <span class="citation-caption">Stars</span>
-      </a>
       {% endif %}
     </div>
     {% endif %}

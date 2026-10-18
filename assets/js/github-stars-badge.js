@@ -4,7 +4,8 @@
    survives API hiccups and rate limits. */
 (async function updateGithubStars() {
   const total = document.getElementById('github-stars');
-  const link = total && total.closest('.citation-link');
+  /* 星数已并入 GitHub 链接行，data-github-user 跟着链接走 */
+  const link = total && total.closest('a');
   if (!total || !link) return;
   const user = link.dataset.githubUser;
   if (!user) return;

@@ -173,14 +173,15 @@
     display: block;
     width: 100%;
     max-width: none;
-    aspect-ratio: 1 / 1;
-    object-fit: cover;
-    /* 顶对齐：竖版照片裁正方形时只裁下不裁上，头顶不再被切 */
+    height: auto;
+    aspect-ratio: auto;
+    /* 完整呈现竖版照片：不再裁正方形。高窗口按原始 3:4 全宽出血；
+       窗口矮时整图等比缩小（contain 只在左右留窄边），头到胸口永远完整 */
+    object-fit: contain;
     object-position: center top;
-    /* 高度自适应：视口越矮头像越扁（cover 顶对齐只裁胸口不裁头）。
-       620px ≈ 头像以外卡片内容(压缩后约474px) + 卡片顶部偏移(83px) + 余量；
-       高窗口时被 232px 上限锁回正方形，观感不变 */
-    max-height: clamp(122px, calc(100vh - 620px), 232px);
+    /* 500px ≈ 头像以外卡片内容(约400px) + 顶部偏移(83px) + 余量 */
+    max-height: clamp(150px, calc(100vh - 500px), 320px);
+    margin: 0 auto;
     padding: 0;
     border: 0;
     border-radius: var(--glass-radius, 8px) var(--glass-radius, 8px) 0 0;
@@ -213,15 +214,11 @@
   }
 
   .sidebar .author__education {
-    margin-bottom: 0.45rem;
-  }
-
-  .sidebar .author__education-label {
-    margin-bottom: 0.28rem;
+    margin-bottom: 0.35rem;
   }
 
   .sidebar .author__education-list li {
-    padding-bottom: 0.22rem;
+    padding-bottom: 0.16rem;
   }
 
   .sidebar .edu-school,
@@ -233,11 +230,6 @@
     margin-bottom: 1px;
     padding-top: 0;
     padding-bottom: 0;
-  }
-
-  .sidebar .citation-stat {
-    margin-top: 0.42rem;
-    padding-top: 0.32rem;
   }
 }
 
