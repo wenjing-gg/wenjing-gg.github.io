@@ -406,8 +406,9 @@
           updateMusicControls();
         })
         .catch(function () {
+          /* 自动播放被浏览器拦下（无手势）≠ 用户拒绝：不写 "0"，
+             否则一次拦截就变成永久关闭。等首次交互的重试即可 */
           musicEnabled = false;
-          setStoredValue(storageKeyEnabled, "0");
           updateMusicControls();
         });
     }
@@ -513,13 +514,18 @@
 
     updateMusicControls();
 
-    if (musicTracks.length > 0) {
+    /* 自动开播三条规矩：
+       1) 明确暂停过（存了 "0"）的访客不再自动开播，点了 ⏵ 才响；
+       2) 其余（新访客/上次开着）照旧尝试自动播 + 首次交互重试；
+       3) 标签页切后台立即静音，回前台且之前在播才续——
+          否则一个忘关的后台标签页会"没开网站也在放歌"。 */
+    if (musicTracks.length > 0 && getStoredValue(storageKeyEnabled) !== "0") {
       startMusic();
 
       document.addEventListener(
         "pointerdown",
         function () {
-          if (!musicEnabled) {
+          if (!musicEnabled && getStoredValue(storageKeyEnabled) !== "0") {
             startMusic();
           }
         },
@@ -530,8 +536,13 @@
       );
     }
   }
+  var musicPausedByHide = false;
   document.addEventListener("visibilitychange", function () {
     if (document.hidden) {
+      if (musicEnabled && audioEl && !audioEl.paused) {
+        audioEl.pause();
+        musicPausedByHide = true;
+      }
       if (rafId) {
         window.cancelAnimationFrame(rafId);
         rafId = 0;
@@ -540,8 +551,16 @@
         window.clearTimeout(renderTimer);
         renderTimer = 0;
       }
-    } else if (hasFinePointerFx && !rafId) {
-      scheduleRender(0);
+    } else {
+      if (musicPausedByHide) {
+        musicPausedByHide = false;
+        if (audioEl) {
+          audioEl.play().catch(function () { /* 续播被拦就算了 */ });
+        }
+      }
+      if (hasFinePointerFx && !rafId) {
+        scheduleRender(0);
+      }
     }
   });
   document.addEventListener("profile:rendered", updateLoveDays);
