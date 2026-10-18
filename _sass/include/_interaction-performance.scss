@@ -177,6 +177,10 @@
     object-fit: cover;
     /* 顶对齐：竖版照片裁正方形时只裁下不裁上，头顶不再被切 */
     object-position: center top;
+    /* 高度自适应：视口越矮头像越扁（cover 顶对齐只裁胸口不裁头）。
+       610px ≈ 头像以外卡片内容(约500px) + 卡片顶部偏移(83px) 的保守值；
+       高窗口时被 232px 上限锁回正方形，观感不变 */
+    max-height: clamp(146px, calc(100vh - 610px), 232px);
     padding: 0;
     border: 0;
     border-radius: var(--glass-radius, 8px) var(--glass-radius, 8px) 0 0;
@@ -192,6 +196,38 @@
     margin-top: 0.66rem;
     padding-top: 0.58rem;
     border-top: 1px solid rgba(30, 126, 144, 0.16);
+  }
+}
+
+/* 矮视口（笔记本小窗、浏览器工具栏/书签栏占高）：文字块同步压缩，
+   与上面的头像高度自适应配合，左侧卡片在 ~700px 可视高度内也能完整显示 */
+@media screen and (min-width: 1024px) and (max-height: 780px) {
+  .sidebar .author__bio--signature {
+    margin-top: 0.5rem;
+    margin-bottom: 0.4rem;
+    font-size: 0.8rem;
+    line-height: 1.5;
+  }
+
+  .sidebar .author__education {
+    margin-bottom: 0.5rem;
+  }
+
+  .sidebar .author__education-label {
+    margin-bottom: 0.3rem;
+  }
+
+  .sidebar .author__education-list li {
+    padding-bottom: 0.3rem;
+  }
+
+  .sidebar .author__urls a {
+    margin-bottom: 2px;
+  }
+
+  .sidebar .citation-stat {
+    margin-top: 0.5rem;
+    padding-top: 0.42rem;
   }
 }
 
