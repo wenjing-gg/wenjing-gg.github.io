@@ -919,8 +919,13 @@ a:hover {
   line-height: 1;
   letter-spacing: 0.02em;
   cursor: pointer;
+}
+
+/* 基础透明度单独放低特异性规则：上面那条高特异性复位+造型规则若声明
+   opacity，会压赢下面的激活/悬停规则，激活侧就和未激活一样淡了 */
+.locale-switch__opt {
   opacity: 0.55;
-  transition: opacity 0.18s ease, color 0.18s ease;
+  transition: opacity 0.18s ease;
 }
 
 .locale-switch button[aria-pressed="true"] {
