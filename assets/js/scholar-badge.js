@@ -17,14 +17,16 @@
   }
   // 1) Seed snapshot shipped with the site.
   let seedTime = 0;
+  let last = null;
+  const applySafe = data => { last = data; apply(data); };
   try {
     const local = await fetch('/data/scholar.json', { cache: 'no-cache' }).then(r => r.json());
-    if (validate(local)) { apply(local); seedTime = Date.parse(local.updated); }
+    if (validate(local)) { applySafe(local); seedTime = Date.parse(local.updated); }
   } catch (_) { /* Keep the built-in placeholder. */ }
   // 2) Cached value from the newest completed snapshot.
   try {
     const saved = JSON.parse(localStorage.getItem('wenjing-scholar') || 'null');
-    if (saved && validate(saved) && Date.parse(saved.updated) >= seedTime) apply(saved);
+    if (saved && validate(saved) && Date.parse(saved.updated) >= seedTime) applySafe(saved);
   } catch (_) { /* ignore */ }
   // 3) Live snapshot produced by the scheduled GitHub Action.
   if (['127.0.0.1', 'localhost'].includes(location.hostname) || location.protocol === 'file:') return;
@@ -33,7 +35,9 @@
     if (!response.ok) return;
     const data = await response.json();
     if (!validate(data)) return;
-    apply(data);
+    applySafe(data);
     try { localStorage.setItem('wenjing-scholar', JSON.stringify(data)); } catch (_) {}
   } catch (_) { /* Keep the last verified value if the CDN is unavailable. */ }
+  // 网络判断默认语言落定可能晚于取数：语言定了之后按新语言重写一次标签
+  window.addEventListener('locale:settled', () => { if (last) apply(last); }, { once: true });
 })();
