@@ -175,13 +175,13 @@
     max-width: none;
     height: auto;
     aspect-ratio: auto;
-    /* 完整呈现竖版照片：不再裁正方形。高窗口按原始 3:4 全宽出血；
-       窗口矮时整图等比缩小（contain 只在左右留窄边），头到胸口永远完整 */
-    object-fit: contain;
+    /* 满宽贴边 + 顶对齐：高窗口（≥~820px 可视高）上限 286px 恰好等于
+       原图 3:4 的完整高度——照片 100% 呈现且与卡片边缘严丝合缝；
+       矮窗口整体压矮，只从底部裁掉少量胸口，两侧永远不留缝 */
+    object-fit: cover;
     object-position: center top;
     /* 500px ≈ 头像以外卡片内容(约400px) + 顶部偏移(83px) + 余量 */
-    max-height: clamp(150px, calc(100vh - 500px), 320px);
-    margin: 0 auto;
+    max-height: clamp(150px, calc(100vh - 500px), 286px);
     padding: 0;
     border: 0;
     border-radius: var(--glass-radius, 8px) var(--glass-radius, 8px) 0 0;

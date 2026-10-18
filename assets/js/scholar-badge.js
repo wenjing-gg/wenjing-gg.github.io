@@ -10,7 +10,9 @@
   const validate = data => data && data.scholar_id === 'xeFx7LQAAAAJ' &&
     Number.isSafeInteger(data.citedby) && data.citedby >= 0 && Number.isFinite(Date.parse(data.updated));
   function apply(data) {
-    total.textContent = String(data.citedby);
+    /* 药丸里带语义，不只是裸数字：中文「被引 N」/ 英文「N citations」 */
+    const zh = /^zh/.test(document.documentElement.lang || '');
+    total.textContent = zh ? `被引 ${data.citedby}` : `${data.citedby} citations`;
     badge.title = `${data.citedby} total citations (Google Scholar)`;
   }
   // 1) Seed snapshot shipped with the site.

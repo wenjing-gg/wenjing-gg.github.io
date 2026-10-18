@@ -482,13 +482,14 @@ body.sidebar-lightbox-open {
 .author__urls .link-stat {
   display: inline-block;
   margin-left: 0.3rem;
-  padding: 0 0.36rem;
+  padding: 0 0.3rem;
   border-radius: 999px;
   background: rgba(39, 198, 180, 0.13);
   color: var(--glass-teal, #0a7d7b);
-  font-size: 0.68rem;
+  font-size: 0.66rem;
   font-weight: 700;
   line-height: 1.35;
+  white-space: nowrap;
   font-variant-numeric: tabular-nums;
   vertical-align: 1px;
 }

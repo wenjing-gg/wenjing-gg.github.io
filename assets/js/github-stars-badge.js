@@ -13,7 +13,8 @@
   const key = 'wenjing-github-stars';
   const ttl = 6 * 60 * 60 * 1000;
   const apply = n => {
-    total.textContent = String(n);
+    /* ★ 通用符号，双语都读得懂 */
+    total.textContent = `★ ${n}`;
     link.title = `${n} stars across public repositories (GitHub)`;
   };
 
