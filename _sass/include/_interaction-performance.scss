@@ -180,7 +180,7 @@
     /* 高度自适应：视口越矮头像越扁（cover 顶对齐只裁胸口不裁头）。
        620px ≈ 头像以外卡片内容(压缩后约474px) + 卡片顶部偏移(83px) + 余量；
        高窗口时被 232px 上限锁回正方形，观感不变 */
-    max-height: clamp(127px, calc(100vh - 620px), 232px);
+    max-height: clamp(122px, calc(100vh - 620px), 232px);
     padding: 0;
     border: 0;
     border-radius: var(--glass-radius, 8px) var(--glass-radius, 8px) 0 0;
