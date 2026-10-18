@@ -38,10 +38,12 @@
 </script>
 <script>
   /* 首次访问（无手动语言选择）时判断默认语言：看「网络是否来自国外」。
-     主判据：IP 归属地——geojs / ipwho.is 双接口并发，先答的算数，
-     中国大陆（CN）→ 中文，其他 → 英文；
-     辅判据：两个 geo 接口都不可用时，退回 google/gstatic generate_204
-     连通性探测（能通说明网络在墙外 → 英文）；全部失败 3.2s 兜底中文。
+     主判据：IP 归属地——geojs / ipwho.is 双接口并发，先答的算数；
+     关键兜底：设备时区。挂代理时（Clash TUN/全局）geo 看到的是国外出口
+     IP，但代理改不了系统时区——只要设备在中国时区（含港澳台）就给中文，
+     IP 和时区都说在境外才给英文（真正的国外访客）。
+     辅判据：geo 接口全挂时退回 google/gstatic generate_204 连通性探测
+     （同样按时区兜底）；全部失败 3.2s 兜底中文。
      结果只进 sessionStorage（每个会话重测，跟着当前网络环境走）；
      手动切换写入 profileLocale.v1，永远优先于探测。
      探测在加载遮罩期间完成，页面渲染会等 __localeSettled，无闪变。 */
@@ -67,13 +69,28 @@
          window 上——必须由 window 派发（bubbles:false 时 document 派发到不了 window） */
       window.dispatchEvent(new CustomEvent("locale:settled", { detail: { locale: value } }));
     }
+    /* 时区信号：中国时区（含港澳台）→ zh。IP 归属地 + 时区任一指向
+       中国就 zh，两个都在境外才 en */
+    var tz = "";
+    try {
+      tz = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
+    } catch (e) {}
+    var TZ_ZH = {
+      "Asia/Shanghai": 1, "Asia/Urumqi": 1, "Asia/Chongqing": 1,
+      "Asia/Harbin": 1, "Asia/Kashgar": 1,
+      "Asia/Hong_Kong": 1, "Asia/Macau": 1, "Asia/Taipei": 1
+    };
+    function judge(cc) {
+      return cc === "CN" || TZ_ZH[tz] ? "zh" : "en";
+    }
     var geoPending = 0;   /* 还没给出结论的 geo 接口数 */
     var googleOk = false; /* 辅判据：墙外连通性 */
     var googleFails = 0;
-    /* geo 全挂时才启用辅判据：google 通 → en；google 也全挂 → zh */
+    /* geo 全挂时才启用辅判据：google 通 → 按时区定（中国时区 zh，否则 en）；
+       google 也全挂 → zh */
     function geoFallback() {
       if (done || geoPending > 0) return;
-      if (googleOk) finish("en");
+      if (googleOk) finish(TZ_ZH[tz] ? "zh" : "en");
       else if (googleFails >= 2) finish("zh");
       /* 其余情况等 3.2s 兜底 */
     }
@@ -94,7 +111,7 @@
             if (settled || done) return;
             settled = true; window.clearTimeout(timer);
             var cc = pick(j);
-            if (cc) finish(cc === "CN" ? "zh" : "en");
+            if (cc) finish(judge(cc));
             else if (--geoPending === 0) geoFallback();
           })
           .catch(function () {
