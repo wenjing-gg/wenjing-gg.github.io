@@ -47,7 +47,7 @@
     "Google Scholar 总引用数": "Total citations on Google Scholar",
     "GitHub 公开仓库 Stars": "Stars across public GitHub repos",
     "潜龙勿用、见龙在田、终日乾乾、或跃在渊、飞龙在天、亢龙有悔。":
-      "Hope is a good thing, maybe the best of things, and no good thing ever dies. — The Shawshank Redemption"
+      "Hope is a good thing, maybe the best of things, and no good thing ever dies."
   };
 
   function squash(s) { return String(s).replace(/\s+/g, ""); }
