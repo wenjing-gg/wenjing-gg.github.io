@@ -45,7 +45,7 @@ a:hover {
 }
 
 .page__title {
-  font-family: "Times New Roman", "Noto Serif SC", "Songti SC", "Source Han Serif SC", serif;
+  font-family: "Microsoft YaHei", "微软雅黑", "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", sans-serif;
   letter-spacing: 0.02em;
 }
 
@@ -55,7 +55,7 @@ a:hover {
   padding: 0.36rem 0.15rem 0.16rem 0.15rem;
   border-bottom: 1px solid var(--journal-rule);
   color: var(--journal-accent);
-  font-family: "STKaiti", "KaiTi", "Kaiti SC", "Noto Serif SC", serif;
+  font-family: "Microsoft YaHei", "微软雅黑", "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", sans-serif;
   font-size: 0.87rem;
   line-height: 1.62;
   letter-spacing: 0.08em;
@@ -100,7 +100,7 @@ a:hover {
   font-size: 1.03rem;
   font-weight: 600;
   line-height: 1.82;
-  font-family: "Times New Roman", "Noto Serif SC", "Songti SC", "Source Han Serif SC", serif;
+  font-family: "Microsoft YaHei", "微软雅黑", "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", sans-serif;
 }
 
 .profile-hero__contact {
@@ -247,7 +247,7 @@ a:hover {
   font-size: 1.03rem;
   line-height: 1.55;
   color: var(--journal-title);
-  font-family: "Times New Roman", "Noto Serif SC", "Songti SC", "Source Han Serif SC", serif;
+  font-family: "Microsoft YaHei", "微软雅黑", "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", sans-serif;
   overflow-wrap: anywhere;
 }
 
@@ -741,7 +741,7 @@ a:hover {
   justify-self: center;
   gap: 0.38rem;
   color: #435166;
-  font-family: "Ma Shan Zheng", "YouYuan", "Comic Sans MS", "Segoe Print", "PingFang SC", cursive;
+  font-family: "Microsoft YaHei", "微软雅黑", "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", sans-serif;
   font-size: 1.22rem;
   font-style: italic;
   line-height: 1.4;
@@ -951,9 +951,9 @@ a:hover {
   }
 }
 
-/* 英文格言：衬线斜体，区别于中文楷体签名 */
+/* 英文格言：保持斜体以区别于中文签名（字体已全站统一雅黑） */
 body.locale-en .author__bio--signature {
-  font-family: "Times New Roman", Georgia, serif;
+  font-family: "Microsoft YaHei", "微软雅黑", "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", sans-serif;
   font-style: italic;
 }
 
@@ -1630,7 +1630,7 @@ body::after {
 .profile-hero__title {
   margin: 0 0 0.8rem 0;
   color: var(--glass-title);
-  font-family: "Times New Roman", "Noto Serif SC", "Songti SC", "Source Han Serif SC", serif;
+  font-family: "Microsoft YaHei", "微软雅黑", "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", sans-serif;
   font-size: clamp(2rem, 5vw, 3.45rem);
   line-height: 1.08;
 }

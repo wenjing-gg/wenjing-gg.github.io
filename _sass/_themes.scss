@@ -13,10 +13,11 @@ $doc-font-size              : 16;
 $paragraph-indent           : false; // true, false (default)
 $indent-var                 : 1.3em;
 
-/* System typefaces — 全站英文用 Times New Roman（新罗马）：
-   TNR 不含 CJK 字形，中文按字符回退到系统字体，观感不变 */
-$serif                      : "Times New Roman", Georgia, Times, serif;
-$sans-serif                 : "Times New Roman", -apple-system, ".SFNSText-Regular", "San Francisco", "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", Arial, sans-serif;
+/* System typefaces — 全站统一微软雅黑（2026-10-19 起，替代 Times New Roman 方案）：
+   雅黑是 Windows 系统字体；Mac/iPhone 无雅黑时回退苹方（同族黑体，观感接近），
+   Linux/Android 落到 Noto Sans SC/系统默认。代码块等宽字体与 FA/学术图标字体不动 */
+$serif                      : "Microsoft YaHei", "微软雅黑", "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", sans-serif;
+$sans-serif                 : "Microsoft YaHei", "微软雅黑", "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", sans-serif;
 $monospace                  : Monaco, Consolas, "Lucida Console", monospace;
 
 /* Sans serif typefaces */
