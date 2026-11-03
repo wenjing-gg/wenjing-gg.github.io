@@ -115,13 +115,46 @@
       }
     ]
   },
-  "honors": [
-    "Principal Investigator of a Zhejiang Provincial Natural Science Foundation \"Xinmiao Program\" project: Reliable Supervision Construction for 3-D Medical Image Segmentation with Limited Annotations (2027, CNY 100,000)",
-    "Principal Investigator of a Hangzhou Dianzi University Graduate Research Innovation Fund project: Reliable Supervision Construction for 3-D Medical Image Segmentation with Limited Annotations (2026, CNY 5,000)",
-    "Participated in a National Undergraduate Innovation and Entrepreneurship Program project",
-    "Participated in the Zhejiang Provincial \"Xinmiao Talents\" Program",
-    "Recipient of the National Encouragement Scholarship, university Academic Excellence Scholarships, and Outstanding Class Cadre awards"
-  ],
+  "honors": {
+    "phd": {
+      "projects": [
+        {
+          "role": "PI",
+          "fund": "Zhejiang Provincial Natural Science Foundation \"Xinmiao Program\"",
+          "title": "Reliable Supervision Construction for 3-D Medical Image Segmentation with Limited Annotations",
+          "amount": "CNY 100,000",
+          "year": "2027"
+        },
+        {
+          "role": "PI",
+          "fund": "HDU Graduate Research Innovation Fund",
+          "title": "Reliable Supervision Construction for 3-D Medical Image Segmentation with Limited Annotations",
+          "amount": "CNY 5,000",
+          "year": "2026"
+        }
+      ],
+      "awards": [
+        "Graduate Academic Scholarship (Second Class)"
+      ]
+    },
+    "undergrad": {
+      "projects": [
+        {
+          "role": "Participant",
+          "fund": "National Undergraduate Innovation and Entrepreneurship Program"
+        },
+        {
+          "role": "Participant",
+          "fund": "Zhejiang Provincial \"Xinmiao Talents\" Program"
+        }
+      ],
+      "awards": [
+        "National Encouragement Scholarship",
+        "University Academic Excellence Scholarship",
+        "Outstanding Class Cadre"
+      ]
+    }
+  },
   "hobbies": {
     "items": [
       "Badminton (member of the HDU varsity team)",

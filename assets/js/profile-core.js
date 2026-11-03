@@ -28,7 +28,7 @@
 
   var config = Object.assign(
     {
-      storageKey: "profileAdminContent.v4",
+      storageKey: "profileAdminContent.v5",
       sessionKey: "profileAdminUnlocked.v1",
       defaultPasswordHash: "",
       adminPath: "/admin/",
@@ -131,6 +131,36 @@
       : [];
   }
 
+  function honorProjectArr(v) {
+    return Array.isArray(v)
+      ? v.map(function (item) {
+          if (item == null || typeof item === "string") return { role: "", fund: text(item), title: "", amount: "", year: "" };
+          return {
+            role: text(item && item.role),
+            fund: text(item && item.fund),
+            title: text(item && item.title),
+            amount: text(item && item.amount),
+            year: text(item && item.year)
+          };
+        })
+      : [];
+  }
+
+  /* 项目与荣誉按「博士期间 / 本科期间」分期，期内再分项目（结构化基金卡）与荣誉（文字） */
+  function honorsObj(v) {
+    var source = v && typeof v === "object" && !Array.isArray(v) ? v : {};
+    return {
+      phd: {
+        projects: honorProjectArr(source.phd && source.phd.projects),
+        awards: arr(source.phd && source.phd.awards)
+      },
+      undergrad: {
+        projects: honorProjectArr(source.undergrad && source.undergrad.projects),
+        awards: arr(source.undergrad && source.undergrad.awards)
+      }
+    };
+  }
+
   function imageArr(v) {
     return Array.isArray(v)
       ? v
@@ -196,7 +226,7 @@
         },
         patents: patentArr(merged.achievements && merged.achievements.patents)
       },
-      honors: arr(merged.honors),
+      honors: honorsObj(merged.honors),
       hobbies: {
         items: arr(merged.hobbies && merged.hobbies.items),
         images: imageArr(merged.hobbies && merged.hobbies.images)
@@ -297,6 +327,7 @@
   function template(kind) {
     if (kind === "paper") return { note: "", title: "", authors: "", linkText: "", linkUrl: "", figure: "" };
     if (kind === "patent") return { title: "", note: "" };
+    if (kind === "honorProject") return { role: "", fund: "", title: "", amount: "", year: "" };
     if (kind === "image") return { src: "", alt: "", repoPath: "", uploadName: "" };
     return "";
   }

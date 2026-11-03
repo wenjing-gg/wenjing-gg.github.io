@@ -19,6 +19,10 @@
       sectionPublications: "成果",
       sectionHonors: "项目与荣誉",
       sectionHobbies: "爱好",
+      honorPhd: "博士期间",
+      honorUndergrad: "本科期间",
+      honorProjects: "项目",
+      honorAwards: "荣誉",
       patentLabel: "专利",
       untitledWork: "未命名成果",
       untitledPatent: "未命名专利",
@@ -50,6 +54,10 @@
       sectionPublications: "Publications",
       sectionHonors: "Projects & Honors",
       sectionHobbies: "Hobbies",
+      honorPhd: "Ph.D. Studies",
+      honorUndergrad: "Undergraduate Studies",
+      honorProjects: "Projects",
+      honorAwards: "Honors & Awards",
       patentLabel: "Patents",
       untitledWork: "Untitled work",
       untitledPatent: "Untitled patent",
@@ -101,6 +109,45 @@
     return '<ul class="profile-list">' + items.map(function (item) {
       return '<li><span class="profile-list__icon"><i class="' + iconForText(item) + '" aria-hidden="true"></i></span><span>' + util.escapeHtml(item) + "</span></li>";
     }).join("") + "</ul>";
+  }
+
+  /* 基金/项目卡：左侧渐变竖条 + 角色徽章 + 金色资助徽章，悬停轻微上浮 */
+  function honorProjectHtml(item) {
+    var role = util.trim(item.role) ? '<span class="honor-card__role">' + util.escapeHtml(item.role) + "</span>" : "";
+    var year = util.trim(item.year) ? '<span class="honor-card__year">' + util.escapeHtml(item.year) + "</span>" : "";
+    var amount = util.trim(item.amount) ? '<span class="honor-card__amount">' + util.escapeHtml(item.amount) + "</span>" : "";
+    var title = util.trim(item.title) ? '<p class="honor-card__title">' + util.escapeHtml(item.title) + "</p>" : "";
+    return [
+      '<li class="honor-card">',
+      '<span class="honor-card__bar" aria-hidden="true"></span>',
+      '<div class="honor-card__body">',
+      '<div class="honor-card__head">',
+      role,
+      '<span class="honor-card__fund">' + util.escapeHtml(item.fund) + "</span>",
+      year,
+      amount,
+      "</div>",
+      title,
+      "</div>",
+      "</li>"
+    ].join("");
+  }
+
+  function honorPeriodHtml(period, periodTitle) {
+    if (!period) return "";
+    var projects = Array.isArray(period.projects) && period.projects.length
+      ? '<h4 class="profile-honor-group__title">' + T.honorProjects + '</h4><ul class="profile-honor-list">' + period.projects.map(honorProjectHtml).join("") + "</ul>"
+      : "";
+    var awards = Array.isArray(period.awards) && period.awards.length
+      ? '<h4 class="profile-honor-group__title">' + T.honorAwards + "</h4>" + listHtml(period.awards)
+      : "";
+    if (!projects && !awards) return "";
+    return '<div class="profile-honor-period"><h3 class="profile-honor-period__title">' + util.escapeHtml(periodTitle) + "</h3>" + projects + awards + "</div>";
+  }
+
+  function honorsHtml(honors) {
+    var html = honorPeriodHtml(honors && honors.phd, T.honorPhd) + honorPeriodHtml(honors && honors.undergrad, T.honorUndergrad);
+    return html || '<p class="profile-empty">' + T.emptyList + "</p>";
   }
 
   function topicHtml(items) {
@@ -310,7 +357,7 @@
       "</div>",
       '<article class="journal-profile">',
       '<section' + idAttr("publications", preview) + ' class="profile-section achievements"><div class="profile-section__heading"><h2>' + T.sectionPublications + "</h2></div>" + achievementsHtml(data.achievements) + "</section>",
-      '<section class="profile-section profile-section--honors"><div class="profile-section__heading"><h2>' + T.sectionHonors + "</h2></div>" + listHtml(data.honors) + "</section>",
+      '<section class="profile-section profile-section--honors"><div class="profile-section__heading"><h2>' + T.sectionHonors + "</h2></div>" + honorsHtml(data.honors) + "</section>",
       '<section class="profile-section profile-section--hobbies"' + idAttr("hobbies", preview) + '><div class="profile-section__heading"><h2>' + T.sectionHobbies + "</h2></div>" + listHtml(data.hobbies.items) + photoHtml(data.hobbies.images) + "</section>",
       "</article>",
       loveHtml(data.love, preview),

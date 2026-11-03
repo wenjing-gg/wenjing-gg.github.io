@@ -38,6 +38,25 @@
     }).join("") + "</div>";
   }
 
+  function honorProjectCards(path, items) {
+    if (!Array.isArray(items) || !items.length) return '<p class="admin-empty-note">当前暂无项目。</p>';
+    return '<div class="admin-card-list">' + items.map(function (item, index) {
+      return '<article class="admin-editor-card"><div class="admin-editor-card__top"><strong>项目 ' + (index + 1) + '</strong><button class="admin-button admin-button--danger" type="button" data-delete-item="' + util.escapeHtml(path) + '" data-index="' + index + '">删除</button></div><div class="admin-form-grid admin-form-grid--single">' + field("基金 / 项目名称", path + "." + index + ".fund", item.fund, "例如：2027 年度浙江省自然科学基金“新苗项目”") + field("角色", path + "." + index + ".role", item.role, "例如：主持 / 参与") + area("课题名称", path + "." + index + ".title", item.title, "请输入课题名称（可选）") + field("资助额度", path + "." + index + ".amount", item.amount, "例如：资助 10 万元（可选）") + field("年份", path + "." + index + ".year", item.year, "例如：2027（可选）") + "</div></article>";
+    }).join("") + "</div>";
+  }
+
+  function honorsSection(data) {
+    var honors = data.honors || {};
+    var phd = honors.phd || {};
+    var undergrad = honors.undergrad || {};
+    return '<section class="admin-section"><div class="admin-section__header"><h2>项目与荣誉</h2></div>'
+      + '<div class="admin-block"><div class="admin-block__header"><h3>博士期间 · 项目</h3><button class="admin-button" type="button" data-add-item="honors.phd.projects" data-template="honorProject">新增项目</button></div>' + honorProjectCards("honors.phd.projects", phd.projects) + "</div>"
+      + '<div class="admin-block"><div class="admin-block__header"><h3>博士期间 · 荣誉</h3><button class="admin-button" type="button" data-add-item="honors.phd.awards" data-template="text">新增荣誉</button></div>' + cards("honors.phd.awards", phd.awards, "荣誉", "请输入荣誉内容") + "</div>"
+      + '<div class="admin-block"><div class="admin-block__header"><h3>本科期间 · 项目</h3><button class="admin-button" type="button" data-add-item="honors.undergrad.projects" data-template="honorProject">新增项目</button></div>' + honorProjectCards("honors.undergrad.projects", undergrad.projects) + "</div>"
+      + '<div class="admin-block"><div class="admin-block__header"><h3>本科期间 · 荣誉</h3><button class="admin-button" type="button" data-add-item="honors.undergrad.awards" data-template="text">新增荣誉</button></div>' + cards("honors.undergrad.awards", undergrad.awards, "荣誉", "请输入荣誉内容") + "</div>"
+      + "</section>";
+  }
+
   function papers(path, items, title) {
     return '<section class="admin-subsection"><div class="admin-subsection__header"><h4>' + util.escapeHtml(title) + '</h4><button class="admin-button" type="button" data-open-modal="paper" data-modal-path="' + util.escapeHtml(path) + '" data-modal-title="' + util.escapeHtml(title) + '">新增论文</button></div>' + ((items || []).length ? '<div class="admin-card-list">' + items.map(function (item, index) {
       return '<article class="admin-editor-card"><div class="admin-editor-card__top"><strong>论文 ' + (index + 1) + '</strong><button class="admin-button admin-button--danger" type="button" data-delete-item="' + util.escapeHtml(path) + '" data-index="' + index + '">删除</button></div><div class="admin-form-grid admin-form-grid--single">' + field("备注", path + "." + index + ".note", item.note, "例如：学生一作 · MICCAI 2025 Early Accept") + area("题目", path + "." + index + ".title", item.title, "请输入论文题目") + area("Authors", path + "." + index + ".authors", item.authors, "请输入完整作者信息") + field("链接文字", path + "." + index + ".linkText", item.linkText, "例如：DOI: ... / arXiv: ...") + field("链接地址", path + "." + index + ".linkUrl", item.linkUrl, "https://...") + "</div></article>";
@@ -139,7 +158,7 @@
       introSection(data),
       '<section class="admin-section"><div class="admin-section__header"><h2>研究方向</h2><button class="admin-button" type="button" data-add-item="research" data-template="text">新增方向</button></div>' + cards("research", data.research, "方向", "请输入研究方向") + "</section>",
       '<section class="admin-section"><div class="admin-section__header"><h2>成果</h2></div><div class="admin-composition admin-composition--single"><section class="admin-block admin-block--paper"><div class="admin-block__header"><h3>论文</h3></div>' + papers("achievements.papers.published", data.achievements.papers.published, "Published") + papers("achievements.papers.review", data.achievements.papers.review, "Under Review") + "</section>" + patents("achievements.patents", data.achievements.patents) + "</div></section>",
-      '<section class="admin-section"><div class="admin-section__header"><h2>项目与荣誉</h2><button class="admin-button" type="button" data-add-item="honors" data-template="text">新增条目</button></div>' + cards("honors", data.honors, "条目", "请输入项目或荣誉内容") + "</section>",
+      honorsSection(data),
       '<section class="admin-section"><div class="admin-section__header"><h2>爱好</h2></div><div class="admin-block"><div class="admin-block__header"><h3>文字条目</h3><button class="admin-button" type="button" data-add-item="hobbies.items" data-template="text">新增爱好</button></div>' + cards("hobbies.items", data.hobbies.items, "爱好", "请输入爱好内容") + "</div>" + images("爱好图片", "hobbies.images", data.hobbies.images) + "</section>",
       '<section class="admin-section"><div class="admin-section__header"><h2>恋爱小窗</h2></div><div class="admin-block"><div class="admin-form-grid">' + field("相恋起始日期", "love.startDate", data.love.startDate, "YYYY-MM-DD", "date") + "</div></div>" + images("恋爱照片", "love.images", data.love.images) + "</section>",
       "</section>",

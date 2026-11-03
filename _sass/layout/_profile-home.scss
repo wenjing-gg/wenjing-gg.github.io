@@ -2667,3 +2667,123 @@ body::after {
     transition-delay: calc(var(--motion-order, 0) * 18ms);
   }
 }
+
+/* 项目与荣誉：博士/本科分期分组 + 基金卡片 */
+.profile-honor-period {
+  margin: 0 0 1.35rem 0;
+}
+
+.profile-honor-period__title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 0 0.7rem 0;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+
+.profile-honor-period__title::before {
+  content: "";
+  width: 1.3rem;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--glass-teal), transparent);
+}
+
+.profile-honor-group__title {
+  margin: 0.85rem 0 0.5rem 0;
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0.58;
+}
+
+.profile-honor-list {
+  display: grid;
+  gap: 0.66rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.honor-card {
+  display: flex;
+  gap: 0.78rem;
+  padding: 0.85rem 0.95rem;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: var(--glass-radius);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.44), rgba(255, 255, 255, 0.14));
+  box-shadow: 0 2px 10px rgba(15, 42, 63, 0.06);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.honor-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.75);
+  box-shadow: 0 10px 26px rgba(15, 42, 63, 0.14);
+}
+
+.honor-card__bar {
+  flex: none;
+  width: 3px;
+  border-radius: 3px;
+  background: linear-gradient(180deg, var(--glass-teal), rgba(14, 124, 134, 0.05));
+}
+
+.honor-card__body {
+  flex: 1;
+  min-width: 0;
+}
+
+.honor-card__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.honor-card__role {
+  padding: 0.13rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: #ffffff;
+  background: linear-gradient(135deg, #149aa8, var(--glass-teal));
+}
+
+.honor-card__fund {
+  font-weight: 600;
+}
+
+.honor-card__year {
+  font-size: 0.78rem;
+  opacity: 0.6;
+}
+
+.honor-card__amount {
+  margin-left: auto;
+  padding: 0.15rem 0.62rem;
+  border-radius: 999px;
+  font-size: 0.76rem;
+  font-weight: 700;
+  white-space: nowrap;
+  color: #8a5a12;
+  background: linear-gradient(135deg, rgba(255, 216, 138, 0.95), rgba(247, 181, 87, 0.72));
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.4);
+}
+
+.honor-card__title {
+  margin: 0.42rem 0 0 0;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  opacity: 0.82;
+}
+
+@media (max-width: 480px) {
+  .honor-card__amount {
+    margin-left: 0;
+  }
+}
