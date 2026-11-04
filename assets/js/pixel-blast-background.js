@@ -35,7 +35,7 @@
       ".profile-section",
       ".love-window",
       ".profile-list li",
-      ".photo-grid img"
+      ".photo-grid:not(.photo-grid--strip) img"
     ].join(",");
     var nodes = Array.prototype.slice.call(document.querySelectorAll(selector));
     var observer = "IntersectionObserver" in window

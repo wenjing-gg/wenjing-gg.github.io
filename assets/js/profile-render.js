@@ -179,9 +179,20 @@
 
   function photoHtml(images) {
     if (!Array.isArray(images) || !images.length) return "";
-    return '<div class="photo-grid">' + images.map(function (item, idx) {
-      return '<img src="' + util.escapeHtml(item.src) + '" alt="' + util.escapeHtml(util.trim(item.alt) || (T.hobbyPhotoAlt + (idx + 1))) + '" loading="lazy">';
-    }).join("") + "</div>";
+    var items = images.map(function (item, idx) {
+      return {
+        src: util.escapeHtml(item.src),
+        alt: util.escapeHtml(util.trim(item.alt) || (T.hobbyPhotoAlt + (idx + 1)))
+      };
+    });
+    /* 横向无缝滚动：内容渲染两遍作视觉回环，后半段仅供展示（aria-hidden、直接加载） */
+    var real = items.map(function (it) {
+      return '<img src="' + it.src + '" alt="' + it.alt + '" loading="lazy">';
+    }).join("");
+    var echo = items.map(function (it) {
+      return '<img src="' + it.src + '" alt="' + it.alt + '" class="photo-grid__echo" aria-hidden="true">';
+    }).join("");
+    return '<div class="photo-marquee"><div class="photo-grid photo-grid--strip">' + real + echo + "</div></div>";
   }
 
   /* 论文行：一篇一行，图左文右（figure 缺省时右侧信息占满整行） */
