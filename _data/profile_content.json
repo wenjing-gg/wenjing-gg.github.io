@@ -15,7 +15,7 @@
     "jointTraining": [
       {
         "org": "清华大学 BIRTH Lab",
-        "verb": "接受联合科研训练",
+        "verb": "进行联合科研培养",
         "name": "田启源",
         "en": "Qiyuan Tian",
         "title": "教授",
@@ -181,6 +181,11 @@
         "src": "/images/yuwenjing-hobby-4.jpeg",
         "repoPath": "images/yuwenjing-hobby-4.jpeg",
         "alt": "羽毛球训练照片 4"
+      },
+      {
+        "src": "/images/yuwenjing-hobby-5.jpeg",
+        "repoPath": "images/yuwenjing-hobby-5.jpeg",
+        "alt": "羽毛球比赛跃起扣杀瞬间"
       }
     ]
   },

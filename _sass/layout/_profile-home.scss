@@ -2278,8 +2278,9 @@ body::after {
   box-shadow: 0 16px 44px rgba(17, 52, 65, 0.1);
 }
 
+/* 1380px 与 #main 同宽同居中，导航组左缘对齐正文/侧栏左缘 */
 .masthead__inner-wrap {
-  max-width: min(1180px, calc(100% - 2rem));
+  max-width: min(1380px, calc(100% - 2rem));
   padding: 0.45rem 1rem;
 }
 
@@ -2322,10 +2323,6 @@ body::after {
   min-width: 0;
 }
 
-.greedy-nav .visible-links .masthead__menu-item--lg {
-  flex: 0 1 auto;
-  padding-right: clamp(0.8rem, 2.4vw, 2rem);
-}
 
 .greedy-nav .visible-links [data-admin-entry="true"] {
   flex: 0 0 auto;

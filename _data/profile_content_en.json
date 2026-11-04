@@ -15,7 +15,7 @@
     "jointTraining": [
       {
         "org": "the BIRTH Lab, Tsinghua University",
-        "verb": "receiving joint research training",
+        "verb": "conducting joint research training",
         "name": "Qiyuan Tian",
         "en": "田启源",
         "title": "Professor",
@@ -181,6 +181,11 @@
         "src": "/images/yuwenjing-hobby-4.jpeg",
         "repoPath": "images/yuwenjing-hobby-4.jpeg",
         "alt": "Badminton training photo 4"
+      },
+      {
+        "src": "/images/yuwenjing-hobby-5.jpeg",
+        "repoPath": "images/yuwenjing-hobby-5.jpeg",
+        "alt": "Badminton match jump smash"
       }
     ]
   },
