@@ -12,6 +12,13 @@
   var previewRoot = null;
   var renderQueued = false;
 
+  /* guanmo-ai/awesome-agent-mcp, web/render.mjs (MIT).
+     Source and license: docs/guanmo-components.md. */
+  var GUANMO_ICON = {
+    out: '<svg class="guanmo-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 17 17 7M8 7h9v9"/></svg>',
+    close: '<svg class="guanmo-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18"/></svg>'
+  };
+
   /* 界面文案双语：locale 由 profile-core 决定（默认 en），切换后整页重载 */
   var LOCALE = site.locale === "zh" ? "zh" : "en";
   var T = {
@@ -212,7 +219,7 @@
       util.trim(item.authors) ? '<p class="magic-bento-card__authors"><strong>Authors:</strong> ' + util.hiAuthor(item.authors, site.state.meta && site.state.meta.selfAuthorName) + "</p>" : "",
       "</div>",
       '<footer class="magic-bento-card__meta">',
-      link && util.trim(item.linkText) ? '<a class="magic-bento-card__link" href="' + util.escapeHtml(link) + '" target="_blank" rel="noopener noreferrer">' + util.escapeHtml(item.linkText) + '<i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>' : "",
+      link && util.trim(item.linkText) ? '<a class="magic-bento-card__link" href="' + util.escapeHtml(link) + '" target="_blank" rel="noopener noreferrer">' + util.escapeHtml(item.linkText) + GUANMO_ICON.out + '</a>' : "",
       '<span class="magic-bento-card__label">', status === "published" ? "PUBLISHED" : "UNDER REVIEW", "</span>",
       util.trim(item.note) ? '<span class="magic-bento-card__note">' + util.escapeHtml(item.note) + "</span>" : "",
       "</footer>",
@@ -426,7 +433,7 @@
       "<img alt=\"\">",
       "<figcaption></figcaption>",
       "</figure>",
-      '<button type="button" class="figure-lightbox__close" data-figure-close aria-label="', T.closeAria, '">✕</button>'
+      '<button type="button" class="figure-lightbox__close" data-figure-close aria-label="', T.closeAria, '">', GUANMO_ICON.close, '</button>'
     ].join("");
     document.body.appendChild(lightboxNode);
     return lightboxNode;

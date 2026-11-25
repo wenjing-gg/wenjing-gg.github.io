@@ -8,18 +8,18 @@
   grid-template-columns: repeat(12, minmax(0, 1fr));
   gap: 0.72rem;
   width: 100%;
-  perspective: 1100px;
 }
 
 .magic-bento-card {
-  --magic-glow-rgb: 39, 198, 180;
-  --magic-glow-x: 50%;
-  --magic-glow-y: 50%;
-  --magic-glow-intensity: 0;
-  --magic-magnet-x: 0px;
-  --magic-magnet-y: 0px;
-  --magic-rotate-x: 0deg;
-  --magic-rotate-y: 0deg;
+  --magic-glow-rgb: 120, 107, 214;
+  --d-pointer-in: 300ms;
+  --d-pointer-out: 500ms;
+  --r-pointer: 360px;
+  --s-pointer-border: 2px;
+  --c-pointer-glow: rgba(var(--magic-glow-rgb), 0.12);
+  --c-pointer-edge: rgba(var(--magic-glow-rgb), 0.78);
+  --c-mask: #fff;
+  --e-std: cubic-bezier(0.2, 0.7, 0.1, 1);
 
   position: relative;
   isolation: isolate;
@@ -37,31 +37,55 @@
     linear-gradient(148deg, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.38)),
     radial-gradient(circle at 92% 4%, rgba(var(--magic-glow-rgb), 0.14), transparent 38%);
   box-shadow: 0 18px 42px rgba(9, 45, 62, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.62);
-  /* 3D 倾斜/磁吸已关闭：transform 恒为 0，不再需要 will-change 与 transform 过渡 */
   transition: border-color 180ms ease, box-shadow 180ms ease;
 }
 
-.magic-bento-card::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: -1;
-  width: 230px;
-  height: 230px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(var(--magic-glow-rgb), 0.1), transparent 70%);
-  opacity: var(--magic-glow-intensity);
-  transform: translate3d(calc(var(--magic-glow-x) - 50%), calc(var(--magic-glow-y) - 50%), 0);
-  /* promoted once, never toggled by .is-tracking: same layer-churn rule
-     that made sibling glass panels flicker on card enter/leave */
-  will-change: transform, opacity;
-  transition: opacity 180ms ease;
-  pointer-events: none;
+.magic-bento-card--published {
+  --magic-glow-rgb: 39, 198, 180;
 }
 
-.magic-bento-card.is-tracking::before {
-  transition: opacity 90ms ease;
+.magic-bento-card--review {
+  --magic-glow-rgb: 120, 107, 214;
+}
+
+.magic-bento-card--patent {
+  --magic-glow-rgb: 233, 120, 86;
+}
+
+/* Guanmo Studio pointer glow, adapted for light glass cards.
+   Source and MIT license: docs/guanmo-components.md. */
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .magic-bento-card::before,
+  .magic-bento-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity var(--d-pointer-out) var(--e-std);
+  }
+
+  .magic-bento-card::before {
+    z-index: 0;
+    background: radial-gradient(var(--r-pointer) circle at var(--mx, 50%) var(--my, 50%), var(--c-pointer-glow), transparent 62%);
+  }
+
+  .magic-bento-card::after {
+    z-index: 3;
+    padding: var(--s-pointer-border);
+    background: radial-gradient(var(--r-pointer) circle at var(--mx, 50%) var(--my, 50%), var(--c-pointer-edge), transparent 62%);
+    -webkit-mask: linear-gradient(var(--c-mask) 0 0) content-box, linear-gradient(var(--c-mask) 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(var(--c-mask) 0 0) content-box, linear-gradient(var(--c-mask) 0 0);
+    mask-composite: exclude;
+  }
+
+  .magic-bento-card.is-pointer-active::before,
+  .magic-bento-card.is-pointer-active::after {
+    opacity: 1;
+    transition-duration: var(--d-pointer-in);
+  }
 }
 
 .magic-bento-card:hover {
@@ -99,6 +123,8 @@
 }
 
 .magic-bento-card--paper .magic-bento-card__side {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex: 1 1 auto;
   min-width: 0;
@@ -270,6 +296,20 @@
   color: var(--glass-title);
 }
 
+/* Inline icons from guanmo-ai/awesome-agent-mcp, web/render.mjs. */
+.guanmo-icon {
+  display: inline-block;
+  flex: 0 0 auto;
+  width: 1.1em;
+  height: 1.1em;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vertical-align: -0.125em;
+}
+
 .magic-bento-card__figure {
   position: relative;
   z-index: 2;
@@ -308,14 +348,6 @@
   height: 100%;
   object-fit: contain;
   background: #fff;
-}
-
-.magic-bento-ripple {
-  position: absolute;
-  z-index: 4;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(var(--ripple-rgb), 0.28), rgba(var(--ripple-rgb), 0.1) 34%, transparent 70%);
-  pointer-events: none;
 }
 
 /* ---- paper figure lightbox ---- */
@@ -403,8 +435,13 @@
 }
 
 .figure-lightbox__close:hover {
-  background: rgba(var(--magic-glow-rgb), 0.3);
+  background: rgba(255, 255, 255, 0.2);
   transform: rotate(90deg);
+}
+
+.figure-lightbox__close .guanmo-icon {
+  width: 1.25rem;
+  height: 1.25rem;
 }
 
 .figure-lightbox__close:focus-visible {
@@ -418,12 +455,7 @@ body.figure-lightbox-open {
 
 @media (prefers-reduced-motion: reduce), (pointer: coarse), (max-width: 768px) {
   .magic-bento-card {
-    transform: none !important;
     transition: none;
-  }
-
-  .magic-bento-ripple {
-    display: none;
   }
 }
 
