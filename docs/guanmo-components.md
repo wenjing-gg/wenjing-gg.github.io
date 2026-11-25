@@ -5,7 +5,7 @@ The site uses components from [Guanmo Studio](https://github.com/guanmo-ai/guanm
 ## Header controls
 
 - Navigation pills, segmented language controls, and icon button styling are adapted from `.nav-links a`, `.seg`, and `.icon-btn` in [`awesome-agent-mcp/web/app.css`](https://github.com/guanmo-ai/awesome-agent-mcp/blob/95702f3b1cf610336ccd885090fcac251ece912a/web/app.css).
-- Local header styling is in `_sass/include/_guanmo-header.scss`. Translucent gradients, backdrop blur, fine highlights, and inset reflections adapt these components to the site's liquid-glass header. Existing navigation destinations and language persistence remain in place; narrow screens show the navigation on a second row.
+- Local header styling is in `_sass/include/_guanmo-header.scss`. Translucent gradients, backdrop blur, and subtle inset reflections retain a glass surface; compact corners, muted colors, and an underline for the active section suit the academic homepage. Existing navigation destinations and language persistence remain in place; narrow screens show the navigation on a second row.
 - License: [MIT — Awesome Agent MCP](licenses/awesome-agent-mcp-MIT.txt).
 
 ## Header music icons
