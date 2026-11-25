@@ -1,4 +1,4 @@
-/* 语言切换：masthead 里的 中|EN 分段滑块开关（玻璃轨道 + 白色滑块）。
+/* 语言切换：masthead 里的 Guanmo 分段按钮（中文 | EN）。
    locale 优先级：手动选择（profileLocale.v1）> 本会话网络判断结果
    （profileLocaleAuto.v1，网络来自国外 → en，国内 → zh）> 兜底 en。
    手动切换后整页重载。本文件同时负责把 Jekyll 静态渲染的部分（导航、
@@ -31,6 +31,9 @@
     "个人介绍": "About",
     "成果": "Publications",
     "爱好": "Hobbies",
+    "主导航": "Main navigation",
+    "管理员修改页面": "Edit website",
+    "管理": "Manage",
     "教育经历": "Education",
     "杭州电子科技大学": "Hangzhou Dianzi University",
     "本科 · 计算机科学与技术": "B.Eng. · Computer Science & Technology",
@@ -111,17 +114,19 @@
     var item = document.createElement("li");
     item.className = "masthead__menu-item persist";
     item.setAttribute("data-locale-toggle", "true");
-    /* 分段滑块开关：中 | EN 双语常显，当前语言落在白色滑块上 */
+    /* Segmented control from guanmo-ai/awesome-agent-mcp; see docs/guanmo-components.md. */
     var box = document.createElement("div");
     box.className = "locale-switch" + (locale === "en" ? " locale-switch--en" : "");
     box.setAttribute("role", "group");
     box.setAttribute("aria-label", "语言 / Language");
+    box.innerHTML = '<svg class="guanmo-header-icon locale-switch__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c5 5 5 13 0 18-5-5-5-13 0-18"/></svg>';
     ["zh", "en"].forEach(function (code) {
       var opt = document.createElement("button");
       opt.type = "button";
       opt.className = "locale-switch__opt";
       opt.setAttribute("data-loc", code);
-      opt.textContent = code === "zh" ? "中" : "EN";
+      opt.textContent = code === "zh" ? "中文" : "EN";
+      opt.lang = code === "zh" ? "zh-CN" : "en";
       opt.setAttribute("aria-pressed", locale === code ? "true" : "false");
       opt.addEventListener("click", function () {
         if (locale === code) return;
@@ -148,4 +153,20 @@
 
   applyChrome();
   ensureToggle();
+
+  function setActiveSection(section) {
+    document.querySelectorAll("[data-header-section]").forEach(function (link) {
+      if (link.dataset.headerSection === section) link.setAttribute("aria-current", "location");
+      else link.removeAttribute("aria-current");
+    });
+  }
+  function syncActiveSection() {
+    var home = window.location.pathname === "/" || window.location.pathname === "/index.html";
+    setActiveSection(home ? window.location.hash.slice(1) || "intro" : "");
+  }
+  document.querySelectorAll("[data-header-section]").forEach(function (link) {
+    link.addEventListener("click", function () { setActiveSection(link.dataset.headerSection); });
+  });
+  window.addEventListener("hashchange", syncActiveSection);
+  syncActiveSection();
 })();

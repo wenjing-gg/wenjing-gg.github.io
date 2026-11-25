@@ -33,6 +33,56 @@
   var activeTrackIndex = 0;
   var audioEl = null;
 
+  /* Awesome AI Motion, assets/gallery.mjs (MIT).
+     Next adapts the upstream play triangle with a skip bar.
+     Source and license: docs/guanmo-components.md. */
+  var musicIconPaths = {
+    music: "M9 18V5l11-2v13M9 18a3 3 0 1 1-3-3c1 0 2 .4 3 1M20 16a3 3 0 1 1-3-3c1 0 2 .4 3 1M9 9l11-2",
+    play: "m7 4 13 8-13 8V4",
+    pause: "M8 4v16M16 4v16",
+    next: "m5 4 10 8-10 8V4M19 4v16"
+  };
+
+  function musicIcon(name) {
+    return '<svg class="guanmo-header-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="' + musicIconPaths[name] + '"></path></svg>';
+  }
+
+  function musicText() {
+    var locale = window.ProfileSite && window.ProfileSite.locale;
+    if (locale !== "zh" && locale !== "en") {
+      try {
+        locale = window.localStorage.getItem("profileLocale.v1") || window.sessionStorage.getItem("profileLocaleAuto.v1");
+      } catch (e) {}
+    }
+    if (locale !== "zh" && locale !== "en") locale = /^zh/i.test(document.documentElement.lang) ? "zh" : "en";
+    return locale === "zh" ? {
+      music: "音乐", play: "播放", pause: "暂停", next: "下一首",
+      open: "展开背景音乐控制", close: "收起背景音乐控制",
+      controls: "背景音乐控制", playAria: "播放背景音乐", pauseAria: "暂停背景音乐",
+      nextAria: "切换下一首背景音乐", empty: "暂无可播放音乐"
+    } : {
+      music: "Music", play: "Play", pause: "Pause", next: "Next",
+      open: "Open background music controls", close: "Close background music controls",
+      controls: "Background music controls", playAria: "Play background music", pauseAria: "Pause background music",
+      nextAria: "Play the next background track", empty: "No music available"
+    };
+  }
+
+  function setMusicButton(button, icon, label, description) {
+    button.innerHTML = musicIcon(icon) + '<span class="guanmo-control-label">' + label + '</span>';
+    button.setAttribute("aria-label", description);
+    button.title = description;
+  }
+
+  function setMusicPanelOpen(open) {
+    musicPanel.classList.toggle("music-panel--open", open);
+    musicActions.hidden = !open;
+    musicHubButton.setAttribute("aria-expanded", open ? "true" : "false");
+    var text = musicText();
+    musicHubButton.setAttribute("aria-label", open ? text.close : text.open);
+    musicHubButton.title = open ? text.close : text.open;
+  }
+
   var storageKeyEnabled = "ambientMusicEnabled";
   var storageKeyTrack = "ambientMusicTrackIndex";
   var cursorFrameInterval = 1000 / 30;
@@ -335,12 +385,16 @@
       return;
     }
 
-    musicNextButton.textContent = "⏭";
+    var text = musicText();
+    var open = musicPanel.classList.contains("music-panel--open");
+    setMusicButton(musicHubButton, "music", text.music, open ? text.close : text.open);
+    setMusicButton(musicNextButton, "next", text.next, text.nextAria);
+    musicActions.setAttribute("aria-label", text.controls);
 
     if (musicTracks.length === 0) {
-      musicButton.textContent = "⏵";
+      setMusicButton(musicButton, "play", text.play, text.empty);
       musicButton.disabled = true;
-      musicButton.setAttribute("aria-label", "暂无可播放音乐");
+      musicButton.setAttribute("aria-pressed", "false");
       musicNextButton.disabled = true;
       if (musicPanel) {
         musicPanel.classList.add("music-panel--disabled");
@@ -349,13 +403,11 @@
     }
 
     musicButton.disabled = false;
-    musicButton.textContent = musicEnabled ? "⏸" : "⏵";
+    setMusicButton(musicButton, musicEnabled ? "pause" : "play", musicEnabled ? text.pause : text.play, musicEnabled ? text.pauseAria : text.playAria);
     musicButton.classList.toggle("music-toggle--on", musicEnabled);
-    musicButton.setAttribute("aria-label", musicEnabled ? "暂停背景音乐" : "播放背景音乐");
     musicButton.setAttribute("aria-pressed", musicEnabled ? "true" : "false");
 
     musicNextButton.disabled = false;
-    musicNextButton.setAttribute("aria-label", "切换下一首背景音乐");
 
     if (musicPanel) {
       musicPanel.classList.remove("music-panel--disabled");
@@ -446,36 +498,35 @@
 
   function initMusicPanel() {
     musicPanel = document.createElement("section");
-    musicPanel.className = "music-panel";
+    musicPanel.className = "music-panel guanmo-header-actions";
     musicPanel.id = "music-player";
 
     musicHubButton = document.createElement("button");
     musicHubButton.type = "button";
     musicHubButton.className = "music-hub";
-    musicHubButton.textContent = "♫";
-    musicHubButton.setAttribute("aria-label", "展开背景音乐控制");
+    musicHubButton.setAttribute("aria-expanded", "false");
+    musicHubButton.setAttribute("aria-controls", "music-actions");
     musicHubButton.addEventListener("click", function () {
       if (!musicPanel) {
         return;
       }
-      musicPanel.classList.toggle("music-panel--open");
+      setMusicPanelOpen(!musicPanel.classList.contains("music-panel--open"));
     });
 
     musicActions = document.createElement("div");
     musicActions.className = "music-actions";
+    musicActions.id = "music-actions";
+    musicActions.hidden = true;
+    musicActions.setAttribute("role", "group");
 
     musicButton = document.createElement("button");
     musicButton.type = "button";
     musicButton.className = "music-toggle";
-    musicButton.textContent = "⏵";
-    musicButton.setAttribute("aria-label", "播放背景音乐");
     musicButton.addEventListener("click", toggleMusic);
 
     musicNextButton = document.createElement("button");
     musicNextButton.type = "button";
     musicNextButton.className = "music-next";
-    musicNextButton.textContent = "⏭";
-    musicNextButton.setAttribute("aria-label", "切换下一首背景音乐");
     musicNextButton.addEventListener("click", playNextTrack);
 
     musicActions.appendChild(musicButton);
@@ -484,7 +535,7 @@
     musicPanel.appendChild(musicHubButton);
     musicPanel.appendChild(musicActions);
 
-    var masthead = document.querySelector(".masthead");
+    var masthead = document.querySelector(".masthead__inner-wrap");
     if (masthead) {
       masthead.appendChild(musicPanel);
     } else {
@@ -501,11 +552,20 @@
       "pointerdown",
       function (event) {
         if (musicPanel && !musicPanel.contains(event.target)) {
-          musicPanel.classList.remove("music-panel--open");
+          setMusicPanelOpen(false);
         }
       },
       { passive: true }
     );
+
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape" && musicPanel.classList.contains("music-panel--open")) {
+        setMusicPanelOpen(false);
+        musicHubButton.focus();
+      }
+    });
+
+    window.addEventListener("locale:settled", updateMusicControls);
 
     var storedIndex = Number(getStoredValue(storageKeyTrack));
     if (!Number.isNaN(storedIndex) && storedIndex >= 0 && storedIndex < musicTracks.length) {

@@ -12,9 +12,11 @@
   var previewRoot = null;
   var renderQueued = false;
 
-  /* guanmo-ai/awesome-agent-mcp, web/render.mjs (MIT).
+  /* Guanmo SVGs: awesome-agent-mcp/web/render.mjs (out/close),
+     awesome-ai-motion/assets/gallery.mjs (controls), both MIT.
      Source and license: docs/guanmo-components.md. */
   var GUANMO_ICON = {
+    controls: '<svg class="guanmo-header-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 3h6v6H3zM15 3h6v6h-6zM3 15h6v6H3zM15 15h6v6h-6z"/></svg>',
     out: '<svg class="guanmo-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 17 17 7M8 7h9v9"/></svg>',
     close: '<svg class="guanmo-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18"/></svg>'
   };
@@ -383,14 +385,18 @@
   }
 
   function ensureAdminEntry() {
+    var header = document.querySelector(".masthead");
     var links = document.querySelector(".masthead .visible-links");
-    if (!links || links.querySelector("[data-admin-entry]")) return;
+    if (!links || header.querySelector("[data-admin-entry]")) return;
     var item = document.createElement("li");
     item.className = "masthead__menu-item persist tail";
     item.setAttribute("data-admin-entry", "true");
     var active = window.location.pathname.replace(/\/+$/, "") === site.config.adminPath.replace(/\/+$/, "") ? " admin-entry--active" : "";
-    item.innerHTML = '<a class="admin-entry' + active + '" href="' + util.escapeHtml(site.config.adminPath) + '" aria-label="管理员修改页面" title="管理员修改页面"><i class="fa-solid fa-gear" aria-hidden="true"></i></a>';
-    links.appendChild(item);
+    var adminLabel = LOCALE === "zh" ? "管理员修改页面" : "Edit website";
+    item.innerHTML = '<a class="admin-entry' + active + '" href="' + util.escapeHtml(site.config.adminPath) + '" aria-label="' + adminLabel + '" title="' + adminLabel + '">' + GUANMO_ICON.controls + '<span class="guanmo-control-label">' + (LOCALE === "zh" ? "管理" : "Manage") + '</span></a>';
+    var actions = header.querySelector(".music-panel");
+    if (actions) actions.insertBefore(item, actions.firstChild);
+    else links.appendChild(item);
   }
 
   function renderAll() {
